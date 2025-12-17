@@ -1,0 +1,301 @@
+{
+  "generated_at": "2025-12-17T17:39:22.028631Z",
+  "tutorials": [
+    {
+      "slug": "ai-101-what-models-do",
+      "title": "AI 101: What Models Actually Do",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "description": "A plain-language mental model for how text, image, audio, and multimodal models generate outputs; what they can and can’t do."
+    },
+    {
+      "slug": "tokens-context-temperature",
+      "title": "Tokens, Context, Temperature, Top‑P (Without the Confusion)",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Learn the knobs that change output quality and consistency, and when to adjust them for different tasks."
+    },
+    {
+      "slug": "hallucinations-and-reliability",
+      "title": "Hallucinations: Why They Happen and How to Reduce Them",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Practical techniques to make AI more reliable: verification prompts, citations, uncertainty, and constraints."
+    },
+    {
+      "slug": "model-selection-by-task",
+      "title": "Choosing the Right Model for the Job",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "Pick models based on task type (creative, coding, analysis, image) and your hardware budget; avoid common traps."
+    },
+    {
+      "slug": "local-ai-ollama-basics",
+      "title": "Local AI Basics: Running Models with Ollama",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "Install, run, and manage models locally; where files live; how to run multiple prompts safely."
+    },
+    {
+      "slug": "local-ai-lm-studio-basics",
+      "title": "Local AI Basics: LM Studio Quickstart",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "Use LM Studio for local inference, model downloads, and simple server mode for tools."
+    },
+    {
+      "slug": "local-ai-workflows-offline-first",
+      "title": "Offline‑First AI Workflows (No Cloud Required)",
+      "category": "Local AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "Design a reliable workflow that works when the internet is down: prompts, files, and repeatable runs."
+    },
+    {
+      "slug": "local-ai-performance-basics",
+      "title": "Local AI Performance: What Actually Speeds Things Up",
+      "category": "Local AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Understand batching, context size, quantization, and why some settings dramatically slow down generation."
+    },
+    {
+      "slug": "cpu-vs-gpu-vs-npu",
+      "title": "CPU vs GPU vs NPU: What Each Does for AI",
+      "category": "Hardware",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "A practical guide to what CPUs, GPUs, and NPUs are good at in AI, and what to expect on consumer hardware."
+    },
+    {
+      "slug": "vram-vs-ram",
+      "title": "VRAM vs RAM: The Bottlenecks That Decide What You Can Run",
+      "category": "Hardware",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Why VRAM matters for models, what RAM does, and how to avoid crashes and slowdowns."
+    },
+    {
+      "slug": "quantization-explained",
+      "title": "Quantization Explained (Q4/Q5/Q8) and Why It Matters",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Understand quantization levels, accuracy tradeoffs, and how it changes speed and memory needs."
+    },
+    {
+      "slug": "budget-hardware-paths",
+      "title": "Budget AI Hardware Paths (Realistic Home Builds)",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "Cost-effective upgrade paths, used GPU considerations, power/thermals, and “good enough” builds."
+    },
+    {
+      "slug": "npu-and-edge-ai-reality",
+      "title": "NPUs & Edge AI: What’s Real vs What’s Hype",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "description": "Where NPUs help, where they don’t, and what you can realistically do without enterprise gear."
+    },
+    {
+      "slug": "prompting-structure",
+      "title": "Prompting as a System: Roles, Constraints, and Formats",
+      "category": "Prompting",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "Stop prompt roulette. Learn a repeatable structure that works across models and tasks."
+    },
+    {
+      "slug": "output-formatting-and-validators",
+      "title": "Output Formatting: JSON, Checklists, and Self‑Validation",
+      "category": "Prompting",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Force consistent outputs using schemas, validators, and step-by-step “verify then answer” patterns."
+    },
+    {
+      "slug": "prompt-debugging",
+      "title": "Prompt Debugging: Fix Bad Outputs Fast",
+      "category": "Prompting",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "description": "Diagnose why a prompt failed and apply targeted changes that improve results immediately."
+    },
+    {
+      "slug": "self-checking-with-rubrics",
+      "title": "Self‑Checking with Rubrics: Make AI Grade Its Own Work",
+      "category": "Evaluation",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Use rubrics and scoring to improve quality without building full agent systems."
+    },
+    {
+      "slug": "compare-two-outputs",
+      "title": "Compare Two Outputs: Picking the Better Result (and Why)",
+      "category": "Evaluation",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "description": "Learn a quick method to judge outputs for accuracy, constraint-following, and usefulness."
+    },
+    {
+      "slug": "context-is-not-memory",
+      "title": "Context Is Not Memory: Why AI “Forgets”",
+      "category": "Knowledge & RAG",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Understand context windows vs memory and how to keep AI aligned over long tasks."
+    },
+    {
+      "slug": "rag-when-to-use",
+      "title": "RAG: When It Helps and When It Hurts",
+      "category": "Knowledge & RAG",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "A practical decision guide: when retrieval boosts accuracy and when it makes things worse."
+    },
+    {
+      "slug": "file-based-knowledge",
+      "title": "File‑Based Knowledge: Organizing Notes for AI to Use",
+      "category": "Knowledge & RAG",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Simple folder and document patterns that help both you and AI find the right info quickly."
+    },
+    {
+      "slug": "image-ai-prompting-basics",
+      "title": "Image AI Prompting Basics: Consistency Over Randomness",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "description": "Build prompts that reliably produce a consistent subject, style, and composition."
+    },
+    {
+      "slug": "civitai-reading-model-pages",
+      "title": "Civitai 101: How to Read Model Pages and Choose Wisely",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Understand checkpoints, LoRAs, triggers, example settings, and how to avoid junk downloads."
+    },
+    {
+      "slug": "image-pipelines-iterative",
+      "title": "Image Pipelines: Iteration, Variations, and Style Locking",
+      "category": "Image AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "A repeatable workflow to refine images while keeping identity, style, and quality stable."
+    },
+    {
+      "slug": "video-ai-basics",
+      "title": "Video AI Basics: What’s Possible Today (and Limits)",
+      "category": "Video AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "A practical overview of video generation, common artifacts, and how to plan better prompts and shots."
+    },
+    {
+      "slug": "storyboarding-for-video-ai",
+      "title": "Storyboarding for Video AI: Shot Lists That Improve Results",
+      "category": "Video AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "Use shot lists, camera language, and constraints to turn vague prompts into coherent sequences."
+    },
+    {
+      "slug": "tts-basics",
+      "title": "Text‑to‑Speech Basics: Natural Voice Without the Drama",
+      "category": "Audio AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Understand TTS quality factors, voice stability, and clean scripts for great narration."
+    },
+    {
+      "slug": "audiobook-pipeline",
+      "title": "Audiobook Pipeline: From Script to Chapters to Files",
+      "category": "Audio AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "A practical process for generating and organizing audio output with consistent volume and pacing."
+    },
+    {
+      "slug": "ai-coding-workflow",
+      "title": "AI‑Assisted Coding Workflow (Safe and Repeatable)",
+      "category": "Coding AI",
+      "difficulty": "Beginner",
+      "minutes": 30,
+      "description": "How to use AI on real projects: diffs, constraints, and verifying changes without chaos."
+    },
+    {
+      "slug": "debugging-with-ai",
+      "title": "Debugging with AI: From Error Log to Fix Plan",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "Use AI to interpret logs, propose fixes, and validate outcomes systematically."
+    },
+    {
+      "slug": "testing-with-ai",
+      "title": "Testing with AI: Generate Useful Tests and Edge Cases",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Create tests that actually catch bugs, including edge cases and regressions."
+    },
+    {
+      "slug": "code-review-with-ai",
+      "title": "Code Review with AI: Catch Issues Before They Ship",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Use AI as a reviewer: readability, safety, performance, and correctness checks."
+    },
+    {
+      "slug": "agents-what-they-are",
+      "title": "Agentic AI: What Agents Are (and When They’re Overkill)",
+      "category": "Agentic Flows",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "A grounded definition of agents, tools, loops, and the situations where simple prompts are better."
+    },
+    {
+      "slug": "human-in-the-loop-loops",
+      "title": "Human‑in‑the‑Loop Loops: Automate Without Losing Control",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "description": "Build a safe loop where AI proposes, you approve, and the system tracks progress and errors."
+    },
+    {
+      "slug": "judge-loop-mini",
+      "title": "Generate → Judge → Fix: The Simplest Agentic Loop",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "description": "A minimal quality loop that boosts outputs using scoring and targeted revisions."
+    },
+    {
+      "slug": "safe-use-and-risk",
+      "title": "Safe Use & Risk: Privacy, Permissions, and Common Pitfalls",
+      "category": "Safety & Ethics",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "description": "Practical safety: what not to upload, how to protect personal data, and sane defaults."
+    },
+    {
+      "slug": "copyright-and-licensing-basics",
+      "title": "Copyright & Licensing Basics for AI Assets",
+      "category": "Safety & Ethics",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "description": "Understand licenses, attribution, and how to share models/assets responsibly."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+slug,title,category,difficulty,minutes,description
+ai-101-what-models-do,AI 101: What Models Actually Do,AI Literacy,Beginner,15,"A plain-language mental model for how text, image, audio, and multimodal models generate outputs; what they can and can’t do."
+tokens-context-temperature,"Tokens, Context, Temperature, Top‑P (Without the Confusion)",AI Literacy,Beginner,20,"Learn the knobs that change output quality and consistency, and when to adjust them for different tasks."
+hallucinations-and-reliability,Hallucinations: Why They Happen and How to Reduce Them,AI Literacy,Beginner,20,"Practical techniques to make AI more reliable: verification prompts, citations, uncertainty, and constraints."
+model-selection-by-task,Choosing the Right Model for the Job,AI Literacy,Beginner,25,"Pick models based on task type (creative, coding, analysis, image) and your hardware budget; avoid common traps."
+local-ai-ollama-basics,Local AI Basics: Running Models with Ollama,Local AI,Beginner,25,"Install, run, and manage models locally; where files live; how to run multiple prompts safely."
+local-ai-lm-studio-basics,Local AI Basics: LM Studio Quickstart,Local AI,Beginner,25,"Use LM Studio for local inference, model downloads, and simple server mode for tools."
+local-ai-workflows-offline-first,Offline‑First AI Workflows (No Cloud Required),Local AI,Intermediate,30,"Design a reliable workflow that works when the internet is down: prompts, files, and repeatable runs."
+local-ai-performance-basics,Local AI Performance: What Actually Speeds Things Up,Local AI,Intermediate,25,"Understand batching, context size, quantization, and why some settings dramatically slow down generation."
+cpu-vs-gpu-vs-npu,CPU vs GPU vs NPU: What Each Does for AI,Hardware,Beginner,25,"A practical guide to what CPUs, GPUs, and NPUs are good at in AI, and what to expect on consumer hardware."
+vram-vs-ram,VRAM vs RAM: The Bottlenecks That Decide What You Can Run,Hardware,Beginner,20,"Why VRAM matters for models, what RAM does, and how to avoid crashes and slowdowns."
+quantization-explained,Quantization Explained (Q4/Q5/Q8) and Why It Matters,Hardware,Intermediate,25,"Understand quantization levels, accuracy tradeoffs, and how it changes speed and memory needs."
+budget-hardware-paths,Budget AI Hardware Paths (Realistic Home Builds),Hardware,Intermediate,30,"Cost-effective upgrade paths, used GPU considerations, power/thermals, and “good enough” builds."
+npu-and-edge-ai-reality,NPUs & Edge AI: What’s Real vs What’s Hype,Hardware,Intermediate,20,"Where NPUs help, where they don’t, and what you can realistically do without enterprise gear."
+prompting-structure,"Prompting as a System: Roles, Constraints, and Formats",Prompting,Beginner,25,Stop prompt roulette. Learn a repeatable structure that works across models and tasks.
+output-formatting-and-validators,"Output Formatting: JSON, Checklists, and Self‑Validation",Prompting,Intermediate,25,"Force consistent outputs using schemas, validators, and step-by-step “verify then answer” patterns."
+prompt-debugging,Prompt Debugging: Fix Bad Outputs Fast,Prompting,Intermediate,20,Diagnose why a prompt failed and apply targeted changes that improve results immediately.
+self-checking-with-rubrics,Self‑Checking with Rubrics: Make AI Grade Its Own Work,Evaluation,Intermediate,25,Use rubrics and scoring to improve quality without building full agent systems.
+compare-two-outputs,Compare Two Outputs: Picking the Better Result (and Why),Evaluation,Beginner,15,"Learn a quick method to judge outputs for accuracy, constraint-following, and usefulness."
+context-is-not-memory,Context Is Not Memory: Why AI “Forgets”,Knowledge & RAG,Beginner,20,Understand context windows vs memory and how to keep AI aligned over long tasks.
+rag-when-to-use,RAG: When It Helps and When It Hurts,Knowledge & RAG,Intermediate,25,A practical decision guide: when retrieval boosts accuracy and when it makes things worse.
+file-based-knowledge,File‑Based Knowledge: Organizing Notes for AI to Use,Knowledge & RAG,Beginner,20,Simple folder and document patterns that help both you and AI find the right info quickly.
+image-ai-prompting-basics,Image AI Prompting Basics: Consistency Over Randomness,Image AI,Beginner,25,"Build prompts that reliably produce a consistent subject, style, and composition."
+civitai-reading-model-pages,Civitai 101: How to Read Model Pages and Choose Wisely,Image AI,Beginner,20,"Understand checkpoints, LoRAs, triggers, example settings, and how to avoid junk downloads."
+image-pipelines-iterative,"Image Pipelines: Iteration, Variations, and Style Locking",Image AI,Intermediate,30,"A repeatable workflow to refine images while keeping identity, style, and quality stable."
+video-ai-basics,Video AI Basics: What’s Possible Today (and Limits),Video AI,Beginner,20,"A practical overview of video generation, common artifacts, and how to plan better prompts and shots."
+storyboarding-for-video-ai,Storyboarding for Video AI: Shot Lists That Improve Results,Video AI,Intermediate,30,"Use shot lists, camera language, and constraints to turn vague prompts into coherent sequences."
+tts-basics,Text‑to‑Speech Basics: Natural Voice Without the Drama,Audio AI,Beginner,20,"Understand TTS quality factors, voice stability, and clean scripts for great narration."
+audiobook-pipeline,Audiobook Pipeline: From Script to Chapters to Files,Audio AI,Intermediate,30,A practical process for generating and organizing audio output with consistent volume and pacing.
+ai-coding-workflow,AI‑Assisted Coding Workflow (Safe and Repeatable),Coding AI,Beginner,30,"How to use AI on real projects: diffs, constraints, and verifying changes without chaos."
+debugging-with-ai,Debugging with AI: From Error Log to Fix Plan,Coding AI,Intermediate,30,"Use AI to interpret logs, propose fixes, and validate outcomes systematically."
+testing-with-ai,Testing with AI: Generate Useful Tests and Edge Cases,Coding AI,Intermediate,25,"Create tests that actually catch bugs, including edge cases and regressions."
+code-review-with-ai,Code Review with AI: Catch Issues Before They Ship,Coding AI,Intermediate,25,"Use AI as a reviewer: readability, safety, performance, and correctness checks."
+agents-what-they-are,Agentic AI: What Agents Are (and When They’re Overkill),Agentic Flows,Beginner,20,"A grounded definition of agents, tools, loops, and the situations where simple prompts are better."
+human-in-the-loop-loops,Human‑in‑the‑Loop Loops: Automate Without Losing Control,Agentic Flows,Intermediate,25,"Build a safe loop where AI proposes, you approve, and the system tracks progress and errors."
+judge-loop-mini,Generate → Judge → Fix: The Simplest Agentic Loop,Agentic Flows,Intermediate,30,A minimal quality loop that boosts outputs using scoring and targeted revisions.
+safe-use-and-risk,"Safe Use & Risk: Privacy, Permissions, and Common Pitfalls",Safety & Ethics,Beginner,20,"Practical safety: what not to upload, how to protect personal data, and sane defaults."
+copyright-and-licensing-basics,Copyright & Licensing Basics for AI Assets,Safety & Ethics,Intermediate,20,"Understand licenses, attribution, and how to share models/assets responsibly."

@@ -1,0 +1,219 @@
+<article class="tutorial" data-tutorial>
+  <header class="tutorial__header">
+    <div class="tutorial__meta">
+      <span class="pill" data-field="category">AI Literacy</span>
+      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
+      <span class="pill pill--subtle" data-field="minutes">15 min</span>
+    </div>
+    <h1 data-field="title">AI 101: What Models Actually Do</h1>
+    <p class="tutorial__lede" data-field="description">
+      A plain-language mental model for how text, image, audio, and multimodal models generate outputs — what they can do, and what they can’t.
+    </p>
+  </header>
+
+  <section class="tutorial__section">
+    <h2>What you'll learn</h2>
+    <ul>
+      <li>A simple “predict-the-next-thing” mental model that applies to text, images, audio, and video.</li>
+      <li>The difference between <strong>training</strong> vs <strong>inference</strong> (why local AI feels “slow” sometimes).</li>
+      <li>Why AI can sound confident and still be wrong (and what to do about it).</li>
+    </ul>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Why this matters</h2>
+    <p>
+      If you understand what a model is actually doing, you’ll stop guessing.
+      You’ll choose better tools, write better prompts, and avoid wasting hours (or money)
+      chasing settings that can’t fix the real problem.
+    </p>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Core concepts</h2>
+    <div class="callout">
+      <strong>Mental model:</strong> A model is a sophisticated <em>pattern predictor</em>. It generates an output by repeatedly predicting the next piece of the output from the input + its internal learned patterns.
+    </div>
+
+    <ul>
+      <li>
+        <strong>Training</strong>: The expensive phase where the model learns patterns from lots of data.
+        This is usually done on powerful GPUs/TPUs, takes time, and costs real money.
+      </li>
+      <li>
+        <strong>Inference</strong>: The “use it now” phase where the model produces outputs.
+        Local AI (Ollama / LM Studio / ComfyUI) is running inference on your hardware.
+      </li>
+      <li>
+        <strong>Tokens / chunks</strong>: Models don’t see text as “words.” They see pieces.
+        Generation is done token-by-token (or chunk-by-chunk), which is why outputs arrive in a stream.
+      </li>
+      <li>
+        <strong>Attention</strong>: A mechanism that helps models weigh which parts of the input matter most while generating the next part.
+        (Not “attention” like humans — but it’s why context size matters.)
+      </li>
+      <li>
+        <strong>Latent space</strong> (images/audio): Diffusion and audio models work in compressed representations.
+        They iteratively refine noise into something that matches your prompt + learned patterns.
+      </li>
+    </ul>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>What models are great at</h2>
+    <ul>
+      <li><strong>Drafting</strong>: fast first-pass writing, summaries, outlines, rewrites.</li>
+      <li><strong>Transformation</strong>: convert formats (bullet list → email, notes → plan, etc.).</li>
+      <li><strong>Pattern completion</strong>: code scaffolds, regex ideas, consistent style output.</li>
+      <li><strong>Idea expansion</strong>: brainstorming variations when you provide constraints.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Rule of thumb:</strong> The clearer your constraints, the less “random” the output feels.
+    </div>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>What models are bad at (without help)</h2>
+    <ul>
+      <li><strong>Fresh facts</strong>: unless they can browse or you provide sources, they can be outdated or wrong.</li>
+      <li><strong>Precise memory</strong>: context windows are not permanent memory; “it remembers” is often an illusion.</li>
+      <li><strong>Guaranteed correctness</strong>: they can produce plausible nonsense (hallucinations).</li>
+      <li><strong>Private data safety</strong>: if you paste sensitive data, you’ve already shared it with the tool.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Key mindset:</strong> Treat AI like a powerful assistant that still needs verification and guardrails.
+    </div>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Guided walkthrough (10 minutes)</h2>
+    <ol>
+      <li>
+        <strong>Run the same prompt twice</strong> in your favorite chat model:
+        <div class="callout">
+          <strong>Prompt:</strong> “Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.”
+        </div>
+        Notice: outputs change because models sample from probabilities (not a single “correct” answer).
+      </li>
+      <li>
+        <strong>Add constraints</strong> and rerun:
+        <div class="callout">
+          <strong>Prompt:</strong> “Same task, but: no sci-fi, no fantasy, no violence, and keep the tone comedic. Return as JSON with fields: location, character, twist.”
+        </div>
+        Notice: the output becomes more structured and consistent.
+      </li>
+      <li>
+        <strong>Ask for self-checking</strong>:
+        <div class="callout">
+          <strong>Prompt:</strong> “Before answering, write a checklist of constraints. After answering, verify each idea against the checklist and fix any violations.”
+        </div>
+        Notice: you can “steer” outputs without building agents.
+      </li>
+    </ol>
+  </section>
+  <section class="tutorial__section">
+    <h2>Practice lab</h2>
+    <p>
+      This is where you actually run the idea in a model. Pick the environment you have access to and follow the steps.
+      (No checkboxes — this is a hands-on mini lab.)
+    </p>
+
+    <div class="practice" data-practice>
+      <div class="practice__tabs" role="tablist" aria-label="Practice environments">
+        <button class="chip chip--active" type="button" data-practice-tab="chat">Chat</button>
+        <button class="chip" type="button" data-practice-tab="ollama">Ollama</button>
+        <button class="chip" type="button" data-practice-tab="lmstudio">LM Studio</button>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="chat">
+        <h3>Chat (any provider)</h3>
+        <p>Paste this prompt into your chat model and run it twice. Compare results.</p>
+        <textarea class="practice__box" id="practice_prompt_chat" rows="7">Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.</textarea>
+        <div class="practice__actions">
+          <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_prompt_chat">Copy prompt</button>
+        </div>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="ollama" hidden>
+        <h3>Ollama (local)</h3>
+        <p>Run a local model and use the same prompt. If you don’t have a model yet, start with an 8B model.</p>
+        <div class="practice__split">
+          <div class="practice__card">
+            <div class="practice__label">1) Start a chat run</div>
+            <pre class="practice__pre" id="practice_ollama_cmd">ollama run llama3.1:8b</pre>
+            <div class="practice__actions">
+              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_cmd">Copy command</button>
+            </div>
+          </div>
+
+          <div class="practice__card">
+            <div class="practice__label">2) Or call the HTTP API with curl</div>
+            <pre class="practice__pre" id="practice_ollama_curl">curl http://localhost:11434/api/generate -d '{"model":"llama3.1:8b","prompt":"Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.","stream":false}'</pre>
+            <div class="practice__actions">
+              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_curl">Copy curl</button>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <strong>Tip:</strong> Keep the same prompt and only change one variable at a time (model, temperature, context) so you can see what actually caused the change.
+        </div>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="lmstudio" hidden>
+        <h3>LM Studio (local GUI)</h3>
+        <p>Use LM Studio’s chat or server mode. Paste the prompt, then rerun after changing one setting.</p>
+        <ul>
+          <li>Run once at your default settings.</li>
+          <li>Run again with a lower temperature for more consistent answers.</li>
+          <li>Write down what changed and why you think it changed.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+<section class="tutorial__section">
+    <h2>Common mistakes</h2>
+    <ul>
+      <li>
+        <strong>“The model knows the truth.”</strong>
+        It knows patterns. If you need truth, add sources, browsing, or verification steps.
+      </li>
+      <li>
+        <strong>“More detail always helps.”</strong>
+        Too much detail can confuse the model. Use constraints + examples instead of giant paragraphs.
+      </li>
+      <li>
+        <strong>“One prompt should do everything.”</strong>
+        Split big tasks into phases: outline → draft → review → format → verify.
+      </li>
+    </ul>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Knowledge check</h2>
+    <p>Pass this quiz to mark the tutorial complete (saved locally in your browser).</p>
+    <div class="quizMount" data-quiz="ai-101-what-models-do.quiz.json"></div>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Mini challenge</h2>
+    <p>
+      Write a single prompt that forces a model to output a reliable “starter kit” for a brand-new beginner.
+    </p>
+    <ul>
+      <li>Must include: 5 bullet tips, 3 common mistakes, and 1 verification step.</li>
+      <li>Must be under 180 words.</li>
+      <li>Must end with: “If you’re unsure, say so.”</li>
+    </ul>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>What's next</h2>
+    <ul>
+      <li><a href="#" data-nav="tokens-context-temperature">Tokens, Context, Temperature, Top‑P (Without the Confusion)</a></li>
+      <li><a href="#" data-nav="hallucinations-and-reliability">Hallucinations: Why They Happen and How to Reduce Them</a></li>
+    </ul>
+  </section>
+</article>

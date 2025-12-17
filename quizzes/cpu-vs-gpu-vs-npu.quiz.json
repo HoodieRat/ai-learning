@@ -1,0 +1,52 @@
+{
+  "title": "CPU vs GPU vs NPU",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "Why do GPUs typically accelerate AI workloads compared to CPUs?",
+      "options": [
+        "They always have faster single-thread performance",
+        "They run a different operating system",
+        "They provide massive parallel computation for matrix math",
+        "They increase your internet speed"
+      ],
+      "answer": 2,
+      "explanation": "Most deep learning is heavy matrix math; GPUs are built for wide parallel compute."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "In local LLM use, what usually limits the maximum model size you can load?",
+      "options": [
+        "Monitor resolution",
+        "VRAM capacity",
+        "Keyboard type",
+        "Wi‑Fi signal strength"
+      ],
+      "answer": 1,
+      "explanation": "Model weights live primarily in VRAM on GPU inference; insufficient VRAM forces smaller models or CPU fallback."
+    },
+    {
+      "type": "multi-select",
+      "question": "Select tasks where a GPU is commonly helpful (select all that apply).",
+      "options": [
+        "Diffusion image generation",
+        "Large language model inference",
+        "Sorting files in Windows Explorer",
+        "Training or fine‑tuning (when supported)"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "GPUs excel at parallel math used in diffusion and LLMs; file sorting is mostly CPU/IO."
+    },
+    {
+      "type": "true-false",
+      "question": "An NPU is always faster than a GPU for any AI workload.",
+      "answer": false,
+      "explanation": "NPUs can be excellent for certain inference ops, but coverage and performance vary widely."
+    }
+  ]
+}

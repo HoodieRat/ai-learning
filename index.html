@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Learning Hub</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <meta name="color-scheme" content="light dark" />
+</head>
+<body>
+  <div class="app" data-theme="dark">
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="iconBtn" id="btnNav" aria-label="Toggle navigation" title="Toggle navigation">
+          <span class="iconBtn__bar"></span>
+          <span class="iconBtn__bar"></span>
+          <span class="iconBtn__bar"></span>
+        </button>
+        <a class="brand" href="#" id="btnHome" title="Home">
+          <span class="brand__dot"></span>
+          <span class="brand__text">AI Learning Hub</span>
+        </a>
+      </div>
+
+      <div class="topbar__center">
+        <div class="search">
+          <input id="searchInput" class="search__input" type="search" placeholder="Search tutorials…" autocomplete="off" />
+          <button id="searchClear" class="search__clear" aria-label="Clear search" title="Clear">×</button>
+        </div>
+      </div>
+
+      <div class="topbar__right">
+        <button class="btn btn--ghost" id="btnTheme" title="Toggle theme">Theme</button>
+        <a class="btn btn--ghost" id="btnGithub" href="#" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar__section">
+          <div class="sidebar__title">Categories</div>
+          <div class="chips" id="categoryChips"></div>
+        </div>
+
+        <div class="sidebar__section">
+          <div class="sidebar__title">Tutorials</div>
+          <div class="sidebar__hint" id="sidebarHint">Pick a tutorial or search.</div>
+          <nav class="toc" id="tutorialList" aria-label="Tutorial list"></nav>
+        </div>
+
+        <div class="sidebar__section">
+          <div class="sidebar__title">Progress</div>
+          <div class="progress">
+            <div class="progress__row">
+              <span id="progressText">0 completed</span>
+              <button class="btn btn--ghost btn--sm" id="btnResetProgress">Reset</button>
+            </div>
+            <div class="progress__bar"><div class="progress__fill" id="progressFill"></div></div>
+          </div>
+        </div>
+
+        <div class="sidebar__section sidebar__footer">
+          <div class="sidebar__fineprint">
+            Static site. No login. Quizzes and progress are stored locally in your browser.
+          </div>
+        </div>
+      </aside>
+
+      <main class="content" id="content" tabindex="-1">
+        <div class="content__inner" id="contentInner">
+          <section class="welcome" id="welcome">
+            <h1>Welcome</h1>
+            <p>
+              This is a drop‑in GitHub Pages template for AI tutorials with quizzes, self-checklists,
+              and local progress tracking.
+            </p>
+
+            <div class="grid">
+              <div class="card">
+                <h2>How to add a tutorial</h2>
+                <ol>
+                  <li>Copy <code>/tutorials/tutorial-template.html</code> → <code>/tutorials/&lt;slug&gt;.html</code></li>
+                  <li>Add an entry in <code>/tutorials.json</code> with the same <code>slug</code></li>
+                  <li>(Optional) Create <code>/quizzes/&lt;slug&gt;.quiz.json</code></li>
+                </ol>
+              </div>
+
+              <div class="card">
+                <h2>Try the sample</h2>
+                <p>
+                  Open <strong>CPU vs GPU vs NPU</strong> to see the full experience: content + checklist + quiz.
+                </p>
+                <button class="btn" id="btnOpenSample">Open sample tutorial</button>
+              </div>
+
+              <div class="card">
+                <h2>Hardware matters</h2>
+                <p>
+                  Many AI “mysteries” are really hardware constraints (VRAM, RAM, bandwidth). This template
+                  bakes hardware learning into every category.
+                </p>
+                <a class="btn btn--ghost" href="shared/hardware-reference.md" target="_blank" rel="noreferrer">Open hardware reference</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="tutorialShell" id="tutorialShell" hidden>
+            <div class="tutorialShell__top">
+              <div class="breadcrumbs" id="breadcrumbs"></div>
+              <div class="tutorialActions">
+                <button class="btn btn--ghost btn--sm" id="btnCopyLink">Copy link</button>
+                <button class="btn btn--ghost btn--sm" id="btnPrint">Print</button>
+              </div>
+            </div>
+            <div id="tutorialMount"></div>
+          </section>
+
+          <section class="error" id="errorBox" hidden>
+            <h2>Couldn’t load tutorial</h2>
+            <p id="errorText"></p>
+            <button class="btn" id="btnBackHome">Back to home</button>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/quiz-engine.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

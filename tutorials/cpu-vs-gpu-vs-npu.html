@@ -1,0 +1,116 @@
+<article class="tutorial" data-tutorial>
+  <header class="tutorial__header">
+    <div class="tutorial__meta">
+      <span class="pill" data-field="category">Hardware</span>
+      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
+      <span class="pill pill--subtle" data-field="minutes">25 min</span>
+    </div>
+    <h1 data-field="title">CPU vs GPU vs NPU: What Each Does for AI</h1>
+    <p class="tutorial__lede" data-field="description">
+      A practical guide to what CPUs, GPUs, and NPUs are good at in AI, and what to expect on consumer hardware.
+    </p>
+  </header>
+
+  <section class="tutorial__section">
+    <h2>What you'll learn</h2>
+    <ul>
+      <li>What CPUs, GPUs, and NPUs are best at (in plain language).</li>
+      <li>How that maps to common AI tasks (LLMs, image generation, audio, tools).</li>
+      <li>How to predict your bottleneck before you spend money.</li>
+    </ul>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Why this matters</h2>
+    <p>
+      Hardware decides your limits. If you know which part is doing the work, you can pick smarter models,
+      tune settings, and avoid expensive upgrades that don't help your use case.
+    </p>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>Core concepts</h2>
+    <div class="callout">
+      <strong>Mental model:</strong>
+      CPU = flexible coordination • GPU = lots of parallel math • NPU = specialized AI math (often low power)
+    </div>
+    <ul>
+      <li><strong>CPU</strong>: Great at general logic, orchestration, and running "everything else".</li>
+      <li><strong>GPU</strong>: Great at massive parallel matrix math (the core of most deep learning).</li>
+      <li><strong>NPU</strong>: Great at certain inference operations when the workload matches supported ops.</li>
+    </ul>
+  </section>
+  <section class="tutorial__section">
+    <h2>Practice lab</h2>
+    <p>
+      This is where you actually run the idea in a model. Pick the environment you have access to and follow the steps.
+      (No checkboxes — this is a hands-on mini lab.)
+    </p>
+
+    <div class="practice" data-practice>
+      <div class="practice__tabs" role="tablist" aria-label="Practice environments">
+        <button class="chip chip--active" type="button" data-practice-tab="chat">Chat</button>
+        <button class="chip" type="button" data-practice-tab="ollama">Ollama</button>
+        <button class="chip" type="button" data-practice-tab="lmstudio">LM Studio</button>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="chat">
+        <h3>Chat (any provider)</h3>
+        <p>Paste this prompt into your chat model and run it twice. Compare results.</p>
+        <textarea class="practice__box" id="practice_prompt_chat" rows="7">Give 3 examples of AI tasks. For each task, explain whether CPU, GPU, or NPU is the best fit and why. Keep each explanation under 2 sentences.</textarea>
+        <div class="practice__actions">
+          <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_prompt_chat">Copy prompt</button>
+        </div>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="ollama" hidden>
+        <h3>Ollama (local)</h3>
+        <p>Run a local model and use the same prompt. If you don’t have a model yet, start with an 8B model.</p>
+        <div class="practice__split">
+          <div class="practice__card">
+            <div class="practice__label">1) Start a chat run</div>
+            <pre class="practice__pre" id="practice_ollama_cmd">ollama run llama3.1:8b</pre>
+            <div class="practice__actions">
+              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_cmd">Copy command</button>
+            </div>
+          </div>
+
+          <div class="practice__card">
+            <div class="practice__label">2) Or call the HTTP API with curl</div>
+            <pre class="practice__pre" id="practice_ollama_curl">curl http://localhost:11434/api/generate -d '{"model":"llama3.1:8b","prompt":"Give 3 examples of AI tasks. For each task, explain whether CPU, GPU, or NPU is the best fit and why. Keep each explanation under 2 sentences.","stream":false}'</pre>
+            <div class="practice__actions">
+              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_curl">Copy curl</button>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <strong>Tip:</strong> Keep the same prompt and only change one variable at a time (model, temperature, context) so you can see what actually caused the change.
+        </div>
+      </div>
+
+      <div class="practice__panel" data-practice-panel="lmstudio" hidden>
+        <h3>LM Studio (local GUI)</h3>
+        <p>Use LM Studio’s chat or server mode. Paste the prompt, then rerun after changing one setting.</p>
+        <ul>
+          <li>Run once at your default settings.</li>
+          <li>Run again with a lower temperature for more consistent answers.</li>
+          <li>Write down what changed and why you think it changed.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+<section class="tutorial__section">
+    <h2>Knowledge check</h2>
+    <p>Pass this quiz to mark the tutorial complete (saved locally in your browser).</p>
+    <div class="quizMount" data-quiz="cpu-vs-gpu-vs-npu.quiz.json"></div>
+  </section>
+
+  <section class="tutorial__section">
+    <h2>What's next</h2>
+    <ul>
+      <li><a href="#" data-nav="vram-vs-ram">VRAM vs RAM: The Bottlenecks That Decide What You Can Run</a></li>
+      <li><a href="#" data-nav="quantization-explained">Quantization Explained (Q4/Q5/Q8) and Why It Matters</a></li>
+    </ul>
+  </section>
+</article>
