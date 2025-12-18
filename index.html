@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,15 +32,25 @@
 
       <div class="topbar__right">
         <button class="btn btn--ghost" id="btnTheme" title="Toggle theme">Theme</button>
-        <a class="btn btn--ghost" id="btnGithub" href="#" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="btn btn--ghost" id="btnGithub" href="https://github.com/HoodieRat/ai-learning" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </header>
 
     <div class="layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar__section">
-          <div class="sidebar__title">Categories</div>
-          <div class="chips" id="categoryChips"></div>
+          <div class="sidebar__title">Browse</div>
+
+          <!-- Quieter category filter: collapsible list (still populated by app.js via #categoryChips) -->
+          <details class="filter" id="categoryFilter">
+            <summary class="filter__summary" aria-label="Category filter">
+              <span>Category</span>
+              <span class="filter__value" id="categoryCurrent">All</span>
+            </summary>
+            <div class="filter__body">
+              <div class="chips" id="categoryChips"></div>
+            </div>
+          </details>
         </div>
 
         <div class="sidebar__section">
@@ -68,42 +79,127 @@
 
       <main class="content" id="content" tabindex="-1">
         <div class="content__inner" id="contentInner">
+          <!-- HOME -->
           <section class="welcome" id="welcome">
             <h1>Welcome</h1>
             <p>
-              This is a drop‑in GitHub Pages template for AI tutorials with quizzes, self-checklists,
+              A drop-in GitHub Pages template for AI tutorials with quizzes, practice labs,
               and local progress tracking.
             </p>
 
             <div class="grid">
-              <div class="card">
-                <h2>How to add a tutorial</h2>
-                <ol>
-                  <li>Copy <code>/tutorials/tutorial-template.html</code> → <code>/tutorials/&lt;slug&gt;.html</code></li>
-                  <li>Add an entry in <code>/tutorials.json</code> with the same <code>slug</code></li>
-                  <li>(Optional) Create <code>/quizzes/&lt;slug&gt;.quiz.json</code></li>
-                </ol>
+              <div class="card" id="homeContinueCard">
+                <h2 id="continueHeading">Continue learning</h2>
+                <p id="continueText">Start with a quick win, then follow a path. We’ll remember your progress locally.</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                  <a class="btn" id="btnContinue" href="?t=ai-101-what-models-do">Start with AI 101</a>
+                  <button class="btn btn--ghost" id="btnOpenSample" type="button">Open sample tutorial</button>
+                </div>
+                <div style="margin-top:10px; color:var(--faint); font-size:12px;" id="continueMeta"></div>
               </div>
 
-              <div class="card">
-                <h2>Try the sample</h2>
-                <p>
-                  Open <strong>CPU vs GPU vs NPU</strong> to see the full experience: content + checklist + quiz.
-                </p>
-                <button class="btn" id="btnOpenSample">Open sample tutorial</button>
+              <div class="card" id="homePathsCard">
+                <h2>Learning paths</h2>
+                <p>Guided routes so you’re not randomly clicking around.</p>
+                <div id="pathsList" style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+                  <div class="callout" style="margin:0;">
+                    <strong>Beginner</strong>
+                    <div style="color:var(--muted); font-size:13px; margin-top:4px;">Start from zero and build the mental model.</div>
+                    <div style="margin-top:10px;">
+                      <a class="btn btn--ghost btn--sm" href="?t=ai-101-what-models-do">Start</a>
+                    </div>
+                  </div>
+                  <div class="callout" style="margin:0;">
+                    <strong>Local Power User</strong>
+                    <div style="color:var(--muted); font-size:13px; margin-top:4px;">Hardware + performance + running models locally.</div>
+                    <div style="margin-top:10px;">
+                      <a class="btn btn--ghost btn--sm" href="?t=cpu-vs-gpu-vs-npu">Start</a>
+                    </div>
+                  </div>
+                  <div class="callout" style="margin:0;">
+                    <strong>Builder Track</strong>
+                    <div style="color:var(--muted); font-size:13px; margin-top:4px;">Safe AI coding workflows and debugging habits.</div>
+                    <div style="margin-top:10px;">
+                      <a class="btn btn--ghost btn--sm" href="?t=ai-assisted-coding-workflow">Start</a>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div class="card">
-                <h2>Hardware matters</h2>
+              <div class="card" id="homeFeaturedCard">
+                <h2>Featured</h2>
+                <p>Hand-picked to get value fast.</p>
+                <div id="featuredList" style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                  <a class="tocItem" href="?t=ai-101-what-models-do" style="padding:10px;">
+                    <div class="tocItem__row">
+                      <div class="tocItem__title">AI 101: What Models Actually Do</div>
+                      <div class="tocItem__meta"><span class="tocItem__status"></span><span>Beginner • 15m</span></div>
+                    </div>
+                    <div class="tocItem__desc">A plain-language mental model of how models generate outputs.</div>
+                  </a>
+                  <a class="tocItem" href="?t=cpu-vs-gpu-vs-npu" style="padding:10px;">
+                    <div class="tocItem__row">
+                      <div class="tocItem__title">CPU vs GPU vs NPU</div>
+                      <div class="tocItem__meta"><span class="tocItem__status"></span><span>Beginner • 20m</span></div>
+                    </div>
+                    <div class="tocItem__desc">What each processor type actually does for AI workloads.</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid" style="margin-top:14px;">
+              <div class="card" id="homeNewestCard">
+                <h2>Newest</h2>
+                <p>Recently added (or recently curated).</p>
+                <div id="newestList" style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                  <a class="tocItem" href="?t=vram-vs-ram" style="padding:10px;">
+                    <div class="tocItem__row">
+                      <div class="tocItem__title">VRAM vs RAM</div>
+                      <div class="tocItem__meta"><span class="tocItem__status"></span><span>Beginner • 15m</span></div>
+                    </div>
+                    <div class="tocItem__desc">Bottlenecks that decide what you can run.</div>
+                  </a>
+                  <a class="tocItem" href="?t=quantization-explained" style="padding:10px;">
+                    <div class="tocItem__row">
+                      <div class="tocItem__title">Quantization Explained</div>
+                      <div class="tocItem__meta"><span class="tocItem__status"></span><span>Beginner • 15m</span></div>
+                    </div>
+                    <div class="tocItem__desc">Q4/Q5/Q8 and why it changes speed & memory.</div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="card" id="homeHardwareCard">
+                <h2>Hardware reference</h2>
                 <p>
-                  Many AI “mysteries” are really hardware constraints (VRAM, RAM, bandwidth). This template
-                  bakes hardware learning into every category.
+                  Many AI “mysteries” are hardware constraints (VRAM, RAM, bandwidth).
+                  Keep this open while you learn.
                 </p>
-                <a class="btn btn--ghost" href="shared/hardware-reference.md" target="_blank" rel="noreferrer">Open hardware reference</a>
+                <button class="btn btn--ghost" id="btnHardwareReference" type="button">Open hardware reference</button>
+              </div>
+
+              <div class="card" id="homeContributeCard">
+                <h2>Contribute</h2>
+                <p>Add tutorials one-at-a-time without breaking the site.</p>
+                <details class="filter" style="margin-top:10px;">
+                  <summary class="filter__summary">How to add a tutorial</summary>
+                  <div class="filter__body" style="margin-top:10px;">
+                    <ol style="margin:0; padding-left:18px; color:var(--muted); font-size:13px; line-height:1.55;">
+                      <li>Copy <code>/tutorials/tutorial-template.html</code> → <code>/tutorials/&lt;slug&gt;.html</code></li>
+                      <li>Add an entry in <code>/tutorials.json</code> with the same <code>slug</code></li>
+                      <li>(Optional) Create <code>/quizzes/&lt;slug&gt;.quiz.json</code></li>
+                    </ol>
+                    <div style="margin-top:10px;">
+                      <a class="btn btn--ghost btn--sm" href="https://github.com/HoodieRat/ai-learning" target="_blank" rel="noreferrer">Open repo</a>
+                    </div>
+                  </div>
+                </details>
               </div>
             </div>
           </section>
 
+          <!-- TUTORIAL VIEW -->
           <section class="tutorialShell" id="tutorialShell" hidden>
             <div class="tutorialShell__top">
               <div class="breadcrumbs" id="breadcrumbs"></div>
@@ -115,6 +211,7 @@
             <div id="tutorialMount"></div>
           </section>
 
+          <!-- ERROR -->
           <section class="error" id="errorBox" hidden>
             <h2>Couldn’t load tutorial</h2>
             <p id="errorText"></p>
@@ -125,7 +222,175 @@
     </div>
   </div>
 
+  <!-- In-site Hardware Reference Viewer -->
+  <dialog id="hardwareModal" style="max-width:min(980px, 92vw); width:92vw; border:1px solid var(--border); border-radius:14px; padding:0; background:var(--panel); color:var(--text); box-shadow: 0 20px 70px var(--shadow);">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px; border-bottom:1px solid var(--border);">
+      <div style="font-weight:750;">Hardware Reference</div>
+      <form method="dialog" style="margin:0;">
+        <button class="btn btn--ghost btn--sm" type="submit" aria-label="Close">Close</button>
+      </form>
+    </div>
+    <div style="padding:14px;">
+      <pre id="hardwareContent" style="margin:0; white-space:pre-wrap; word-break:break-word; border:1px solid var(--border); background:rgba(255,255,255,.03); border-radius:12px; padding:12px; font-family:var(--mono); font-size:12px; line-height:1.55;"></pre>
+      <div style="margin-top:10px; color:var(--faint); font-size:12px;">
+        Tip: this is rendered in-site to keep you in the learning flow.
+      </div>
+    </div>
+  </dialog>
+
   <script src="assets/quiz-engine.js"></script>
+
+  <script>
+  (function(){
+    const REPO_URL = "https://github.com/HoodieRat/ai-learning";
+    const LS_LAST = "aihub.lastSlug";
+    const LS_PROGRESS = "aihub.progress";
+
+    function lsGet(key, fallback){
+      try{
+        const raw = localStorage.getItem(key);
+        if(raw == null) return fallback;
+        return JSON.parse(raw);
+      }catch{ return fallback; }
+    }
+    function lsSet(key, value){
+      try{ localStorage.setItem(key, JSON.stringify(value)); }catch{}
+    }
+
+    // Ensure GitHub button never defaults to "#"
+    const btnGithub = document.getElementById("btnGithub");
+    if(btnGithub){
+      const href = btnGithub.getAttribute("href") || "";
+      if(!href || href === "#") btnGithub.href = REPO_URL;
+    }
+
+    // Track last visited tutorial slug (works with app.js pushState navigation)
+    try{
+      const origPushState = history.pushState;
+      history.pushState = function(state, title, url){
+        try{
+          if(typeof url === "string"){
+            const u = new URL(url, window.location.origin);
+            const slug = u.searchParams.get("t");
+            if(slug) lsSet(LS_LAST, slug);
+          }
+        }catch{}
+        return origPushState.apply(this, arguments);
+      };
+      window.addEventListener("popstate", () => {
+        try{
+          const slug = new URL(window.location.href).searchParams.get("t");
+          if(slug) lsSet(LS_LAST, slug);
+        }catch{}
+      });
+      const initialSlug = new URL(window.location.href).searchParams.get("t");
+      if(initialSlug) lsSet(LS_LAST, initialSlug);
+    }catch{}
+
+    // Category summary label (keeps the filter compact)
+    const categoryChips = document.getElementById("categoryChips");
+    const categoryCurrent = document.getElementById("categoryCurrent");
+    if(categoryChips && categoryCurrent){
+      categoryChips.addEventListener("click", (ev) => {
+        const btn = ev.target && ev.target.closest ? ev.target.closest("button") : null;
+        if(!btn) return;
+        const txt = (btn.textContent || "").trim();
+        if(txt) categoryCurrent.textContent = txt;
+      });
+    }
+
+    // In-site Hardware Reference viewer
+    const btnHw = document.getElementById("btnHardwareReference");
+    const hwModal = document.getElementById("hardwareModal");
+    const hwContent = document.getElementById("hardwareContent");
+
+    async function loadHardwareMd(){
+      const candidates = [
+        "shared/hardware-reference.md",
+        "hardware-reference.md"
+      ];
+      for(const url of candidates){
+        try{
+          const resp = await fetch(url, {cache:"no-store"});
+          if(resp.ok) return await resp.text();
+        }catch{}
+      }
+      return "Could not load hardware reference.\n\nExpected file:\n• shared/hardware-reference.md";
+    }
+
+    if(btnHw && hwModal && hwContent){
+      btnHw.addEventListener("click", async () => {
+        hwContent.textContent = "Loading…";
+        try{
+          const md = await loadHardwareMd();
+          hwContent.textContent = md;
+        }catch(err){
+          hwContent.textContent = "Failed to load.\n\n" + (err && err.message ? err.message : String(err));
+        }
+        try{
+          hwModal.showModal();
+        }catch{
+          // If <dialog> unsupported, fallback: open in new tab
+          window.open("shared/hardware-reference.md", "_blank", "noreferrer");
+        }
+      });
+    }
+
+    // Home "Continue" card (best-effort, driven by existing local progress)
+    async function initHomeContinue(){
+      if(window.location.protocol === "file:") return;
+
+      const btnContinue = document.getElementById("btnContinue");
+      const continueText = document.getElementById("continueText");
+      const continueMeta = document.getElementById("continueMeta");
+      if(!btnContinue || !continueText) return;
+
+      let catalog = null;
+      try{
+        const resp = await fetch("tutorials.json", {cache:"no-store"});
+        if(resp.ok) catalog = await resp.json();
+      }catch{}
+
+      if(!catalog || !Array.isArray(catalog.tutorials) || catalog.tutorials.length === 0) return;
+
+      const progress = lsGet(LS_PROGRESS, {});
+      const lastSlug = lsGet(LS_LAST, "");
+      const bySlug = new Map(catalog.tutorials.map(t => [t.slug, t]));
+
+      function firstUnfinished(){
+        for(const t of catalog.tutorials){
+          if(!progress[t.slug]) return t.slug;
+        }
+        return catalog.tutorials[0].slug;
+      }
+
+      let slug = (typeof lastSlug === "string" && bySlug.has(lastSlug)) ? lastSlug : firstUnfinished();
+      const wasDone = !!progress[slug];
+      if(wasDone){
+        const next = firstUnfinished();
+        if(next) slug = next;
+      }
+
+      const meta = bySlug.get(slug);
+      if(!meta) return;
+
+      btnContinue.href = "?t=" + encodeURIComponent(meta.slug);
+      btnContinue.textContent = (progress[meta.slug] ? "Review: " : "Continue: ") + meta.title;
+
+      continueText.textContent = progress[meta.slug]
+        ? "You’ve completed this one. Want to review or jump to the next lesson?"
+        : "Pick up where you left off. Your progress is stored locally in this browser.";
+
+      if(continueMeta){
+        continueMeta.textContent = `${meta.category} • ${meta.difficulty} • ${meta.minutes}m`;
+      }
+    }
+
+    initHomeContinue().catch(()=>{});
+  })();
+  </script>
+
   <script src="assets/app.js"></script>
 </body>
 </html>
+
