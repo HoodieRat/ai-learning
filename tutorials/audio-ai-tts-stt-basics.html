@@ -43,13 +43,48 @@
     <p><strong>Verify:</strong> Transcribe a 1–2 minute clip and manually check the 2 most important requirements.</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: STT with faster-whisper</h2>
+  <ol>
+    <li>Install: <code>pip install faster-whisper==1.0.0 ffmpeg-python</code>.</li>
+    <li>Use a 60–90s WAV (mono, 16 kHz). If needed, downmix: <code>ffmpeg -i input.mp3 -ar 16000 -ac 1 sample.wav</code>.</li>
+    <li>Run:
+      <pre><code>python -m faster_whisper.transcribe sample.wav --model medium --beam-size 5 --vad-filter</code></pre>
+    </li>
+    <li>Save the transcript/timestamps; mark two spots with low confidence (names/numbers).</li>
+    <li>Rerun with <code>--language en --task translate</code> and compare latency + accuracy.</li>
+  </ol>
+
+  <h2>Practice lab: TTS with XTTS or Piper</h2>
+  <ol>
+    <li>Install XTTS: <code>pip install TTS==0.22.0</code> (or use Piper for lighter, offline-only).</li>
+    <li>Generate a safety announcement:
+      <pre><code>tts --text "Please exit via the nearest marked door. Do not use elevators." \
+    --model_name tts_models/multilingual/multi-dataset/xtts_v2 \
+    --out_path out/announcement.wav</code></pre>
+    </li>
+    <li>Check pacing: measure clip length; ensure pauses between sentences. If rushed, lower speaking rate (<code>--speed 0.9</code>).</li>
+  </ol>
+
+  <h2>Practice lab: noisy vs clean</h2>
+  <ol>
+    <li>Transcribe a noisy clip and a clean clip with the same command.</li>
+    <li>Log word error rate for names/numbers (manual spot-check is fine) and note which errors break your workflow.</li>
+    <li>Prompt the model (or post-process) to flag low-confidence spans and re-listen only to those.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://github.com/openai/whisper#readme">Whisper README</a> and <a href="https://github.com/SYSTRAN/faster-whisper">faster-whisper</a> for usage and models.</p>
+
+  <h2>Assets</h2>
   <ul>
-    <li>Transcribe a 90-second meeting clip and mark two spots where diarization failed; write a prompt asking the model to flag uncertain speaker turns.</li>
-    <li>Create a TTS request for a safety announcement with strict pacing; ask for timestamps per sentence to verify pacing.</li>
-    <li>Compare a “clean podcast” prompt vs “noisy call center” prompt and note which requirements (names, numbers) must never drop.</li>
+    <li><a href="assets/examples/audio/README.md">Audio quickstart commands</a> (STT/TTS, downmix)</li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://github.com/openai/whisper#readme">Whisper README</a> for STT constraints and examples.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: have a 60–90s mono 16 kHz WAV; install faster-whisper/XTTS.</li>
+    <li>Run: transcribe once (names/numbers focus); synthesize one short TTS clip.</li>
+    <li>Verify: spot-check two critical items (names/numbers); confirm pacing/pauses on TTS.</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

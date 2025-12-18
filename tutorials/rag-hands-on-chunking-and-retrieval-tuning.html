@@ -22,6 +22,13 @@
     <li>Adjust one knob (chunk size or k) and rerun to see movement.</li>
   </ol>
 
+  <h2>Use the sample corpus to tune</h2>
+  <ol>
+    <li>Open <code>assets/examples/rag/rag_quickstart.py</code> and change <code>chunk_size</code> or <code>search_kwargs</code> (k).</li>
+    <li>Run <code>python assets/examples/rag/rag_eval.py</code> after each change; record accuracy on <code>qa.csv</code>.</li>
+    <li>Goal: raise accuracy or reduce wrong citations with a single change; revert if it worsens.</li>
+  </ol>
+
   <h2>Mini build: iterate safely</h2>
   <ol>
     <li>Lock a baseline: current chunking, metadata, k value. Record pass count on the 10-case test.</li>
@@ -42,6 +49,13 @@
     </ul>
     <p><strong>Verify:</strong> Change one knob (chunk size or top-k) and record whether retrieval improved on your test set.</p>
   </section>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: 10-case test set exists with gold chunks; baseline run recorded.</li>
+    <li>Run: change exactly one knob; rerun <code>rag_eval.py</code> or your own harness.</li>
+    <li>Verify: keep the change only if pass count increases or citation errors drop.</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

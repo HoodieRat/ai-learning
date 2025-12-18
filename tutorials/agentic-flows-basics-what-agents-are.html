@@ -47,13 +47,22 @@
     <p><strong>Verify:</strong> Simulate one run manually and check whether the stop conditions trigger.</p>
   </section>
 
-  <h2>Practice prompts (mixed domains)</h2>
-  <ul>
-    <li>Ops: draft an agent plan to triage failed CI runs using read-only logs and a stop rule after two retries.</li>
-    <li>Finance: design a status bot that summarizes ledger variance notes with a verifier for currency mismatches.</li>
-    <li>Research: outline an agent that gathers three abstracts via a search tool, then halts if fewer than three citations are found.</li>
-  </ul>
-  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/function-calling">OpenAI function calling guide</a> for safe tool-use patterns.</p>
+  <h2>Practice lab: paper design + runnable stub</h2>
+  <ol>
+    <li>Pick a low-risk task (e.g., triage failed CI runs with read-only logs).</li>
+    <li>Define tools: <code>read_logs(job_id)</code> (read-only) and <code>summarize()</code>; explicitly no write tools.</li>
+    <li>Write stop rules: max 2 retries; halt if log fetch fails or no new clues.</li>
+    <li>Implement a stub agent in Python (function-calling or LangGraph) that calls <code>read_logs</code>, then <code>summarize</code>, then stops. Log each step to JSONL.</li>
+    <li>Run with two fake job IDs and confirm stop rules trigger.</li>
+  </ol>
+
+  <h2>Practice lab: verifier before action</h2>
+  <ol>
+    <li>Add a verifier step that checks for PII and missing owners before emitting an email draft.</li>
+    <li>Simulate one run where PII is present; ensure the agent stops and logs the reason.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/function-calling">Function calling</a> and <a href="https://python.langchain.com/docs/langgraph">LangGraph</a> for tool-based agents.</p>
 
   <h2>Recap</h2>
   <ul>

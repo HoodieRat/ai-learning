@@ -44,13 +44,51 @@
     <p><strong>Verify:</strong> Re-run your baseline and confirm you can reach a similar final result using the same steps.</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: ComfyUI baseline + controlled edit</h2>
+  <ol>
+    <li>Load ComfyUI with an SDXL base checkpoint; import a simple txt2img graph.</li>
+    <li>Set seed to 12345, steps 30, CFG 7, resolution 1024x1024; prompt: “product shot of a teal desk lamp on a walnut desk, soft daylight”.</li>
+    <li>Generate; export the workflow JSON and the PNG.</li>
+    <li>Edit only lighting (e.g., “warm tungsten light”), keep the same seed/settings; compare outputs and note what changed.</li>
+  </ol>
+
+  <h2>Practice lab: A1111 with explicit settings</h2>
+  <ol>
+    <li>Load SDXL or SD1.5; set seed 12345, sampler Euler a, steps 30 (SDXL) or 20 (SD1.5), CFG 7, resolution 1024x1024 (SDXL) or 768x768 (SD1.5).</li>
+    <li>Prompt: “product shot of a teal desk lamp on a walnut desk, soft daylight”; negative: “blurry, watermark, text”.</li>
+    <li>Generate baseline, save the image and the exact settings.</li>
+    <li>Change one knob: either lighting wording or guidance (CFG 6→8). Keep seed fixed; note differences.</li>
+  </ol>
+
+  <h2>Assets you can reuse</h2>
   <ul>
-    <li>Brand: create a baseline product shot with a fixed seed and then adjust only lighting; record which seed/settings preserve brand colors.</li>
-    <li>Comics: generate a two-panel sequence keeping the same character; specify the exact consistency notes and check for drift.</li>
-    <li>Scientific: request a diagram-style render with clear labels; add a constraint to avoid photorealism and note which knob enforced it.</li>
+    <li><a href="assets/examples/image/seeds.csv">Seeds + prompts table</a> (baseline + lighting tweak)</li>
+    <li><a href="assets/examples/image/comfyui-baseline.txt">ComfyUI baseline parameters</a> (txt2img SDXL)</li>
+    <li><a href="assets/examples/image/README.md">How to recreate baselines</a></li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://huggingface.co/docs/diffusers">Hugging Face Diffusers docs</a> for reproducible image generation settings.</p>
+
+  <h2>Practice lab: Automatic1111 with ControlNet/Inpaint</h2>
+  <ol>
+    <li>Open A1111, load SDXL or SD 1.5; set seed and steps as above.</li>
+    <li>Use ControlNet with a simple line-art conditioning (or depth) to anchor composition; generate 2–3 variants.</li>
+    <li>Use Inpaint to fix one small region (e.g., logo area); keep the same seed to preserve the rest.</li>
+    <li>Document the exact knobs: sampler, steps, CFG, seed, ControlNet weight.</li>
+  </ol>
+
+  <h2>Practice lab: consistency checklist</h2>
+  <ol>
+    <li>Run the same seed across three prompt tweaks (lighting, background, camera angle) and note which tweak breaks consistency most.</li>
+    <li>Record settings in a short log (prompt, seed, sampler, steps, CFG, any ControlNet/LoRA).</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://huggingface.co/docs/diffusers">Hugging Face Diffusers docs</a> and <a href="https://github.com/comfyanonymous/ComfyUI">ComfyUI</a> for reproducible flows; <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui">Automatic1111</a> for ControlNet/Inpaint.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: baseline seed and settings captured (seed, sampler, steps, CFG, resolution, prompt, negative).</li>
+    <li>Run: generate baseline + one targeted change (lighting or guidance) with the same seed.</li>
+    <li>Verify: changes are attributable to one knob; settings and outputs logged for replay.</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

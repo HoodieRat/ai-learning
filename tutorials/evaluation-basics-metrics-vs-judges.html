@@ -44,13 +44,44 @@
     <p><strong>Verify:</strong> Create 5 test cases and do a quick manual score to see if your definition holds up.</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: metric vs judge side-by-side</h2>
+  <ol>
+    <li>Task: extract <code>{city, temperature_c, condition}</code> from 10 weather snippets.</li>
+    <li>Metric pass: check JSON validity and presence of all keys; count successes (simple script or <code>jq</code>).</li>
+    <li>Judge pass: prompt a small model (e.g., <code>ollama run llama3:8b</code>) with a rubric (0/1 for each key correct); record scores.</li>
+    <li>Compare time: metrics are fast but miss “wrong-but-present” values; judges catch wrong values but cost more tokens/time.</li>
+  </ol>
+
+  <h2>Assets and scripts</h2>
   <ul>
-    <li>For a JSON extraction task, write a rubric with 3 binary checks and decide whether metric or judge is faster to iterate.</li>
-    <li>For policy summaries, propose a judge prompt with a 0–2 score per criterion and one human spot-check; note the bias risk.</li>
-    <li>For image captions, choose between BLEU/ROUGE vs a small human review; state what each method will miss.</li>
+    <li><a href="assets/examples/eval/rubric.md">Rubric template</a></li>
+    <li><a href="assets/examples/eval/metric_eval.py">Metric checker (stdin JSON)</a></li>
+    <li><a href="assets/examples/eval/judge_eval.py">Judge stub script</a> (replace with your model call)</li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://github.com/openai/evals">OpenAI Evals</a> for runnable evaluation patterns.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: define rubric (3–4 criteria) and collect 10 outputs as JSON.</li>
+    <li>Run: pipe outputs to <code>metric_eval.py</code>; run judge script with rubric on the same set.</li>
+    <li>Verify: compare passes; note disagreements; update rubric if judges over/under-penalize.</li>
+  </ul>
+
+  <h2>Practice lab: rubric for summaries</h2>
+  <ol>
+    <li>Create 6 short support-ticket summaries (model outputs).</li>
+    <li>Write a rubric with three 0–2 criteria: includes product/impact/next-step; tone neutral; no invented promises.</li>
+    <li>Run a judge model with that rubric (any chat model) and log scores; spot-check 2 with a human and note disagreements.</li>
+    <li>Adjust the rubric if judges over-penalize or miss hallucinations.</li>
+  </ol>
+
+  <h2>Practice lab: citation check for RAG answers</h2>
+  <ol>
+    <li>Collect 5 RAG answers with cited chunk IDs.</li>
+    <li>Script: for each answer, verify the cited chunk text actually supports the claim; flag any “citation theater.”</li>
+    <li>Report: % answers with supporting citations; if low, tighten retrieval or prompt.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://github.com/openai/evals">OpenAI Evals</a> and <a href="https://python.langchain.com/docs/guides/evaluation">LangChain evals</a> for runnable patterns.</p>
 
   <h2>Recap</h2>
   <ul>

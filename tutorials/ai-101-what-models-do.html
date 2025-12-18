@@ -39,6 +39,11 @@
     <li><strong>Sampling vs greedy:</strong> for safety/consistency, try deterministic ($P(t_i\mid t_{<i})$ with low temperature) plus verification.</li>
   </ul>
 
+  <div class="learning-callout">
+    <p><strong>Mini math</strong></p>
+    <p>When you lower temperature toward 0, decoding approaches greedy: it picks the argmax of $P(t_i \mid t_{<i})$ at each step. Higher temperature reweights the distribution and raises entropy, which raises variance and hallucination risk.</p>
+  </div>
+
   <h2>Make answers easier to verify</h2>
   <p>Use prompts that separate facts from speculation and surface assumptions.</p>
   <ul>
@@ -103,13 +108,35 @@
     <li><strong>Hidden assumptions:</strong> missing constraints that change the conclusion.</li>
   </ul>
 
-  <h2>Practice prompts</h2>
-  <ul>
-    <li>Ask for an answer + assumptions + “how this could be wrong” on a topic you know well; highlight one assumption to verify.</li>
-    <li>Give a short policy excerpt and request one claim to fact-check plus two risks of being wrong; note how tone changes with temperature 0.2 vs 0.8.</li>
-    <li>Provide an empty context and ask the model to list what it would need before answering; compare with a version that includes docs.</li>
-  </ul>
-  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI prompt engineering guide</a> for structured prompting patterns.</p>
+  <h2>Practice lab: “answer + assumptions + risks”</h2>
+  <ol>
+    <li>Prompt a local model: <code>ollama run llama3:8b "Answer in three parts: (1) short answer, (2) assumptions, (3) 2 risks if assumptions fail. Topic: &lt;your topic&gt;. Temperature=0.2."</code></li>
+    <li>Highlight one assumption and verify it with a real doc or link; note if it was wrong.</li>
+    <li>Rerun at temperature 0.8; compare style and hallucination risk.</li>
+  </ol>
+
+  <h2>Practice lab: empty vs grounded context</h2>
+  <ol>
+    <li>Run the same question twice: once with no context, once with a 2–3 sentence fact block prepended.</li>
+    <li>Require the model to label any claim as “supported” or “unsupported.”</li>
+    <li>Check: did the grounded run reduce unsupported claims? If not, tighten the prompt.</li>
+  </ol>
+
+  <h2>Practice lab: stop sequences and truncation</h2>
+  <ol>
+    <li>Ask for JSON: <code>{"decisions":[],"risks":[]}</code>. Run with <code>--format json</code> (if your runtime supports) and <code>--num-predict 128</code>; observe if it truncates.</li>
+    <li>Add a stop sequence (e.g., <code>"\n\n"</code>) and rerun; confirm the model stops cleanly at the schema boundary.</li>
+    <li>Increase <code>--num-predict</code> to 256 and verify it still stops at the stop sequence.</li>
+  </ol>
+
+  <h2>Practice lab: compare two sampling settings</h2>
+  <ol>
+    <li>Prompt: “List 5 risks of shipping code without tests. Return bullet points only.”</li>
+    <li>Run once at <code>temperature=0.2</code>, once at <code>temperature=0.9</code>; keep everything else fixed.</li>
+    <li>Compare variance: which answers drift off-topic? Keep the low-temp prompt as your baseline for risky tasks.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI prompt engineering guide</a>.</p>
 
   <h2>Next</h2>
   <p><a href="?t=ai-literacy-first-steps-in-chat">AI Literacy: First Steps in Chat</a></p>

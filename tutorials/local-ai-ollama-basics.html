@@ -23,6 +23,36 @@
     <li><strong>Quantization:</strong> smaller weights (e.g., Q4/Q5) trade some quality for fit/speed.</li>
   </ul>
 
+  <h2>Install and verify</h2>
+  <ol>
+    <li>macOS/Linux: <code>curl -fsSL https://ollama.com/install.sh | sh</code></li>
+    <li>Windows: install from ollama.com and ensure the Ollama service is running (it starts automatically).</li>
+    <li>Verify CLI: <code>ollama --version</code> and <code>ollama list</code> (empty is fine).</li>
+    <li>Verify server: <code>ollama ps</code> should return promptly; if not, start the app/service.</li>
+  </ol>
+
+  <h2>Pick a starter model (fit-first)</h2>
+  <ul>
+    <li>CPU-only or low VRAM (&lt;8 GB): <code>mistral:7b-instruct-q4_K_M</code> (balanced quality/fit).</li>
+    <li>Mid GPU (8–12 GB): <code>llama3:8b</code> or <code>mistral:7b-instruct</code> (non-quantized if it fits).</li>
+    <li>High VRAM (16 GB+): <code>llama3:8b</code> with higher context; only try larger models if you know they fit.</li>
+  </ul>
+
+  <h2>Preflight: check hardware + cache</h2>
+  <ol>
+    <li>List models and cache size: <code>ollama list</code> and check <code>~/.ollama</code> (or <code>%USERPROFILE%\.ollama</code> on Windows) for disk usage.</li>
+    <li>Check GPU: <code>nvidia-smi</code> (NVIDIA) or your OS monitor; note available VRAM. If none, plan CPU-only runs.</li>
+    <li>Set a per-session cap: if disk is tight, remove old models with <code>ollama rm &lt;model&gt;</code> before pulls.</li>
+  </ol>
+
+  <h2>Quick-fit table</h2>
+  <ul>
+    <li>CPU-only 16 GB RAM: 7B Q4 works; expect slower tokens/sec.</li>
+    <li>GPU 8 GB: 7B Q4 fits; keep context modest.</li>
+    <li>GPU 12 GB: 7B Q4/Q5 is comfy; 13B Q4 may squeeze.</li>
+    <li>GPU 24 GB: 13B Q4/Q5 fits; 70B is out-of-scope here.</li>
+  </ul>
+
   <h2>Worked example: first run</h2>
   <p><strong>Command flow:</strong></p>
   <ol>
@@ -38,6 +68,50 @@
     <li>Pick one short prompt (2 sentences) and one slightly longer prompt (2–3 paragraphs).</li>
     <li>Run both; fill the log. If tokens/sec is unavailable, record elapsed time.</li>
   </ol>
+
+  <div class="learning-callout">
+    <p><strong>Quick logging helper (PowerShell)</strong></p>
+    <pre><code>$m="llama3:8b"; $p="Summarize this meeting in 3 bullets";
+$o = ollama run $m $p --verbose;
+$tft = ($o -split "\n" | Select-String "time to first token" | Select -First 1).ToString();
+$tps = ($o -split "\n" | Select-String "tokens per second" | Select -First 1).ToString();
+"$(Get-Date),$m,$p,$tft,$tps" | Out-File -Append .\ollama-runs.csv</code></pre>
+    <p>Do the same for a Q4 tag (e.g., <code>mistral:7b-instruct-q4_K_M</code>) to compare.</p>
+  </div>
+
+  <h2>Scripted benchmark (bash)</h2>
+  <pre><code>#!/usr/bin/env bash
+set -euo pipefail
+models=("llama3:8b" "mistral:7b-instruct-q4_K_M")
+prompt="Summarize this meeting in 3 bullets"
+for m in "${models[@]}"; do
+  echo "=== $m ==="
+  ollama run "$m" "$prompt" --verbose | tee "run-${m//[:]/-}.log"
+  grep -Ei "time to first token|tokens per second" "run-${m//[:]/-}.log"
+done
+</code></pre>
+  <p>Use this once to pick your daily driver; delete big logs afterward if disk is tight.</p>
+
+  <h2>Scripted benchmark (PowerShell)</h2>
+  <pre><code>$models = @("llama3:8b", "mistral:7b-instruct-q4_K_M")
+$prompt = "Summarize this meeting in 3 bullets"
+foreach($m in $models){
+  "=== $m ==="
+  $log = "run-$($m -replace ':','-').log"
+  $o = ollama run $m $prompt --verbose
+  $o | Out-File $log
+  $o -split "`n" | Select-String -Pattern "time to first token|tokens per second"
+}
+</code></pre>
+  <p>Keep the per-model logs so you can compare future hardware or driver changes.</p>
+
+  <h2>Sample logs to download</h2>
+  <ul>
+    <li><a href="assets/examples/ollama/ollama-runs-sample.csv">CSV: two runs (llama3:8b vs mistral:7b q4)</a></li>
+    <li><a href="assets/examples/ollama/run-llama3-8b.log">Verbose log: llama3:8b</a></li>
+    <li><a href="assets/examples/ollama/run-mistral-7b-instruct-q4_K_M.log">Verbose log: mistral:7b-instruct-q4_K_M</a></li>
+  </ul>
+  <p>Open the CSV in your spreadsheet or viewer; use it as a template for your own runs.</p>
 
   <section class="practice-lab">
     <h2>Practice Lab: Run a local model with repeatable logs</h2>
@@ -63,13 +137,85 @@
     <li>Quantization is your friend when hardware is tight.</li>
   </ul>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: run and log two models</h2>
+  <ol>
+    <li>Install Ollama: <code>curl -fsSL https://ollama.com/install.sh | sh</code> (macOS/Linux) or download the Windows installer.</li>
+    <li>Pull two tags: <code>ollama pull llama3:8b</code> and <code>ollama pull mistral:7b-instruct-q4_K_M</code>.</li>
+    <li>Run a short prompt and a long prompt on each:
+      <pre><code>ollama run llama3:8b "Summarize this meeting in 3 bullets" --verbose
+ollama run mistral:7b-instruct-q4_K_M "Draft a 2-paragraph product update" --verbose</code></pre>
+    </li>
+    <li>Log per run: model tag, quantization, time-to-first-token, tokens/sec (from <code>--verbose</code>), and total time.</li>
+    <li>Compare: which model is faster; did Q4 reduce quality? Note one lever to speed up (smaller model or shorter context).</li>
+  </ol>
+
+  <h2>Practice lab: GPU vs CPU and quant tradeoffs</h2>
+  <ol>
+    <li>GPU: run <code>ollama run mistral:7b-instruct "Explain vector search in 4 bullets" --verbose</code>; capture tokens/sec.</li>
+    <li>CPU-only: <code>OLLAMA_NO_GPU=1 ollama run mistral:7b-instruct "Explain vector search in 4 bullets" --verbose</code>; capture tokens/sec.</li>
+    <li>Quant swap: run <code>mistral:7b-instruct-q4_K_M</code> with the same prompt; compare speed and any quality drop.</li>
+    <li>Write a 3-line summary: speedup factor GPU vs CPU; speedup from Q4; whether quality stayed acceptable.</li>
+  </ol>
+
+  <h2>Offline verification checklist</h2>
+  <ol>
+    <li>Disconnect or disable Wi-Fi for a minute.</li>
+    <li>Run: <code>ollama run mistral:7b-instruct "Name three prime numbers"</code>.</li>
+    <li>Confirm it still answers; if it hangs, the model was not cached—reconnect, pull again, and re-run.</li>
+  </ol>
+
+  <h2>Quality sanity probes</h2>
   <ul>
-    <li>Run a Q4 vs Q5 quant of the same model and log time-to-first-token and tokens/sec for a short vs long prompt.</li>
-    <li>Write a prompt that asks the model to estimate its own context and compare responses at 4K vs 8K context limits.</li>
-    <li>Draft a troubleshooting prompt for “why is my local model slow?” that collects hardware, quantization tag, and runtime.</li>
+    <li>Factual quick check: “List 5 European capitals.” If wrong, try a non-quant tag or lower temperature (0.2).</li>
+    <li>Determinism check: run the same timing probe twice; differences should be small if temperature is low.</li>
+    <li>Safety echo: ask the model to repeat a short secret-like string; confirm the string appears only locally (logs, not network).</li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://github.com/ollama/ollama/blob/main/docs/faq.md">Ollama FAQ</a> for install, model tags, and performance tips.</p>
+
+  <h2>Practice lab: context and truncation</h2>
+  <ol>
+    <li>Use the same tag (e.g., <code>llama3:8b</code>) with two prompts: one short (200 tokens), one long (1200 tokens).</li>
+    <li>Set <code>--num-predict 300</code> and observe if outputs truncate; rerun with <code>--num-predict 600</code>.</li>
+    <li>Record memory use from your OS monitor; note if swapping/pressure appears.</li>
+  </ol>
+
+  <h2>Failure playbook</h2>
+  <ul>
+    <li>OOM on load: switch to Q4, reduce context via <code>--num-predict</code>, or choose a 3–4B model if available.</li>
+    <li>Slow first token: close GPU-heavy apps, lower context, or force CPU for stability (<code>OLLAMA_NO_GPU=1</code>).</li>
+    <li>Token starvation: if tokens/sec drops mid-run, check thermals/fans; retry after cooling.</li>
+    <li>Corrupt cache: remove a model with <code>ollama rm &lt;tag&gt;</code> and re-pull.</li>
+  </ul>
+
+  <h2>Troubleshooting checklist</h2>
+  <ul>
+    <li>If slow: try a smaller quant (<code>q4_K_M</code>), lower <code>--num-predict</code>, and close GPU-heavy apps.</li>
+    <li>If OOM: switch to CPU-only (<code>OLLAMA_NO_GPU=1</code>) or a smaller model; reduce context.</li>
+    <li>If outputs vary: set <code>--temperature 0.2</code> and reuse the same prompt; compare tokens/sec.</li>
+  </ul>
+
+  <p><strong>Learn more:</strong> <a href="https://docs.ollama.ai/getting-started/troubleshooting">Ollama troubleshooting</a> for installs, tags, and performance tips.</p>
+
+  <h2>Extra: keep a reusable prompt pack</h2>
+  <ul>
+    <li>Baseline: “Answer in three parts: (1) short answer, (2) assumptions, (3) 2 risks; temperature 0.2.”</li>
+    <li>Timing probe: “Reply with exactly 50 tokens of lorem ipsum.” Use it to measure raw throughput.</li>
+    <li>Context probe: “Return the count of words in the provided text:” then paste a 1K-token blob to test context fit.</li>
+  </ul>
+
+  <h2>Optional: LM Studio UI</h2>
+  <ol>
+    <li>Install LM Studio; download the same model (e.g., an 8B chat) via its library tab.</li>
+    <li>Enable local server mode on port 1234 and point a simple client (curl) at it.</li>
+    <li>Run the same two prompts as in the benchmarks; compare speed vs Ollama on your hardware.</li>
+  </ol>
+
+  <h2>Verification mini-suite</h2>
+  <ol>
+    <li>Fit check: confirm <code>ollama run</code> starts without OOM for your chosen tag.</li>
+    <li>Speed check: record tokens/sec for the 50-token timing probe.</li>
+    <li>Quality check: the capitals prompt returns mostly correct answers.</li>
+    <li>Stability check: rerun after 5 minutes of idle; timings stay within ~10%.</li>
+  </ol>
 
   <h2>Next</h2>
   <p><a href="?t=local-ai-running-models-offline">Local AI: Running Models Offline (Workflow)</a></p>

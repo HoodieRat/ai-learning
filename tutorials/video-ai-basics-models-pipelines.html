@@ -43,13 +43,43 @@
     <p><strong>Verify:</strong> Generate one clip and check it against the storyboard requirements.</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: ComfyUI AnimateDiff (local)</h2>
+  <ol>
+    <li>Install AnimateDiff nodes in ComfyUI; load a text-to-video flow with SDXL base.</li>
+    <li>Use the sample storyboard/keyframes in <a href="assets/examples/video/">assets/examples/video/</a> or write your own 3 shots.</li>
+    <li>Settings: 512x512, 12–16 fps, 16–24 frames, sampler euler, steps 24, CFG 7, fixed seed per shot; reuse the matching keyframe/control image.</li>
+    <li>After each render, check identity drift/flicker; rerun only failing shots.</li>
+  </ol>
+
+  <h2>Practice lab: Pika/Runway (SaaS option)</h2>
+  <ol>
+    <li>Use the same 3-shot storyboard; input the prompt per shot with identity/lighting constraints.</li>
+    <li>Export MP4s; trim to 3–4s per shot. Note any vendor-specific settings (motion guidance, face lock).</li>
+    <li>Assemble clips and assess against the storyboard; re-run only failing shots.</li>
+  </ol>
+
+  <h2>Practice lab: assemble and review</h2>
+  <ol>
+    <li>Concatenate the 3 clips using the provided list: <code>ffmpeg -f concat -safe 0 -i assets/examples/video/concat.txt -c copy out.mp4</code>.</li>
+    <li>Checklist: identity stable, camera coherent, no obvious flicker; if not, re-render the offending shot with stricter guidance/seed reuse.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://github.com/huggingface/diffusers/tree/main/examples/text_to_video">Diffusers text-to-video examples</a> and <a href="https://github.com/comfyanonymous/ComfyUI">ComfyUI</a>; SaaS: <a href="https://pika.art/">Pika</a>, <a href="https://runwayml.com/">Runway</a>.</p>
+
+  <h2>Assets you can reuse</h2>
   <ul>
-    <li>Plan a 12s product demo with three shots; write the exact identity/lighting constraints you will enforce across clips.</li>
-    <li>Design a lab-safety explainer with keyframes for equipment; note how you will judge flicker and identity drift after each render.</li>
-    <li>Create a sports highlight storyboard with camera moves; include one rule for when to re-render vs keep a slightly imperfect clip.</li>
+    <li><a href="assets/examples/video/storyboard.txt">Storyboard (3 shots)</a></li>
+    <li><a href="assets/examples/video/keyframes.txt">Keyframe prompts</a> and <a href="assets/examples/video/keyframe-prompts.csv">CSV seeds</a></li>
+    <li><a href="assets/examples/video/concat.txt">FFmpeg concat list</a></li>
+    <li><a href="assets/examples/video/README.md">How to run</a></li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://github.com/huggingface/diffusers/tree/main/examples/text_to_video">Diffusers text-to-video examples</a> for reference pipelines and constraints.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: storyboard + keyframes chosen; seed per shot fixed.</li>
+    <li>Run: render 3 clips with consistent seed/keyframe; assemble via ffmpeg.</li>
+    <li>Verify: identity and background stable across shots; flicker minimal; rerender only failing shots.</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

@@ -23,6 +23,11 @@
     <li><strong>Image gen (512², SD1/SDXL):</strong> 8–16 GB VRAM; higher if you upscale or use heavy ControlNet stacks.</li>
   </ul>
 
+  <div class="learning-callout">
+    <p><strong>Sizing table (download)</strong></p>
+    <p><a href="assets/examples/hardware/sizing-table.csv">hardware/sizing-table.csv</a></p>
+  </div>
+
   <h2>Common bottlenecks to watch</h2>
   <ul>
     <li><strong>VRAM fit:</strong> If the model spills to RAM, throughput can drop 5–30×.</li>
@@ -69,13 +74,36 @@
     <p><strong>Verify:</strong> Find a public benchmark or runtime doc for one task and confirm your choice makes sense.</p>
   </section>
 
-  <h2>Practice prompts</h2>
-  <ul>
-    <li>Pick a 7B coding model and compare running it on a 16GB laptop GPU vs CPU-only: list expected bottlenecks and a fallback plan.</li>
-    <li>Design a wake-word pipeline on an edge NPU: note the quantization level you would try first and what to monitor for thermal throttling.</li>
-    <li>Plan an image-gen demo on shared cloud GPUs: write a prompt that captures VRAM, bandwidth, and runtime support checks before launch.</li>
-  </ul>
-  <p><strong>Learn more:</strong> <a href="https://onnxruntime.ai/docs/performance/">ONNX Runtime performance guide</a> for understanding hardware/runtime tradeoffs.</p>
+  <h2>Practice lab: measure CPU vs GPU</h2>
+  <ol>
+    <li>Install Ollama and pull <code>mistral:7b</code>.</li>
+    <li>GPU run (if available): <code>ollama run mistral:7b "Summarize a 2-paragraph doc" --verbose</code>. Log time-to-first-token and tokens/sec.</li>
+    <li>CPU-only run: <code>OLLAMA_NO_GPU=1 ollama run mistral:7b "Summarize a 2-paragraph doc" --verbose</code>. Log the same metrics.</li>
+    <li>Capture <code>nvidia-smi</code> (or OS perf) during the GPU run and note VRAM peak.</li>
+    <li>Compare GPU vs CPU: speedup factor, VRAM use, fan/thermals. Decide your default for this workload.</li>
+  </ol>
+
+  <h2>Practice lab: VRAM fit check for image-gen</h2>
+  <ol>
+    <li>In Automatic1111 or ComfyUI, load SDXL base and set batch size 1, steps 25, resolution 1024x1024.</li>
+    <li>Note VRAM use via <code>nvidia-smi</code>. If OOM, drop to 768x768 or use a smaller checkpoint (e.g., SD 1.5).</li>
+    <li>Document “fit profile”: resolution, sampler, CFG scale, and VRAM headroom.</li>
+  </ol>
+
+  <h2>Practice lab: edge/NPU sanity check</h2>
+    <h2>Start → Run → Verify checklist</h2>
+    <ul>
+      <li>Start: target workloads listed with expected resolution/ctx; VRAM/RAM measured.</li>
+      <li>Run: one CPU vs GPU timing (ollama) and one image-gen fit check (A1111/ComfyUI).</li>
+      <li>Verify: log speedup factors, VRAM peaks, and thermal notes; choose defaults per workload.</li>
+    </ul>
+  <ol>
+    <li>Pick a small model (e.g., <code>phi-2</code> or <code>llama3:3b</code>) compiled for your NPU/runtime.</li>
+    <li>Run a 2–3 line prompt and measure latency and thermals (vendor tool or OS monitor).</li>
+    <li>If kernels are unsupported and it falls back to CPU, log it and choose CPU/GPU instead.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://onnxruntime.ai/docs/performance/">ONNX Runtime performance guide</a> for bandwidth/runtime tradeoffs.</p>
 
   <h2>Recap</h2>
   <ul>

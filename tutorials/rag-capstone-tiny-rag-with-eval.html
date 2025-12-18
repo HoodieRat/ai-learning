@@ -23,6 +23,13 @@
     <li>Create a 10-question eval set with gold chunk references.</li>
   </ol>
 
+  <h2>Use the sample to bootstrap</h2>
+  <ol>
+    <li>Copy <code>assets/examples/rag/corpus</code> and <code>qa.csv</code> as a template for your docs.</li>
+    <li>Run <code>python assets/examples/rag/rag_eval.py</code> to confirm the harness works on the sample.</li>
+    <li>Swap in your corpus, update <code>qa.csv</code>, and rerun; capture baseline accuracy.</li>
+  </ol>
+
   <h2>Mini build: run the loop</h2>
   <ol>
     <li>Run baseline retrieval + answer; score on your 10 questions (gold chunk present? answer grounded?).</li>
@@ -43,6 +50,13 @@
     </ul>
     <p><strong>Verify:</strong> Add 2 new questions not in the test set and confirm performance is similar (no “test set only” wins).</p>
   </section>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: corpus chosen; 10-question eval with gold chunks written; citation format fixed.</li>
+    <li>Run: baseline + one tuned variant executed with the harness (save outputs and accuracy).</li>
+    <li>Verify: citations resolve to real chunks; new questions perform similarly; report lists two failure modes.</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

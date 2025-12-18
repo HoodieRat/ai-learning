@@ -86,13 +86,21 @@ Controls: temperature=0.3, stop when JSON closes
     <li>Keep prompts short; let the schema do the heavy lifting.</li>
   </ul>
 
-  <h2>Practice prompts</h2>
-  <ul>
-    <li>Rewrite a customer support prompt with G/C/C/C; include one edge case like an empty ticket body.</li>
-    <li>Take a compliance summary prompt and force JSON output with required fields; add a “never include PII” constraint.</li>
-    <li>Draft an API helper prompt that echoes assumptions; add one verifiable check (e.g., cite the doc section).</li>
-  </ul>
-  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI prompt engineering guide</a> for more structured templates.</p>
+  <h2>Practice lab: rewrite with G/C/C/C and test</h2>
+  <ol>
+    <li>Pick a real task (e.g., “summarize a support ticket for an exec”).</li>
+    <li>Draft G/C/C/C: Goal (audience + task), Context (facts given), Constraints (JSON schema, length, tone, “never include PII”), Checks (1 edge case, 1 verifiable item).</li>
+    <li>Run on 3 normal inputs + 1 empty/edge input using a local model: <code>ollama run llama3:8b -p "&lt;your structured prompt&gt;"</code>.</li>
+    <li>Verify: outputs share the schema; edge case is handled; assumptions are explicit.</li>
+  </ol>
+
+  <h2>Practice lab: add a citation requirement</h2>
+  <ol>
+    <li>Add: “Cite one source ID from the input; if none, say 'no source'.”</li>
+    <li>Run again; check that citation text comes from the input and the edge case says “no source.”</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://platform.openai.com/docs/guides/prompt-engineering">OpenAI prompt engineering guide</a>.</p>
 
   <h2>Next</h2>
   <p><a href="?t=prompting-hands-on-build-reusable-templates">Prompting: Hands-on Templates</a></p>

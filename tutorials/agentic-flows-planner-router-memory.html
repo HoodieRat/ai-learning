@@ -44,13 +44,27 @@
     <p><strong>Verify:</strong> Walk through one example input and ensure the router decisions are deterministic given the rules.</p>
   </section>
 
-  <h2>Practice prompts (mixed domains)</h2>
-  <ul>
-    <li>Logistics: build router rules for rerouting delayed shipments using tools for ETA lookup and customer alerts; include a stop condition for missing carrier data.</li>
-    <li>Healthcare ops: plan a triage agent that suggests care pathways only with de-identified inputs; define what memory expires after the session.</li>
-    <li>Marketing localization: route copy edits to translation vs legal review tools depending on region metadata; define a verifier for restricted phrases.</li>
-  </ul>
-  <p><strong>Learn more:</strong> <a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use">Anthropic tool-use guide</a> for planning and routing patterns.</p>
+  <h2>Practice lab: deterministic router</h2>
+  <ol>
+    <li>Task: reroute delayed shipments. Tools: <code>lookup_eta(tracking)</code>, <code>alert_customer(tracking, eta)</code>, <code>escalate()</code>.</li>
+    <li>Write explicit router rules: if ETA missing → escalate; if ETA &gt; 48h → alert; else log only.</li>
+    <li>Implement a LangGraph (or simple switch) that enforces these rules; log chosen tool + reason to JSONL.</li>
+    <li>Run 3 sample inputs (missing ETA, long ETA, normal) and confirm deterministic tool choice.</li>
+  </ol>
+
+  <h2>Practice lab: memory rules</h2>
+  <ol>
+    <li>Store only <code>{tracking, eta, customer_id}</code> in short-term memory; drop raw addresses/PII.</li>
+    <li>After each run, wipe memory; assert that no PII keys remain in state.</li>
+  </ol>
+
+  <h2>Practice lab: verifier</h2>
+  <ol>
+    <li>Add a verifier step that blocks outbound alerts if ETA is null or status is “exception.”</li>
+    <li>Simulate an exception case and confirm the agent halts with a log entry.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use">Tool-use guide</a> and <a href="https://python.langchain.com/docs/langgraph">LangGraph</a> for planning/routing patterns.</p>
 
   <h2>Recap</h2>
   <ul>

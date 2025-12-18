@@ -22,6 +22,17 @@
     <li>If not, inspect: was the right chunk retrieved? Was citation formatting too loose?</li>
   </ol>
 
+  <h2>Use the sample for citation checks</h2>
+  <ol>
+    <li>Run <code>python assets/examples/rag/rag_quickstart.py</code> once to build the vector store.</li>
+    <li>Ask a negative query: <code>python - &lt;&lt;"PY"
+from rag_quickstart import build_chain
+chain = build_chain()
+print(chain("What is the on-call pager number?"))
+PY</code></li>
+    <li>Expected: the model should say no supporting chunk. If it hallucinates, tighten the prompt or lower k.</li>
+  </ol>
+
   <h2>Mini build: tighten retrieval</h2>
   <ol>
     <li>Set a consistent citation format (e.g., [Title §Section ¶ID]).</li>
@@ -42,6 +53,13 @@
     </ul>
     <p><strong>Verify:</strong> Ask one question you know is not in the docs and confirm the system says "not found" rather than inventing.</p>
   </section>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: citation format fixed (e.g., <code>[file:section]</code>); metadata attached to chunks.</li>
+    <li>Run: test one known-positive and one known-negative query; include citations in outputs.</li>
+    <li>Verify: positives cite real chunks; negatives decline. Over-retrieval is bounded (k small and sufficient).</li>
+  </ul>
 
   <h2>Recap</h2>
   <ul>

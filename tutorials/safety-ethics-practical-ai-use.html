@@ -43,13 +43,41 @@
     <p><strong>Verify:</strong> Apply the rules to one real task and adjust them based on what was unclear.</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: redaction + disclosure</h2>
+  <ol>
+    <li>Define PII for your team (emails, phone, account IDs). Write a one-line disclosure for AI-assisted outputs.</li>
+    <li>Run Presidio or a simple regex pass to redact PII before model calls; sample:
+      <pre><code>python -m presidio_analyzer --text "User Jane Doe, account 123-456" --fields PERSON, US_DRIVER_LICENSE</code></pre>
+    </li>
+    <li>Verify redaction on a fake log that contains at least one of each PII type.</li>
+  </ol>
+
+  <h2>Practice lab: high-stakes checklist</h2>
+  <ol>
+    <li>Pick a high-stakes task (medical/legal/finance) and write a 6–8 item checklist: data allowed, data banned, disclosure wording, required human reviewer, required citations, and blocking conditions.</li>
+    <li>Run one real example through the checklist and log what failed.</li>
+  </ol>
+
+  <h2>Practice lab: audit trail</h2>
+  <ol>
+    <li>Create a JSONL log schema: {timestamp, input_hash, model, prompt_version, reviewer, decision, notes}.</li>
+    <li>Log two model runs (one approved, one blocked) to prove the trail works.</li>
+  </ol>
+
+  <h2>Assets</h2>
   <ul>
-    <li>Draft safe-use rules for marketing content: include disclosure wording and a verification checklist for claims.</li>
-    <li>Write a prompt that redacts PII from support logs before sending to a model; specify what counts as PII for your team.</li>
-    <li>Create an escalation playbook for high-stakes outputs (medical, legal, finance) with one named reviewer and a blocking condition.</li>
+    <li><a href="assets/examples/safety/redteam-prompts.md">Red-team prompt starters</a></li>
+    <li><a href="assets/examples/local-ai/offline-run-log.csv">Example audit log rows</a></li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF</a> for risk management principles to adapt locally.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: define PII list, disclosure line, and audit log fields.</li>
+    <li>Run: redaction pass on a fake log; one red-team prompt; log two runs (approved/blocked).</li>
+    <li>Verify: PII removed, red-team refused, audit log entries complete.</li>
+  </ul>
+
+  <p><strong>Learn more:</strong> <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF</a> and <a href="https://github.com/microsoft/presidio">Presidio</a> for PII detection/redaction.</p>
 
   <h2>Recap</h2>
   <ul>

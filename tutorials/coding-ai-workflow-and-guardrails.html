@@ -45,13 +45,41 @@
     <p><strong>Verify:</strong> Run the tests twice: once before changes (failing) and once after (passing).</p>
   </section>
 
-  <h2>Practice prompts</h2>
+  <h2>Practice lab: small diff + tests</h2>
+  <ol>
+    <li>Clone a small repo (or your own) and run tests once: <code>pytest</code> or <code>npm test</code>.</li>
+    <li>Prompt your model: “Add input validation to <code>process_item</code>; reject empty ids; add one failing test that proves the new behavior. Do not refactor other code.”</li>
+    <li>Apply the patch; rerun tests; ensure only the intended files changed.</li>
+    <li>Log: diff summary, test results, and any manual assertions you added.</li>
+  </ol>
+
+  <h2>Assets</h2>
   <ul>
-    <li>Bugfix: ask for a small diff that adds input validation plus one failing test; specify non-goals (no refactors) and compare the diff to the ask.</li>
-    <li>Infra: write a prompt to generate a Terraform change with a plan summary; include a verification step to run `terraform plan` and summarize.</li>
-    <li>Security: craft a prompt that redacts secrets in logs before analysis; add an assertion to fail if patterns like `AKIA` remain.</li>
+    <li><a href="assets/examples/coding/test-plan.md">Test plan template</a></li>
   </ul>
-  <p><strong>Learn more:</strong> <a href="https://learn.microsoft.com/en-us/copilot/overview">GitHub Copilot overview</a> for safe, constrained coding patterns.</p>
+
+  <h2>Start → Run → Verify checklist</h2>
+  <ul>
+    <li>Start: repo cloned; baseline tests run; constraints written (inputs, outputs, non-goals).</li>
+    <li>Run: generate minimal diff + tests; apply; rerun tests.</li>
+    <li>Verify: review diff; ensure only intended files changed; log test results and one added edge case.</li>
+  </ul>
+
+  <h2>Practice lab: Terraform guardrails</h2>
+  <ol>
+    <li>Provide the <code>main.tf</code> snippet and constraints (no new resources, only tag updates, no IAM changes).</li>
+    <li>Ask for the minimal change and a <code>terraform plan</code> explanation in 3 bullets.</li>
+    <li>Run <code>terraform plan</code>; compare with the model’s plan; if drift, fix manually and re-run.</li>
+  </ol>
+
+  <h2>Practice lab: log redaction check</h2>
+  <ol>
+    <li>Give the model a log excerpt containing fake secrets (e.g., <code>AKIA...</code>, emails).</li>
+    <li>Prompt: “Redact secrets with [REDACTED]; output JSON with original_line_no and redacted_line.”</li>
+    <li>Add an assertion (script or test) that fails if patterns like <code>AKIA</code> remain.</li>
+  </ol>
+
+  <p><strong>Learn more:</strong> <a href="https://learn.microsoft.com/en-us/copilot/overview">GitHub Copilot overview</a> for constrained coding patterns.</p>
 
   <h2>Recap</h2>
   <ul>
