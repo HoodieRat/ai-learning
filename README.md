@@ -1,16 +1,16 @@
-# AI Learning Hub (GitHub Pages Template)
+# AI Learning Hub
 
-This is a static tutorial site template (HTML/CSS/JS) designed for GitHub Pages.
+This is a static, catalog-driven learning site (tutorials + Practice Labs + quizzes). It **must be served over HTTP** so the app can `fetch()` the JSON catalogs and tutorial HTML files.
 
-## Add a tutorial
-1) Copy `tutorials/tutorial-template.html` → `tutorials/<slug>.html`
-2) Add an entry to `tutorials.json` with the same `slug`
-3) Optional: add `quizzes/<slug>.quiz.json` and reference it in the tutorial via:
-   `<div class="quizMount" data-quiz="<slug>.quiz.json"></div>`
+## Run locally
 
-## Progress tracking
-- Quiz passes and checklists are saved locally in your browser (localStorage).
+From `c:\ai_learning_site`:
 
-## GitHub button
-- To set the GitHub button URL quickly, open DevTools console and run:
-  `localStorage.setItem('aihub.github', JSON.stringify('https://github.com/<you>/<repo>'))`
+- If you have Python:
+  - `python -m http.server 8000`
+  - Open: `http://localhost:8000/`
+
+## Troubleshooting
+
+- If you double-click `index.html` and open it via `file://`, most browsers will block `fetch()` and the app can’t load the catalog.
+- If you host the site in a subfolder, it should still work: all asset and data URLs are relative.
