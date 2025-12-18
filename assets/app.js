@@ -241,6 +241,19 @@ function renderHome({ tutorials, paths, progress }) {
             <button class="btn" type="button" id="hardwareRefBtn">Open reference</button>
           </div>
         </div>
+
+        <div class="card">
+          <h3>Tool defaults by track</h3>
+          <ul class="muted" style="margin: 8px 0 0; padding-left: 16px; line-height: 1.5;">
+            <li>Local AI: Ollama (llama3:8b, mistral:7b) + LM Studio UI</li>
+            <li>Image: ComfyUI flows (SDXL) + Automatic1111 for ControlNet/Inpaint</li>
+            <li>Video: ComfyUI AnimateDiff/text-to-video; optional Pika/Runway for SaaS</li>
+            <li>Audio: faster-whisper STT + XTTS/Piper TTS; ffmpeg for prep</li>
+            <li>RAG: LangChain + Chroma with bge-small embeddings</li>
+            <li>Coding/Agentic: pytest or npm test; LangGraph/function-calling + JSONL logs</li>
+            <li>Safety: Presidio redaction + red-team prompt set</li>
+          </ul>
+        </div>
       </div>
 
       <div class="divider"></div>

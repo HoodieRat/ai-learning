@@ -1,0 +1,3 @@
+timestamp,model,quant,prompt,time_to_first_token,tokens_per_second,notes
+2025-12-17T10:02:11Z,llama3:8b,fp16,"Summarize this meeting in 3 bullets",0.82s,29.4,"baseline GPU"
+2025-12-17T10:06:45Z,mistral:7b-instruct-q4_K_M,q4,"Summarize this meeting in 3 bullets",0.61s,38.7,"CPU/GPU mix; faster"

@@ -1,0 +1,7 @@
+ComfyUI baseline graph (txt2img):
+- Loader: SDXL base checkpoint
+- KSampler: sampler euler, steps 30, cfg 7, seed 12345, width 1024, height 1024
+- Conditioning: positive prompt "product shot of a teal desk lamp on a walnut desk, soft daylight"; negative prompt "blurry, noisy, watermark"
+- VAE Decode -> SaveImage
+
+To import: recreate nodes above or start from the simple txt2img example and set the parameters as listed.

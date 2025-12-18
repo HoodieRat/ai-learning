@@ -1,0 +1,7 @@
+question,answer,citation
+"What is the PTO accrual cap?","Accrual caps at 18 days unless People Ops approves an exception.","policies.md:Accrual"
+"Who approves PTO requests under 7 days notice?","People Ops must sign off for requests under 7 days.","policies.md:Approvals"
+"How many remote days are allowed per week?","Up to 3 remote days per week without extra approval.","remote-work.md:Eligibility"
+"Do remote employees need VPN?","Yes, VPN is required for all remote connections.","remote-work.md:Security"
+"When are flight approvals escalated?","Flights over $800 require director approval.","expenses.md:Approvals"
+"What is the travel meal limit?","Travel meals are capped at $60 per day.","expenses.md:Meal Limits"

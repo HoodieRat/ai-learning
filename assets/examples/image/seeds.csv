@@ -1,0 +1,4 @@
+subject,prompt,resolution,sampler,steps,cfg,seed,notes
+product,product shot of a teal desk lamp on walnut desk,1024x1024,euler,30,7,12345,baseline
+product,product shot of a teal desk lamp on walnut desk,1024x1024,euler,30,7,12345,warm tungsten lighting
+portrait,studio portrait of a person in navy blazer,768x1024,dpmpp_2m,28,6,999,neutral lighting, 85mm look

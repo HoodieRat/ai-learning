@@ -1,0 +1,8 @@
+=== mistral:7b-instruct-q4_K_M ===
+model download time: cached
+system prompt: (default)
+prompt: Summarize this meeting in 3 bullets
+response length: 74 tokens
+elapsed: 2.48s
+ time to first token: 0.61s
+ tokens per second: 38.7

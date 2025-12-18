@@ -1,0 +1,8 @@
+=== llama3:8b ===
+model download time: cached
+system prompt: (default)
+prompt: Summarize this meeting in 3 bullets
+response length: 78 tokens
+elapsed: 3.12s
+ time to first token: 0.82s
+ tokens per second: 29.4

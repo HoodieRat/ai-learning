@@ -1,0 +1,6 @@
+workload,min_vram,resolution/ctx,notes
+7B chat Q4,8GB,4k tokens,"OK on mid GPUs; CPU ok but slower"
+7B chat FP16,12GB,4k tokens,"GPU preferred"
+SDXL 1024 txt2img,12-16GB,1024x1024,"batch 1, steps 25-30"
+SD1.5 768 txt2img,8-10GB,768x768,"batch 1, steps 20-25"
+Whisper medium,6-8GB,real-time,"GPU helps for batching"

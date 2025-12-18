@@ -1,0 +1,4 @@
+Keyframe prompts (use for AnimateDiff/ControlNet refs):
+1) "product desk with teal lamp on walnut desk, soft daylight, minimal background"
+2) "wider desk setup with person typing, teal lamp visible, neutral office background"
+3) "evening scene, teal lamp glowing, warm ambient light, same desk and lamp"

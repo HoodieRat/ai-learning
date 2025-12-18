@@ -1,0 +1,2 @@
+Prompt template:
+"Explain {topic} to {audience}. Produce a 6-row table: Claim | Why it matters | How to verify (free source) | Confidence (low/med/high). Cap cells at 35 words. Add 'Assumptions' (2) and 'Ways this could be wrong' (2)."

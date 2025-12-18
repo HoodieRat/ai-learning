@@ -1,0 +1,4 @@
+shot,prompt,seed,notes
+1,"product desk with teal lamp on walnut desk, soft daylight",2025,"use as ControlNet reference"
+2,"wider desk setup with person typing, teal lamp visible, neutral office background",2026,"identity consistency"
+3,"evening scene, teal lamp glowing, warm ambient light, same desk and lamp",2027,"keep lamp color and desk"
