@@ -1,15 +1,60 @@
-<article class="tutorial" data-tutorial>
-  <header class="tutorial__header">
-    <div class="tutorial__meta">
-      <span class="pill" data-field="category">Hardware</span>
-      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
-      <span class="pill pill--subtle" data-field="minutes">20 min</span>
-    </div>
-    <h1 data-field="title">Vram Vs Ram</h1>
-    <p class="tutorial__lede" data-field="description">Placeholder tutorial. Replace with real content.</p>
-  </header>
-  <section class="tutorial__section">
-    <h2>Coming soon</h2>
-    <p>This file exists so navigation works. Replace it with your real tutorial content later.</p>
+<article class="tutorial">
+  <h1>Hardware: VRAM vs RAM</h1>
+  <p class="lede">Local AI is mostly a memory budget problem. VRAM is the fast lane; RAM is the overflow lane. Fit decides whether you get real-time answers or spinning fans.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=cpu-vs-gpu-vs-npu">Hardware: CPU vs GPU vs NPU</a></li>
+  </ul>
+
+  <h2>Core concepts</h2>
+  <ul>
+    <li><strong>Fit beats speed:</strong> If the model fits in VRAM, throughput and latency stay stable. If not, data spills to RAM/disk.</li>
+    <li><strong>Activation growth:</strong> Longer contexts and higher batch sizes grow memory use even when weights fit.</li>
+    <li><strong>Host offload:</strong> Many runtimes offload layers to RAM; this helps smaller GPUs but adds PCIe latency.</li>
+  </ul>
+
+  <h2>Worked example: size a model</h2>
+  <ol>
+    <li>Take a 7B model. Rough rule: fp16 ~14 GB, int8 ~7 GB, q4_0 ~4 GB.</li>
+    <li>Add overhead for KV cache: context 4K with 16-bit cache is roughly 1.5 GB for a 7B model.</li>
+    <li>Compare to your GPU VRAM. If it does not fit, plan offload or a smaller/quantized variant.</li>
+  </ol>
+
+  <h2>Mini build: pick a fit plan</h2>
+  <ol>
+    <li>Write down: available VRAM, system RAM, and whether your runtime supports offload.</li>
+    <li>Choose one model you want. Estimate weights + KV cache for your usual context length.</li>
+    <li>Create a fallback order: quantize, reduce context, switch model size, enable offload.</li>
+    <li>Note one metric to watch (tokens/sec or time-to-first-token) to see if the change helped.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Estimate whether a model will fit on your machine and choose mitigations.</p>
+    <p><strong>Do:</strong> Pick one model. Write your VRAM/RAM budgets and a simple plan: "If it does not fit, I will try X" (quantize, smaller context, smaller model).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can explain what happens when VRAM is exceeded (offload or crash).</li>
+      <li>You list at least two mitigation options and their likely effect size.</li>
+      <li>You predict which knob reduces memory most for your workload.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the model, grow the context, and observe whether latency spikes or throughput drops when you cross the fit boundary.</p>
   </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>VRAM fit is the primary limiter for local models; offload is a fallback with latency cost.</li>
+    <li>Context and batch size grow memory; plan for your real usage, not a benchmark trace.</li>
+    <li>Quantization and smaller variants are the fastest ways to regain fit.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=hardware-pitfalls-bottlenecks-and-thermals">Hardware: Pitfalls (Bottlenecks & Thermals)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+    <li><a href="?t=local-ai-pitfalls-speed-memory-thermal">Local AI: Pitfalls (Speed, Memory, Thermals)</a></li>
+  </ul>
 </article>

@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Video AI: Hands-on Storyboard → Clips</h1>
+  <p class="lede">You’ll turn a storyboard into clips while keeping continuity. The focus is an iteration loop that preserves identity and reduces flicker.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=video-ai-basics-models-pipelines">Video AI: Models &amp; Pipelines</a></li>
+  </ul>
+
+  <h2>Workflow</h2>
+  <ul>
+    <li>Generate a keyframe per shot</li>
+    <li>Generate a short clip from the keyframe</li>
+    <li>Fix consistency issues before increasing length</li>
+  </ul>
+
+  <h2>Worked example: two matching clips</h2>
+  <ol>
+    <li>Storyboard: subject in park, shot A sitting, shot B walking.</li>
+    <li>Generate keyframes for A and B with same outfit/lighting.</li>
+    <li>Create 3s clips from each keyframe; keep prompts identical except action.</li>
+    <li>If identity drifts, regenerate with stronger reference or shorter clip.</li>
+  </ol>
+
+  <h2>Mini build: stabilize first</h2>
+  <ol>
+    <li>Generate keyframes; lock identity and style.</li>
+    <li>Produce 2–3s clips; inspect for identity/flicker.</li>
+    <li>Fix issues (stronger refs, reduce motion) before making longer clips.</li>
+    <li>Document which knob fixed stability for reuse.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Produce 2 clips that match the same subject identity.</p>
+    <p><strong>Do:</strong> Keep the same identity constraints and vary only camera motion or action.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Both clips clearly depict the same subject.</li>
+      <li>Continuity constraints are documented.</li>
+      <li>You can point to one knob that improved stability (reference, constraints, shorter clips).</li>
+    </ul>
+    <p><strong>Verify:</strong> Ask someone else if the two clips “belong together” without explanation.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Keyframes anchor identity; start with short clips.</li>
+    <li>Fix consistency before scaling length or complexity.</li>
+    <li>Document the settings that stabilized your clips.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=video-ai-pitfalls-flicker-and-temporal-consistency">Video AI: Pitfalls (Flicker &amp; Temporal Consistency)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=image-ai-capstone-build-a-style-guide-workflow">Image AI Capstone</a></li>
+    <li><a href="?t=prompting-hands-on-build-reusable-templates">Prompting: Hands-on Templates</a></li>
+  </ul>
+</article>

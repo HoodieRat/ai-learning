@@ -1,0 +1,68 @@
+<article class="tutorial">
+  <h1>Video AI: Pitfalls (Flicker &amp; Temporal Consistency)</h1>
+  <p class="lede">Flicker and identity drift aren’t random; they usually come from weak constraints or over-long generations. This tutorial teaches a diagnosis guide (as written criteria) and fixes.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=video-ai-hands-on-storyboard-to-clips">Video AI: Hands-on Storyboard → Clips</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>Flicker:</strong> textures/lighting change frame-to-frame.</li>
+    <li><strong>Identity drift:</strong> face/clothes morph over time.</li>
+    <li><strong>Scene jumps:</strong> background discontinuities.</li>
+  </ul>
+
+  <h2>Fix strategies</h2>
+  <ul>
+    <li>Shorter clips + stitch (stability first).</li>
+    <li>Stronger reference constraints (keyframes, identity anchors).</li>
+    <li>Reduce degrees of freedom (don’t change subject + camera + environment at once).</li>
+  </ul>
+
+  <h2>Worked example: tame flicker</h2>
+  <ol>
+    <li>Baseline: 6s clip with flicker.</li>
+    <li>Change: regenerate as 3s with stronger reference frame and lower motion.</li>
+    <li>Result: compare frames; flicker reduced, identity stable.</li>
+    <li>Document the exact change (duration + reference) as the fix.</li>
+  </ol>
+
+  <h2>Mini build: diagnostic checklist</h2>
+  <ol>
+    <li>Inspect a failing clip; classify issue: flicker, identity drift, scene jump.</li>
+    <li>Apply one fix matched to the issue (shorter clip, stronger reference, fewer changes).</li>
+    <li>Regenerate and compare side-by-side.</li>
+    <li>Reuse the same fix on another clip to ensure it generalizes.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Fix flicker using one controlled change.</p>
+    <p><strong>Do:</strong> Take a flickery clip and regenerate with one stronger constraint (reference frame, fewer prompt changes, shorter duration).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The regenerated clip has noticeably less flicker.</li>
+      <li>You can explain which constraint reduced the variance.</li>
+      <li>You record the before/after plus your exact change.</li>
+    </ul>
+    <p><strong>Verify:</strong> Apply the same fix to a different clip and confirm it generalizes.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Classify the issue first; pick the fix that matches (shorter, stronger ref, fewer changes).</li>
+    <li>Short clips + references beat long blind generations.</li>
+    <li>Reuse your fixes across clips to build a stable recipe.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=video-ai-capstone-create-a-short-video-pipeline">Video AI Capstone: Create a Short Video Pipeline</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=image-ai-pitfalls-artifacts-and-prompt-leakage">Image AI: Pitfalls</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

@@ -1,0 +1,69 @@
+<article class="tutorial">
+  <h1>Video AI: Models &amp; Pipelines</h1>
+  <p class="lede">Video generation is like image generation plus time. Stability problems (flicker, identity drift) are the default unless you design for consistency.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=image-ai-models-and-workflows">Image AI: Models &amp; Workflows</a></li>
+  </ul>
+
+  <h2>Pipeline building blocks</h2>
+  <ul>
+    <li>Storyboard (what each shot should do)</li>
+    <li>Keyframes / reference images (consistency anchor)</li>
+    <li>Clip generation and refinement</li>
+  </ul>
+
+  <h2>Worked example: 3-shot plan</h2>
+  <ol>
+    <li>Write three shots: subject, action, camera move, background.</li>
+    <li>Add consistency notes: outfit, colors, lighting to keep across shots.</li>
+    <li>Pick or generate a keyframe per shot to anchor identity.</li>
+    <li>Define pass/fail: if identity or outfit drifts, the shot fails.</li>
+  </ol>
+
+  <h2>Mini build: preflight</h2>
+  <ol>
+    <li>Create a 10–15s storyboard with 3 shots.</li>
+    <li>Generate keyframes for each; ensure identity matches.</li>
+    <li>Decide clip lengths (short) and which constraint to enforce (reference, seed, prompt lock).</li>
+    <li>Note what you will check after each clip (identity, flicker, background continuity).</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Plan a 10–15s sequence before generating anything.</p>
+    <p><strong>Do:</strong> Write 3 shots with a clear subject, action, and camera description. Keep the same identity constraints across shots.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You have a storyboard with 3 shots.</li>
+      <li>Each shot has a “must keep” consistency note (identity, outfit, background).</li>
+      <li>You can tell if a clip failed based on the storyboard alone.</li>
+    </ul>
+    <p><strong>Verify:</strong> Generate one clip and check it against the storyboard requirements.</p>
+  </section>
+
+  <h2>Practice prompts</h2>
+  <ul>
+    <li>Plan a 12s product demo with three shots; write the exact identity/lighting constraints you will enforce across clips.</li>
+    <li>Design a lab-safety explainer with keyframes for equipment; note how you will judge flicker and identity drift after each render.</li>
+    <li>Create a sports highlight storyboard with camera moves; include one rule for when to re-render vs keep a slightly imperfect clip.</li>
+  </ul>
+  <p><strong>Learn more:</strong> <a href="https://github.com/huggingface/diffusers/tree/main/examples/text_to_video">Diffusers text-to-video examples</a> for reference pipelines and constraints.</p>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Storyboards and keyframes are the anchors for identity.</li>
+    <li>Keep clips short; enforce one main constraint per shot.</li>
+    <li>Define pass/fail visually before you generate.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=video-ai-hands-on-storyboard-to-clips">Video AI: Hands-on Storyboard → Clips</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=image-ai-hands-on-controlnet-and-inpainting">Image AI: Hands-on Control + Inpainting</a></li>
+    <li><a href="?t=audio-ai-tts-stt-basics">Audio AI: TTS &amp; STT Basics</a></li>
+  </ul>
+</article>

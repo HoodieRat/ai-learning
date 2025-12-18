@@ -45,8 +45,13 @@
     <p><strong>Verify:</strong> Run the tests twice: once before changes (failing) and once after (passing).</p>
   </section>
 
-  <h2>Check your understanding</h2>
-  <div data-quiz="coding-ai-workflow-and-guardrails.quiz.json"></div>
+  <h2>Practice prompts</h2>
+  <ul>
+    <li>Bugfix: ask for a small diff that adds input validation plus one failing test; specify non-goals (no refactors) and compare the diff to the ask.</li>
+    <li>Infra: write a prompt to generate a Terraform change with a plan summary; include a verification step to run `terraform plan` and summarize.</li>
+    <li>Security: craft a prompt that redacts secrets in logs before analysis; add an assertion to fail if patterns like `AKIA` remain.</li>
+  </ul>
+  <p><strong>Learn more:</strong> <a href="https://learn.microsoft.com/en-us/copilot/overview">GitHub Copilot overview</a> for safe, constrained coding patterns.</p>
 
   <h2>Recap</h2>
   <ul>

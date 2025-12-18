@@ -39,3 +39,7 @@
 - [x] ai-101-what-models-do
 - [x] local-ai-running-models-offline
 - [x] prompting-structure-quickstart
+
+## Quiz removal & enrichment
+- [x] Removed quiz engine wiring and quiz metadata
+- [x] Replaced quiz placeholders with practice prompts and external links (first batch of tutorials)

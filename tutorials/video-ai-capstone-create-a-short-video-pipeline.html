@@ -1,0 +1,59 @@
+<article class="tutorial">
+  <h1>Video AI Capstone: Create a Short Video Pipeline</h1>
+  <p class="lede">You’ll design a small pipeline that produces a short video reliably: planning, generation, stabilization, and assembly — with verification steps at each stage.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=video-ai-pitfalls-flicker-and-temporal-consistency">Video AI: Pitfalls</a></li>
+    <li><a href="?t=image-ai-capstone-build-a-style-guide-workflow">Image AI Capstone</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>A 3-shot storyboard</li>
+    <li>Keyframes and clip settings</li>
+    <li>Final 10–20s assembled video</li>
+  </ul>
+
+  <h2>Plan your pipeline</h2>
+  <ol>
+    <li>Write a 3-shot storyboard with consistency notes.</li>
+    <li>Generate keyframes and lock identity/style.</li>
+    <li>Choose clip lengths (short) and constraints (references, prompts).</li>
+    <li>Define verification per stage: identity check, flicker check, assembly continuity.</li>
+  </ol>
+
+  <h2>Mini build: run and stabilize</h2>
+  <ol>
+    <li>Create short clips for each shot; inspect for identity/flicker.</li>
+    <li>Fix issues with stronger references or shorter duration before lengthening.</li>
+    <li>Assemble the 3 clips; check transitions for jumps.</li>
+    <li>Rerun one shot with a different action to prove modularity.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Produce a short (10–20s) final video.</p>
+    <p><strong>Do:</strong> Keep it minimal: 3 shots, short clips, and a fixed identity/style guide.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The three shots have consistent identity and style.</li>
+      <li>You can describe the pipeline stages and what you verify at each stage.</li>
+      <li>You can reproduce the pipeline to produce a second version.</li>
+    </ul>
+    <p><strong>Verify:</strong> Swap one shot’s action and rerun only that stage to confirm the pipeline is modular.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Short, constrained clips stabilize identity; assemble after fixes.</li>
+    <li>Verify each stage separately: keyframes, clips, transitions.</li>
+    <li>Modularity lets you rerun a shot without breaking the whole video.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=audio-ai-capstone-build-a-voice-notes-workflow">Audio AI Capstone</a></li>
+    <li><a href="?t=prompting-capstone-create-a-prompt-suite-and-tests">Prompting Capstone</a></li>
+  </ul>
+</article>
