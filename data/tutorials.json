@@ -14,7 +14,7 @@
         "mental model",
         "limits"
       ],
-      "quiz": "ai-101-what-models-do.quiz.json",
+      "quiz": null,
       "prereqs": [],
       "next": "ai-literacy-first-steps-in-chat",
       "related": [
@@ -219,7 +219,7 @@
         "planner",
         "memory"
       ],
-      "quiz": "agentic-flows-planner-router-memory.quiz.json",
+      "quiz": null,
       "prereqs": [
         "coding-ai-workflow-and-guardrails"
       ],
@@ -317,7 +317,7 @@
         "stt",
         "tts"
       ],
-      "quiz": "audio-ai-tts-stt-basics.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -501,7 +501,7 @@
         "guardrails",
         "review"
       ],
-      "quiz": "coding-ai-workflow-and-guardrails.quiz.json",
+      "quiz": null,
       "prereqs": [
         "prompting-structure-quickstart"
       ],
@@ -644,7 +644,7 @@
         "evaluation",
         "rubrics"
       ],
-      "quiz": "evaluation-basics-metrics-vs-judges.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do",
         "prompting-structure-quickstart"
@@ -770,7 +770,7 @@
         "hardware",
         "performance"
       ],
-      "quiz": "cpu-vs-gpu-vs-npu.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -950,7 +950,7 @@
         "image",
         "diffusion"
       ],
-      "quiz": "image-ai-models-and-workflows.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -1017,7 +1017,7 @@
         "retrieval",
         "embeddings"
       ],
-      "quiz": "rag-basics-chunking-retrieval.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -1177,7 +1177,7 @@
         "local",
         "offline"
       ],
-      "quiz": "local-ai-ollama-basics.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -1392,7 +1392,7 @@
         "prompting",
         "structure"
       ],
-      "quiz": "prompting-structure-quickstart.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -1525,7 +1525,7 @@
         "privacy",
         "risk"
       ],
-      "quiz": "safety-ethics-practical-ai-use.quiz.json",
+      "quiz": null,
       "prereqs": [
         "ai-101-what-models-do"
       ],
@@ -1724,7 +1724,7 @@
         "video",
         "pipelines"
       ],
-      "quiz": "video-ai-basics-models-pipelines.quiz.json",
+      "quiz": null,
       "prereqs": [
         "image-ai-models-and-workflows"
       ],

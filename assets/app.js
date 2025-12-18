@@ -1,5 +1,3 @@
-/* global AIHubQuizEngine */
-
 const ASSET_VERSION = "2025-12-17c";
 
 function toUrl(path) {
@@ -161,11 +159,7 @@ function renderTutorialList({ tutorials, activeSlug, showDrafts, category, searc
   list.innerHTML = sorted
     .map((t) => {
       const isActive = t.slug === activeSlug;
-      const passed = Boolean(progress?.[t.slug]);
-      const statusTags = [
-        passed ? `<span class="tag good" title="Quiz passed">Passed</span>` : "",
-        t.status === "draft" ? `<span class="tag draft">Draft</span>` : "",
-      ].join("");
+      const statusTags = t.status === "draft" ? `<span class="tag draft">Draft</span>` : "";
       return `
         <div class="tutorialRow ${isActive ? "active" : ""}" role="button" tabindex="0" data-slug="${escapeHtml(
           t.slug
@@ -229,7 +223,7 @@ function renderHome({ tutorials, paths, progress }) {
   main.innerHTML = `
     <div class="tutorial">
       <h1>Home</h1>
-      <p class="lede">Catalog-driven tutorials with Practice Labs and quizzes. Use the sidebar to browse, or start a learning path.</p>
+      <p class="lede">Catalog-driven tutorials with Practice Labs and hands-on prompts. Use the sidebar to browse, or start a learning path.</p>
 
       <div class="gridHome">
         <div class="card">
@@ -430,11 +424,13 @@ async function renderTutorial({ tutorial, tutorialsBySlug, paths, progress }) {
   // Track last visited
   localStorage.setItem(STORAGE_KEYS.lastVisited, tutorial.slug);
 
-  // Mount quizzes (only where data-quiz exists)
-  for (const el of main.querySelectorAll("[data-quiz]")) {
-    el.setAttribute("data-quiz-slug", tutorial.slug);
+  // Mark tutorial as viewed so local progress still works without quizzes
+  const progress = readJsonStorage(STORAGE_KEYS.progress, {});
+  if (!progress[tutorial.slug]) {
+    progress[tutorial.slug] = true;
+    writeJsonStorage(STORAGE_KEYS.progress, progress);
+    document.dispatchEvent(new CustomEvent("aihub:progress"));
   }
-  if (window.AIHubQuizEngine?.mountAll) window.AIHubQuizEngine.mountAll();
 
   // Local cross-links inside tutorial content
   for (const a of main.querySelectorAll('a[href^="?t="]')) {
@@ -945,7 +941,6 @@ function renderTutorialShell(tutorial, innerHtml, { comingSoon = false } = {}) {
 
   main.querySelector('[data-print]')?.addEventListener('click', () => window.print());
 
-  // Let quiz engine mount
   const root = main.querySelector('#tutorialContent');
   document.dispatchEvent(new CustomEvent('aihub:contentRendered', { detail: { root, slug: tutorial.slug } }));
 }
@@ -1031,7 +1026,7 @@ function showHome({ replace = false } = {}) {
   main.innerHTML = `
     <div class="card" style="box-shadow:none;">
       <h1 style="margin:0;">Home</h1>
-      <p style="margin: 8px 0 0; color: var(--muted);">Browse calm, catalog-driven tutorials. Quizzes track progress locally in your browser.</p>
+      <p style="margin: 8px 0 0; color: var(--muted);">Browse calm, catalog-driven tutorials. Progress saves locally when you open lessons.</p>
 
       <hr class="sep" />
 
