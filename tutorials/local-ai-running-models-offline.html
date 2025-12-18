@@ -1,0 +1,97 @@
+<article class="tutorial">
+  <h1>Local AI: Running Models Offline (Workflow)</h1>
+  <p class="lede">Make local AI repeatable: stable prompts, fixed models, logs, and quick verification on known cases. You’ll set up a simple runbook you can re-use.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will build</p>
+    <ul class="checklist">
+      <li>A prompt template with fixed output schema.</li>
+      <li>A tiny test set (known answers) to sanity-check outputs.</li>
+      <li>A log of runs (model tag, input, output, pass/fail).</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=local-ai-ollama-basics">Local AI: Ollama Basics</a></li>
+  </ul>
+
+  <h2>Concept explainer: the offline loop</h2>
+  <ul>
+    <li><strong>Inputs:</strong> prompt template + files (if needed).</li>
+    <li><strong>Run:</strong> pin model/version; avoid changing tags mid-test.</li>
+    <li><strong>Log:</strong> save prompt, input id, output, timing, pass/fail.</li>
+    <li><strong>Verify:</strong> run 2–3 known cases every time you tweak.</li>
+  </ul>
+
+  <h2>Setup checklist</h2>
+  <ul>
+    <li>Cache model weights locally; verify the exact tag (e.g., llama-3-8b-instruct:Q4_K_M).</li>
+    <li>Fix runtime knobs: context length, temperature 0.2–0.4 for deterministic loops, batch size if supported.</li>
+    <li>Record hardware: CPU/GPU, VRAM/RAM, and whether you enabled GPU layers or quantization.</li>
+    <li>Keep a single config file (YAML/ENV) so runs are repeatable and shareable.</li>
+  </ul>
+
+  <h2>Worked example: structured summary</h2>
+  <p><strong>Template gist:</strong> “Summarize for a PM. Output JSON with keys: decisions, risks, follow_ups. Keep each list under 4 items. If info is missing, return an empty array and note missing sections.”</p>
+  <p><strong>Known cases:</strong> a short note with one decision, one risk; a messy note missing risks.</p>
+
+  <h2>Guided mini-build: your runbook</h2>
+  <ol>
+    <li>Create a template with variables (e.g., {{text}}) and a strict schema (JSON or table headers).</li>
+    <li>Create 3 inputs: 2 known-answer cases + 1 real-world sample.</li>
+    <li>Decide pass/fail rules (schema valid, no hallucinated fields, max length).</li>
+    <li>Prepare a log file (CSV/MD) with columns: input id, model tag, pass/fail, notes.</li>
+  </ol>
+
+  <h2>Performance and stability</h2>
+  <ul>
+    <li><strong>Throughput knobs:</strong> batch/threads for CPU, GPU layers for quantized GGUF, or -ngl flags in llama.cpp/ollama.</li>
+    <li><strong>Memory budget:</strong> pick quant levels that fit VRAM; spill to RAM only if latency is acceptable.</li>
+    <li><strong>Warmup:</strong> ignore the first run when measuring tokens/s; average over 3 runs.</li>
+    <li><strong>Determinism:</strong> keep seed fixed when comparing templates.</li>
+  </ul>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run your offline loop</h2>
+    <p><strong>Task:</strong> Execute the template on 5 inputs and log results.</p>
+    <ol>
+      <li>Run 5 inputs (include the 2 known cases).</li>
+      <li>Mark pass/fail using your rules; note any schema breaks.</li>
+      <li>If a failure appears, adjust the template once; re-run only the known cases to confirm the fix.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>All outputs follow the schema on known cases.</li>
+      <li>Log contains 5 runs with pass/fail and notes.</li>
+      <li>One template tweak is tested and verified on known cases.</li>
+    </ul>
+  </section>
+
+  <h2>Troubleshooting cues</h2>
+  <ul>
+    <li><strong>Schema drift:</strong> tighten constraints or add a stop sequence after the JSON block.</li>
+    <li><strong>Slow runs:</strong> lower context, reduce batch size, or choose a smaller quant/model.</li>
+    <li><strong>OOM/thermal throttling:</strong> reduce layers on GPU, move to CPU, or shorten prompts.</li>
+    <li><strong>Inconsistent outputs:</strong> lower temperature and fix seed; rerun known cases first.</li>
+  </ul>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Pin the model tag; change one variable at a time.</li>
+    <li>Known cases act as guardrails for every tweak.</li>
+    <li>Logs turn “it feels worse” into evidence you can track.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—ship your runbook and log first.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=local-ai-pitfalls-speed-memory-thermal">Local AI: Pitfalls (Speed, Memory, Thermals)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+  </ul>
+</article>

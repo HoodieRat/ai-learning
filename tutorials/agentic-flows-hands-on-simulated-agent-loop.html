@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Agentic Flows: Hands-on Simulated Loop</h1>
+  <p class="lede">You’ll build a simulated agent loop without paid tools: a planner produces steps, a router chooses a tool, and a verifier checks output before “acting”.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-planner-router-memory">Agentic Flows: Planner, Router, Memory</a></li>
+  </ul>
+
+  <h2>Simulation rules</h2>
+  <ul>
+    <li>Tools are mocked (you write the “tool result”).</li>
+    <li>Each step must produce evidence (output) the verifier can check.</li>
+    <li>Stop when success criteria are met, not when the model “feels done”.</li>
+  </ul>
+
+  <h2>Worked example: mock a research loop</h2>
+  <ol>
+    <li>Goal: summarize two docs and propose next action.</li>
+    <li>Planner: find docs, extract key points, synthesize summary.</li>
+    <li>Router: search_docs for retrieval; extract_points for each doc; summarize_points to draft.</li>
+    <li>Verifier: check summary mentions both docs and includes source ids before “send”.</li>
+  </ol>
+
+  <h2>Mini build: five-step simulation</h2>
+  <ol>
+    <li>Pick a use case (requirements gathering, FAQ drafting, changelog summary).</li>
+    <li>Write 5 planner steps with a tool per step; mock tool outputs yourself.</li>
+    <li>Add budgets: max 6 tool calls, max 2 retries per tool.</li>
+    <li>Define a verifier check that can fail and forces a stop or retry.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Run a 5-step simulated agent session.</p>
+    <p><strong>Do:</strong> Pick a use case (e.g., “collect requirements for a bug report”). Simulate tool calls like <em>search_docs</em> and <em>create_ticket</em>. Log each step and add a verifier check before the final “action”.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You produce a step-by-step run log (inputs, outputs, decisions).</li>
+      <li>You include a verifier check that can fail.</li>
+      <li>You define budgets (max steps or max tool calls).</li>
+    </ul>
+    <p><strong>Verify:</strong> Simulate a tool failure and confirm the loop stops safely with a clear next action for a human.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Mocked tools let you debug planning and routing without hitting real systems.</li>
+    <li>Budgets and verifiers prevent endless retries in simulations and production.</li>
+    <li>Stop conditions should be explicit and testable before any external action.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-pitfalls-tool-failures-and-infinite-loops">Agentic Flows: Pitfalls (Tool Failures &amp; Loops)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=coding-ai-hands-on-code-review-loop">Coding AI: Hands-on Code Review Loop</a></li>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+  </ul>
+</article>

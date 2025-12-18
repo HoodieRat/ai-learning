@@ -1,15 +1,60 @@
-<article class="tutorial" data-tutorial>
-  <header class="tutorial__header">
-    <div class="tutorial__meta">
-      <span class="pill" data-field="category">Hardware</span>
-      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
-      <span class="pill pill--subtle" data-field="minutes">20 min</span>
-    </div>
-    <h1 data-field="title">Quantization Explained</h1>
-    <p class="tutorial__lede" data-field="description">Placeholder tutorial. Replace with real content.</p>
-  </header>
-  <section class="tutorial__section">
-    <h2>Coming soon</h2>
-    <p>This file exists so navigation works. Replace it with your real tutorial content later.</p>
+<article class="tutorial">
+  <h1>Hardware: Quantization Explained</h1>
+  <p class="lede">Quantization shrinks model memory by lowering precision. It is how you turn "won't load" into "runs well"—if you pick the right format and test quality.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+  </ul>
+
+  <h2>Core concepts</h2>
+  <ul>
+    <li><strong>Precision vs size:</strong> Lower bits reduce memory and can improve throughput.</li>
+    <li><strong>Error distribution:</strong> Some formats preserve outlier weights better than others.</li>
+    <li><strong>Runtime support:</strong> Pick formats your runtime accelerates; theoretical wins do not matter without kernels.</li>
+  </ul>
+
+  <h2>Worked example: estimate savings</h2>
+  <ol>
+    <li>Start with a 13B model. fp16 is roughly 26 GB.</li>
+    <li>Move to int8: ~13 GB. Move to q4: ~6 GB. These are ballpark but directionally right.</li>
+    <li>Expect slight quality loss on hard reasoning with lower bits; check with a targeted test set.</li>
+  </ol>
+
+  <h2>Mini build: choose a format</h2>
+  <ol>
+    <li>List which formats your runtime supports well (e.g., q4_0, q5_K_M, int8).</li>
+    <li>Pick two candidates: one smaller, one higher quality.</li>
+    <li>Define a quick test set (8–10 prompts) that matches your workload.</li>
+    <li>Run both and record tokens/sec and any visible quality regressions.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Build a quality tripwire for quantization changes.</p>
+    <p><strong>Do:</strong> Create 8 prompts that mirror your real work (summaries, extraction, reasoning). For each, write 2–3 checkable properties.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Your test set has at least 8 prompts with clear pass checks.</li>
+      <li>You can run two precision variants and spot regressions quickly.</li>
+      <li>You know which format you will adopt for this workload and why.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the test set on two variants (higher vs lower precision) and record speed and quality differences.</p>
   </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Quantization trades some quality for fit and speed; pick the minimum bits that preserve your workload.</li>
+    <li>Runtime support is decisive; use formats with optimized kernels.</li>
+    <li>Keep a small, realistic test set as a tripwire for regressions.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=hardware-capstone-quantize-and-fit-a-model">Hardware Capstone: Quantize and Fit a Model</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=local-ai-pitfalls-speed-memory-thermal">Local AI: Pitfalls</a></li>
+    <li><a href="?t=cpu-vs-gpu-vs-npu">Hardware: CPU vs GPU vs NPU</a></li>
+  </ul>
 </article>

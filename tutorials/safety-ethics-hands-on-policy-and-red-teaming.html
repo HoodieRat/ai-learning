@@ -1,0 +1,62 @@
+<article class="tutorial">
+  <h1>Safety &amp; Ethics: Hands-on Policy + Red Team</h1>
+  <p class="lede">You’ll turn principles into policy, then test it with realistic failure cases. The goal is a policy that survives real-world pressure.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+
+  <h2>What to write down</h2>
+  <ul>
+    <li>Allowed vs disallowed data</li>
+    <li>Review requirements for high-stakes use</li>
+    <li>Logging and retention rules</li>
+    <li>Disclosure expectations</li>
+  </ul>
+
+  <h2>Worked example: one-page policy</h2>
+  <ol>
+    <li>Scope: customer support drafting; no PII in prompts; disclose AI assistance.</li>
+    <li>Review: human review for escalations or negative sentiment replies.</li>
+    <li>Logging: inputs hashed, sensitive fields redacted; 30-day retention.</li>
+    <li>Red team: prompts to elicit PII, biased suggestions, or unsafe automation.</li>
+  </ol>
+
+  <h2>Mini build: write and test</h2>
+  <ol>
+    <li>Draft the policy with 4 sections: data, review, logging, disclosure.</li>
+    <li>Create 6 red-team scenarios (leak, bias, over-trust, unsafe action, prompt injection, retention breach).</li>
+    <li>Run each scenario and mark whether the policy gives a clear answer.</li>
+    <li>Revise the policy where answers were unclear or missing.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Create a one-page AI use policy.</p>
+    <p><strong>Do:</strong> Draft a policy and then write 6 “red team” scenarios that try to break it (data leakage, over-trust, biased decisions, unsafe automation).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The policy has clear rules and a review gate for high stakes.</li>
+      <li>The red team scenarios are realistic, not contrived.</li>
+      <li>You revise the policy based on at least 2 scenario findings.</li>
+    </ul>
+    <p><strong>Verify:</strong> Ask someone else to apply the policy to one scenario and see if they reach the same conclusion.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Policies must be specific: data rules, review gates, logging, disclosure.</li>
+    <li>Red teaming exposes gaps; rewrite policy sections after each scenario.</li>
+    <li>Another person should reach the same decision using your policy.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls (Data Leakage &amp; Bias)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-hands-on-tool-use-and-logging">Agentic Flows: Hands-on Tool Use + Logging</a></li>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+  </ul>
+</article>

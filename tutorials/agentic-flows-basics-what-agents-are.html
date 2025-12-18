@@ -1,0 +1,68 @@
+<article class="tutorial">
+  <h1>Agentic Flows: What Agents Are</h1>
+  <p class="lede">Agents plan and act with tools. The upside is automation; the risk is uncontrolled behavior. This tutorial defines the core parts, shows a minimal loop, and adds the safety rails.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Core parts</h2>
+  <ul>
+    <li><strong>Goal:</strong> what success looks like.</li>
+    <li><strong>Planner:</strong> breaks the goal into steps.</li>
+    <li><strong>Tools:</strong> actions in the real world (APIs, files, browsers).</li>
+    <li><strong>Memory:</strong> what it remembers (and what it shouldn’t).</li>
+    <li><strong>Verifier:</strong> checks outputs before acting.</li>
+  </ul>
+
+  <h2>Worked example: a safe weekly status bot</h2>
+  <ol>
+    <li><strong>Goal:</strong> draft a weekly status from recent tickets.</li>
+    <li><strong>Planner:</strong> read tickets, extract updates, summarize.</li>
+    <li><strong>Tools:</strong> read_tickets, summarize_text. No write tools.</li>
+    <li><strong>Memory:</strong> keep only ticket IDs and summaries for this run.</li>
+    <li><strong>Verifier:</strong> check for PII and missing ticket owners before output.</li>
+  </ol>
+
+  <h2>Mini build: design a loop on paper</h2>
+  <ol>
+    <li>Pick a low-risk automation (e.g., summarize changelog, draft status).</li>
+    <li>List allowed tools and what each can change (read-only vs write).</li>
+    <li>Write 2–3 stop conditions (budget reached, no progress, verifier fail).</li>
+    <li>Add one verification gate before any external action.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Design an agent loop on paper.</p>
+    <p><strong>Do:</strong> Choose a safe automation (e.g., summarize new docs, draft a weekly status). Define: goal, tools, stop conditions, and verification steps.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You list the tools the agent may use.</li>
+      <li>You define at least 2 stop conditions.</li>
+      <li>You include a verifier step before any external action.</li>
+    </ul>
+    <p><strong>Verify:</strong> Simulate one run manually and check whether the stop conditions trigger.</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="agentic-flows-basics-what-agents-are.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Agents = goal + planner + tools + memory + verifier + stop rules.</li>
+    <li>Design for safety first: restrict tools, add budgets, and verify before acting.</li>
+    <li>Paper simulations reveal missing stop conditions before any code runs.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-hands-on-tool-use-and-logging">Agentic Flows: Hands-on Tool Use + Logging</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+    <li><a href="?t=safety-ethics-hands-on-policy-and-red-teaming">Safety &amp; Ethics: Hands-on Policy + Red Team</a></li>
+  </ul>
+</article>

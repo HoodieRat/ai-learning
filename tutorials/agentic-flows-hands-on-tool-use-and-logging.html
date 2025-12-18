@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Agentic Flows: Hands-on Tool Use + Logging</h1>
+  <p class="lede">If you can’t see what an agent did, you can’t trust it. You’ll design a tool interface and a logging plan that supports debugging and safety.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-basics-what-agents-are">Agentic Flows: What Agents Are</a></li>
+  </ul>
+
+  <h2>Logging essentials</h2>
+  <ul>
+    <li>Inputs and outputs for each tool call (with redaction rules)</li>
+    <li>Decision points (why it chose an action)</li>
+    <li>Stop conditions (why it stopped)</li>
+  </ul>
+
+  <h2>Worked example: safe ticket creator</h2>
+  <ol>
+    <li>Tool: create_ticket(project, title, summary, priority).</li>
+    <li>Validation: title 5–120 chars; priority in {low,med,high}; strip PII from summary.</li>
+    <li>Logging: inputs (with redaction), chosen priority, API response id.</li>
+    <li>Stop: fail fast if validation fails; require verifier before calling.</li>
+  </ol>
+
+  <h2>Mini build: instrument one tool</h2>
+  <ol>
+    <li>Pick one tool your agent would use (read-only or write).</li>
+    <li>Define schema: parameters, allowed values, defaults, and rejects.</li>
+    <li>Decide what to log and what to redact (e.g., emails, tokens, secrets).</li>
+    <li>Write 3 example calls (good/bad/edge) and the expected log lines.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Specify a safe tool API.</p>
+    <p><strong>Do:</strong> Design one tool (e.g., “create_ticket”, “search_docs”). Define parameters, allowed values, and what must be logged.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The tool has a clear schema (inputs/outputs).</li>
+      <li>At least 2 unsafe inputs are rejected or constrained.</li>
+      <li>You define what to log and what to redact.</li>
+    </ul>
+    <p><strong>Verify:</strong> Write 3 example tool calls (good/bad/edge) and ensure the schema handles them.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Agents are only as safe as their tools; validate and constrain inputs.</li>
+    <li>Logging must capture decisions and redacted payloads for auditability.</li>
+    <li>A verifier gate before writes prevents silent bad actions.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-pitfalls-infinite-loops-and-tool-misuse">Agentic Flows: Pitfalls (Loops &amp; Tool Misuse)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone</a></li>
+  </ul>
+</article>

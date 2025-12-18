@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Knowledge &amp; RAG: Hands-on Tuning</h1>
+  <p class="lede">Small tuning changes can drastically change retrieval quality. This lesson teaches a minimal, test-driven way to tune chunking and retrieval.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=rag-basics-chunking-retrieval">Knowledge &amp; RAG: Chunking + Retrieval</a></li>
+  </ul>
+
+  <h2>What to tune (in order)</h2>
+  <ul>
+    <li>Chunk boundaries and metadata (fix recall before changing models).</li>
+    <li>Top-k retrieval (too low misses context; too high adds noise).</li>
+    <li>Query rewriting (only if recall is still poor after chunk fixes).</li>
+  </ul>
+
+  <h2>Worked example: build a 10-case test</h2>
+  <ol>
+    <li>Write 10 questions that matter (mix fact lookup and multi-sentence "why" questions).</li>
+    <li>For each, mark the gold chunk (section/page) that should answer it.</li>
+    <li>Run retrieval with current settings; mark pass/fail per question based on whether the gold chunk appears in top-k.</li>
+    <li>Adjust one knob (chunk size or k) and rerun to see movement.</li>
+  </ol>
+
+  <h2>Mini build: iterate safely</h2>
+  <ol>
+    <li>Lock a baseline: current chunking, metadata, k value. Record pass count on the 10-case test.</li>
+    <li>Change one thing: either chunk size (larger/smaller) or k (+/- 2).</li>
+    <li>Rerun; if pass count improves, keep; if not, revert. Avoid multi-change guesses.</li>
+    <li>Optionally try a lightweight query rewrite (append doc title or section) only after chunk/k are solid.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Build a mini test set for retrieval.</p>
+    <p><strong>Do:</strong> Write 10 questions. For each, identify the gold supporting snippet (or section name) in your docs. Run baseline, tweak one knob, and compare.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>At least 10 questions are defined with a known supporting location.</li>
+      <li>You can tell whether retrieval succeeded without reading the final answer (gold chunk present or not).</li>
+      <li>You record the effect of one tuning change (better, worse, or neutral).</li>
+    </ul>
+    <p><strong>Verify:</strong> Change one knob (chunk size or top-k) and record whether retrieval improved on your test set.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Most RAG wins come from better chunking and metadata, not exotic models.</li>
+    <li>A small, question-grounded test set prevents blind tuning.</li>
+    <li>Change one knob at a time and keep the change only if recall measurably improves.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=rag-pitfalls-chunking-metadata-and-citations">Knowledge &amp; RAG: Pitfalls (Metadata &amp; Citations)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+  </ul>
+</article>

@@ -1,0 +1,95 @@
+{
+  "paths": [
+    {
+      "id": "path-ai-literacy-to-evaluation",
+      "title": "AI Literacy → Prompting → Evaluation",
+      "description": "Foundations for using AI responsibly: understand models, prompt well, then evaluate outputs.",
+      "lessons": [
+        "ai-101-what-models-do",
+        "ai-literacy-first-steps-in-chat",
+        "prompting-structure-quickstart",
+        "prompting-hands-on-build-reusable-templates",
+        "evaluation-basics-metrics-vs-judges",
+        "evaluation-hands-on-design-a-rubric-and-judge",
+        "safety-ethics-practical-ai-use",
+        "ai-literacy-capstone-compare-models-with-a-mini-benchmark"
+      ]
+    },
+    {
+      "id": "path-local-performance",
+      "title": "Local AI → Hardware → Quantization → Performance",
+      "description": "Run locally, understand hardware constraints, then use quantization to make models fit.",
+      "lessons": [
+        "local-ai-ollama-basics",
+        "cpu-vs-gpu-vs-npu",
+        "vram-vs-ram",
+        "quantization-explained",
+        "local-ai-running-models-offline",
+        "local-ai-workflows-offline-first",
+        "hardware-pitfalls-bottlenecks-and-thermals",
+        "local-ai-capstone-ollama-speed-report",
+        "hardware-capstone-quantize-and-fit-a-model"
+      ]
+    },
+    {
+      "id": "path-rag-eval-safety",
+      "title": "Knowledge & RAG → Evaluation → Safety",
+      "description": "Build RAG correctly, evaluate it rigorously, and deploy it safely.",
+      "lessons": [
+        "rag-basics-chunking-retrieval",
+        "rag-hands-on-chunking-and-retrieval-tuning",
+        "evaluation-basics-metrics-vs-judges",
+        "evaluation-pitfalls-leakage-and-overfitting",
+        "safety-ethics-practical-ai-use",
+        "safety-ethics-pitfalls-data-leakage-and-bias",
+        "rag-capstone-tiny-rag-with-eval",
+        "evaluation-capstone-evaluate-your-rag-or-agent"
+      ]
+    },
+    {
+      "id": "path-multimodal",
+      "title": "Image → Video → Audio (Multimodal Basics)",
+      "description": "A practical multimodal sequence: image workflows, then video stability, then audio pipelines.",
+      "lessons": [
+        "image-ai-models-and-workflows",
+        "image-ai-hands-on-controlnet-and-inpainting",
+        "video-ai-basics-models-pipelines",
+        "video-ai-pitfalls-flicker-and-temporal-consistency",
+        "audio-ai-tts-stt-basics",
+        "audio-ai-hands-on-transcribe-and-summarize",
+        "safety-ethics-hands-on-policy-and-red-teaming",
+        "video-ai-capstone-create-a-short-video-pipeline"
+      ]
+    },
+    {
+      "id": "path-coding-to-agentic",
+      "title": "Coding AI → Agentic Flows",
+      "description": "Safe coding workflows that lead naturally into building reliable agent loops.",
+      "lessons": [
+        "coding-ai-workflow-and-guardrails",
+        "coding-ai-hands-on-code-review-loop",
+        "agentic-flows-planner-router-memory",
+        "agentic-flows-hands-on-simulated-agent-loop",
+        "safety-ethics-practical-ai-use",
+        "coding-ai-pitfalls-context-and-tests",
+        "agentic-flows-pitfalls-tool-failures-and-infinite-loops",
+        "agentic-flows-capstone-guardrailed-agent-prototype"
+      ]
+    },
+    {
+      "id": "path-safety-threaded",
+      "title": "Safety Threaded Through Everything",
+      "description": "A cross-category sequence focused on safe, reliable usage patterns.",
+      "lessons": [
+        "safety-ethics-practical-ai-use",
+        "ai-101-what-models-do",
+        "prompting-structure-quickstart",
+        "rag-basics-chunking-retrieval",
+        "evaluation-basics-metrics-vs-judges",
+        "coding-ai-workflow-and-guardrails",
+        "agentic-flows-planner-router-memory",
+        "safety-ethics-capstone-deploy-safe-workflow"
+      ]
+    }
+  ]
+}

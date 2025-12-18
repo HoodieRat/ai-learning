@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Image AI: Pitfalls (Artifacts &amp; Prompt Leakage)</h1>
+  <p class="lede">Many image failures are predictable: artifacts, style drift, weird text, and hidden prompt leakage. This tutorial teaches you to diagnose the cause and pick the right fix.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=image-ai-hands-on-controlnet-and-inpainting">Image AI: Hands-on Control + Inpainting</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>Artifacts:</strong> repetitive textures, warped geometry, broken hands.</li>
+    <li><strong>Prompt leakage:</strong> unwanted elements that keep reappearing.</li>
+    <li><strong>Style drift:</strong> the set doesn’t look like a set.</li>
+  </ul>
+
+  <h2>Worked example: fix without reroll</h2>
+  <ol>
+    <li>Identify defect: warped text on a label.</li>
+    <li>Targeted fix: inpaint only the label; keep seed, guidance, and prompt stable.</li>
+    <li>If leakage persists, add a negative prompt specifically for the unwanted element.</li>
+    <li>Re-run once; compare before/after and note the single change.</li>
+  </ol>
+
+  <h2>Mini build: triage playbook</h2>
+  <ol>
+    <li>List 3 common defects you hit (hands, text, background clutter).</li>
+    <li>Assign a targeted fix: inpaint area, adjust guidance, add negative prompt, or increase resolution step.</li>
+    <li>Test the fix on two images; keep all other settings constant.</li>
+    <li>Record which fix reliably works for each defect.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Fix a failure without restarting from scratch.</p>
+    <p><strong>Do:</strong> Generate one image with a specific flaw (e.g., messy text). Apply one targeted fix and keep the rest stable.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The final image has the flaw reduced or removed.</li>
+      <li>You can describe why your fix worked (constraint, targeted edit, different prompt phrasing).</li>
+      <li>You record the before/after plus the exact change you made.</li>
+    </ul>
+    <p><strong>Verify:</strong> Repeat the fix on a second image and confirm it works again.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Fix locally: target the defect with inpaint/control instead of full reruns.</li>
+    <li>Use negative prompts and guidance tweaks to remove leakage.</li>
+    <li>Document defect → fix so future runs stay consistent.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=image-ai-capstone-build-a-style-guide-workflow">Image AI Capstone: Build a Style Guide Workflow</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=video-ai-pitfalls-flicker-and-temporal-consistency">Video AI: Pitfalls (Flicker &amp; Consistency)</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

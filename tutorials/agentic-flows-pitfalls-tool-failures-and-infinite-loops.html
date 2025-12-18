@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Agentic Flows: Pitfalls (Tool Failures &amp; Loops)</h1>
+  <p class="lede">Agents fail in recognizable patterns: flaky tools, uncontrolled retries, infinite loops, and memory poisoning. This tutorial gives containment techniques that actually work.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-hands-on-simulated-agent-loop">Agentic Flows: Hands-on Simulated Loop</a></li>
+  </ul>
+
+  <h2>Containment</h2>
+  <ul>
+    <li><strong>Budgets:</strong> max tool calls, max time, max retries per tool.</li>
+    <li><strong>Fallbacks:</strong> safe defaults when a tool fails.</li>
+    <li><strong>Verification gates:</strong> require evidence before state-changing actions.</li>
+  </ul>
+
+  <h2>Worked example: failure policy</h2>
+  <ol>
+    <li>Retry policy: 2 retries per tool, exponential backoff.</li>
+    <li>Fallback: if lookup_owner fails, route to human escalation.</li>
+    <li>Stop: if the same error repeats twice, halt the run.</li>
+    <li>Log: error type, tool input (redacted), chosen fallback.</li>
+  </ol>
+
+  <h2>Mini build: write your policy</h2>
+  <ol>
+    <li>Set numeric budgets: max tool calls, max retries, max wall time.</li>
+    <li>Define fallbacks per tool (e.g., cache, alternate tool, human).</li>
+    <li>Add verifier checks that must pass before writes or external calls.</li>
+    <li>Test two synthetic failures and record the stop/escation behavior.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Add a failure policy to your simulated agent.</p>
+    <p><strong>Do:</strong> Write a policy for: tool timeout, tool returns nonsense, repeated failure. Include escalation to a human and a “stop now” condition.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Each tool has a max retry count.</li>
+      <li>There is a deterministic stop condition for repeated failures.</li>
+      <li>Logs include what failed and what evidence was missing.</li>
+    </ul>
+    <p><strong>Verify:</strong> Simulate two different tool failures and confirm the agent stops safely in both cases.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Failure policies need numbers (retries, budgets) plus fallbacks.</li>
+    <li>Verifiers before writes prevent bad state changes.</li>
+    <li>Testing synthetic failures reveals loop risks before production.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-capstone-guardrailed-agent-prototype">Agentic Flows Capstone: Guardrailed Agent Prototype</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+    <li><a href="?t=coding-ai-pitfalls-context-and-tests">Coding AI: Pitfalls</a></li>
+  </ul>
+</article>

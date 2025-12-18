@@ -1,0 +1,65 @@
+<article class="tutorial">
+  <h1>Agentic Flows: Planner, Router, Memory</h1>
+  <p class="lede">A practical mental model of agent loops: planning what to do, routing to the right tool, and using memory safely. This tutorial focuses on making agent behavior predictable.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Components</h2>
+  <ul>
+    <li><strong>Planner:</strong> proposes a step plan with measurable success criteria.</li>
+    <li><strong>Router:</strong> picks the tool (or sub-agent) for the current step.</li>
+    <li><strong>Memory:</strong> stores only what helps; avoid secrets and long-lived sensitive data.</li>
+  </ul>
+
+  <h2>Worked example: triage support tickets</h2>
+  <ol>
+    <li><strong>Plan:</strong> classify priority, find owner, draft response.</li>
+    <li><strong>Router rules:</strong> use classify_ticket for priority; use lookup_owner for routing; use draft_response only after owner found.</li>
+    <li><strong>Memory rules:</strong> keep ticket id, product, priority; never store user PII beyond the run.</li>
+    <li><strong>Done condition:</strong> response drafted with owner and priority present.</li>
+  </ol>
+
+  <h2>Mini build: deterministic routing sheet</h2>
+  <ol>
+    <li>Write 4–8 planner steps with “done” checks.</li>
+    <li>For each step, pick the tool and the preconditions to call it.</li>
+    <li>Define memory retention: what to store, for how long, and what to redact.</li>
+    <li>Spot-test one input and confirm the router choice is deterministic.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Design an agent loop with safe memory rules.</p>
+    <p><strong>Do:</strong> Choose one use case (e.g., “triage support tickets”). Write the planner steps, the router rules, and explicit memory rules (what is stored, for how long, and what is never stored).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The plan has 4–8 steps with clear “done” checks.</li>
+      <li>Routing rules are explicit (which tool for which step).</li>
+      <li>Memory rules include redaction and retention.</li>
+    </ul>
+    <p><strong>Verify:</strong> Walk through one example input and ensure the router decisions are deterministic given the rules.</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="agentic-flows-planner-router-memory.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Planner output should be checkable; each step has a done condition.</li>
+    <li>Routers need explicit rules to avoid random tool choice.</li>
+    <li>Memory is a liability; redact and expire by default.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-hands-on-simulated-agent-loop">Agentic Flows: Hands-on Simulated Loop</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+    <li><a href="?t=rag-basics-chunking-retrieval">RAG Basics: Chunking &amp; Retrieval</a></li>
+  </ul>
+</article>

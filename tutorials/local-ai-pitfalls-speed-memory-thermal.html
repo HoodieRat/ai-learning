@@ -1,0 +1,72 @@
+<article class="tutorial">
+  <h1>Local AI: Pitfalls (Speed, Memory, Thermals)</h1>
+  <p class="lede">When local runs crawl, it’s usually context size, memory fit, or thermals. This lesson shows you how to tell which, and how to pick the right fix.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>How to spot context bloat vs memory pressure vs thermal throttling.</li>
+      <li>Quick levers: smaller model/quant, shorter context, cooler hardware.</li>
+      <li>A minimal timing experiment to prove the bottleneck.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=local-ai-running-models-offline">Local AI: Running Models Offline</a></li>
+  </ul>
+
+  <h2>Concept explainer: three usual suspects</h2>
+  <ul>
+    <li><strong>Context growth:</strong> each turn scales with total tokens; long chats slow everything.</li>
+    <li><strong>Memory pressure:</strong> model/context do not fit cleanly; paging to RAM/disk tanks speed.</li>
+    <li><strong>Thermals:</strong> sustained load heats CPU/GPU; clocks drop and throughput falls.</li>
+  </ul>
+
+  <h2>Worked example: timing short vs long</h2>
+  <p><strong>Plan:</strong> Run a 2-sentence prompt and a multi-paragraph prompt; measure time-to-first-token and total time.</p>
+  <p><strong>Interpret:</strong> Huge gap between short/long → context bloat. Slow even on short → memory or thermals. Improves after cooldown → thermals.</p>
+
+  <h2>Guided mini-build: your timing sheet</h2>
+  <ol>
+    <li>Create a table: prompt id, length (tokens), ttfb, total time, notes (fans loud? high RAM?).</li>
+    <li>Pick two prompts (short/long). Pin the same model tag.</li>
+    <li>Optionally add a third run after lowering context or using a smaller quant to see the effect.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Diagnose a slowdown</h2>
+    <p><strong>Task:</strong> Run the timing sheet and pick a likely bottleneck.</p>
+    <ol>
+      <li>Run short and long prompts; record ttfb and total time.</li>
+      <li>Check system monitor: VRAM/RAM usage and temps during the run.</li>
+      <li>Pick one lever: smaller model/quant OR shorter context window.</li>
+      <li>Re-run the long prompt with that lever; compare times.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Timing sheet filled for at least three runs (baseline short/long + one change).</li>
+      <li>A stated hypothesis (context vs memory vs thermals) and evidence.</li>
+      <li>Observed improvement (or not) after the chosen lever.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Context and memory are the first suspects; thermals show up over time.</li>
+    <li>Change one lever at a time; measure again.</li>
+    <li>Keep a tiny timing sheet to avoid guessing.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—finish the timing sheet first.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=local-ai-capstone-ollama-speed-report">Local AI Capstone: Run Ollama + Measure Speed</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=cpu-vs-gpu-vs-npu">Hardware: CPU vs GPU vs NPU</a></li>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+  </ul>
+</article>

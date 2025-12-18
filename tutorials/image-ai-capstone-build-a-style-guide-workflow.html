@@ -1,0 +1,58 @@
+<article class="tutorial">
+  <h1>Image AI Capstone: Build a Style Guide Workflow</h1>
+  <p class="lede">Consistency is the real product. You’ll build a style guide and a repeatable workflow that yields a coherent set of images.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=image-ai-pitfalls-artifacts-and-prompt-leakage">Image AI: Pitfalls</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>A style guide (subject, palette, composition, do/don’t)</li>
+    <li>A prompt template + constraints</li>
+    <li>6 images that look like one set</li>
+  </ul>
+
+  <h2>Plan your guide</h2>
+  <ol>
+    <li>Define subject, palette, lighting, composition, and what to avoid.</li>
+    <li>Create a base prompt with fixed seed and guidance; add a negative prompt.</li>
+    <li>List variables you may change (pose, prop, background) one at a time.</li>
+    <li>Decide how you will judge consistency (3 visual criteria).</li>
+  </ol>
+
+  <h2>Mini build: produce the set</h2>
+  <ol>
+    <li>Generate 3 images with the base prompt; pick the best as reference.</li>
+    <li>Generate 3 more, varying one variable per image.</li>
+    <li>Apply one targeted fix (inpaint/control) if an image drifts.</li>
+    <li>Document the final recipe so image #7 can be produced later.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Produce a coherent mini set (6 images).</p>
+    <p><strong>Do:</strong> Lock one “source of truth” prompt and vary only one variable at a time (pose, setting, prop).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>All images share the same style and identity.</li>
+      <li>You document your variables and constraints.</li>
+      <li>You can repeat the workflow to add a 7th image that matches.</li>
+    </ul>
+    <p><strong>Verify:</strong> Generate image #7 a day later using only your guide and confirm it matches.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Style guides need fixed seeds/prompts plus a list of allowed changes.</li>
+    <li>Vary one thing at a time; use targeted fixes to maintain consistency.</li>
+    <li>Write down the recipe so future images stay on-style.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-capstone-create-a-prompt-suite-and-tests">Prompting Capstone</a></li>
+    <li><a href="?t=video-ai-basics-models-pipelines">Video AI: Models &amp; Pipelines</a></li>
+  </ul>
+</article>

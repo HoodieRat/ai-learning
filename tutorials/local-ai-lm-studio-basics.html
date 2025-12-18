@@ -1,0 +1,46 @@
+<article class="tutorial">
+  <h1>Local AI Basics: LM Studio Quickstart</h1>
+  <p class="lede">Use LM Studio for local inference, model downloads, and simple server mode for tools.</p>
+
+  <h2>Core concepts</h2>
+  <ul>
+<li>Model size vs memory decides viability; quantization can help.</li>
+<li>Batching, context length, and runtime kernels drive speed.</li>
+<li>Cache models and inputs locally to avoid hidden downloads.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <ol>
+<li>Pin model version and parameters before a run.</li>
+<li>Measure tokens/s, VRAM, and latency for one prompt.</li>
+<li>Change one knob (batch/context) and compare.</li>
+  </ol>
+
+  <h2>Mini build</h2>
+  <ol>
+<li>Script to run one prompt with fixed params.</li>
+<li>Log model, quantization, context, and timings.</li>
+<li>Store outputs plus a metadata JSON.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Measure a local run offline and log speed/memory along with output.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You capture parameters and outputs for the run.</li>
+      <li>You can repeat the run and get consistent behavior.</li>
+      <li>You note at least one risk or failure mode to watch.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+<li>Fit models to memory.</li>
+<li>Batch/context/quant drive speed.</li>
+<li>Log runs for repeatability.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Pick a related tutorial from the catalog to deepen the skill.</p>
+</article>

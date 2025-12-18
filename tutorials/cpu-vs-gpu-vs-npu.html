@@ -1,116 +1,90 @@
-<article class="tutorial" data-tutorial>
-  <header class="tutorial__header">
-    <div class="tutorial__meta">
-      <span class="pill" data-field="category">Hardware</span>
-      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
-      <span class="pill pill--subtle" data-field="minutes">25 min</span>
-    </div>
-    <h1 data-field="title">CPU vs GPU vs NPU: What Each Does for AI</h1>
-    <p class="tutorial__lede" data-field="description">
-      A practical guide to what CPUs, GPUs, and NPUs are good at in AI, and what to expect on consumer hardware.
-    </p>
-  </header>
+<article class="tutorial">
+  <h1>Hardware: CPU vs GPU vs NPU</h1>
+  <p class="lede">Pick hardware by workload, not hype. This tutorial shows what each chip is good at, how memory shapes everything, and how to choose with real constraints.</p>
 
-  <section class="tutorial__section">
-    <h2>What you'll learn</h2>
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Core concepts</h2>
+  <ul>
+    <li><strong>Parallelism:</strong> GPUs/NPUs win on many small ops; CPUs win on branchy control and I/O.</li>
+    <li><strong>Memory fit:</strong> If weights do not fit in fast memory, latency and throughput collapse.</li>
+    <li><strong>Bandwidth vs compute:</strong> Chips stall when they cannot feed their ALUs; spec TFLOPs only matter if bandwidth and kernels cooperate.</li>
+    <li><strong>Software stack:</strong> Drivers, runtimes, and kernel libraries decide whether theoretical speed shows up.</li>
+  </ul>
+
+  <h2>Quick sizing cheat sheet</h2>
+  <ul>
+    <li><strong>Under ~8B models:</strong> Fit in CPU RAM or 8–12 GB VRAM; good for chat, tools, and lightweight coding.</li>
+    <li><strong>10–14B models:</strong> Want 12–20 GB fast memory; midrange GPUs or higher-RAM laptops.</li>
+    <li><strong>20B+ models:</strong> Expect 24 GB+ VRAM (or quantize hard); otherwise you will page and stall.</li>
+    <li><strong>Image gen (512², SD1/SDXL):</strong> 8–16 GB VRAM; higher if you upscale or use heavy ControlNet stacks.</li>
+  </ul>
+
+  <h2>Common bottlenecks to watch</h2>
+  <ul>
+    <li><strong>VRAM fit:</strong> If the model spills to RAM, throughput can drop 5–30×.</li>
+    <li><strong>Bandwidth limits:</strong> PCIe and memory bandwidth throttle big attention layers; TFLOPs alone are misleading.</li>
+    <li><strong>Thermals:</strong> Laptops throttle under sustained load; desktops fare better with airflow.</li>
+    <li><strong>Kernel coverage:</strong> Some ops (e.g., grouped attention, quantized kernels) may not be optimized on your stack.</li>
+  </ul>
+
+  <h2>Worked example: match task to silicon</h2>
+  <p>Three common workloads and sensible pairings:</p>
+  <ul>
+    <li><strong>Chat/inference under 8B:</strong> CPU with optimized kernels or small GPU; favors low-latency, low-thermal setups.</li>
+    <li><strong>Image generation:</strong> GPU or NPU with strong tensor cores; needs high bandwidth and enough VRAM for UNet + attention.</li>
+    <li><strong>Speech (STT/TTS):</strong> Mixed: GPU for batching, CPU for streaming with lower memory; NPU if the runtime supports the model.</li>
+  </ul>
+
+  <h2>Mini build: pick a target device</h2>
+  <ol>
+    <li>List the top two workloads you actually run (e.g., chat with 4K context, image gen at 512x512).</li>
+    <li>Record constraints: available VRAM, RAM, power/thermals (laptop vs desktop), and OS/runtime support.</li>
+    <li>Choose one chip per workload (CPU/GPU/NPU) and write one risk each (driver, memory fit, noise/heat).</li>
+    <li>Check one benchmark or vendor doc to see if your chip is supported for that workload.</li>
+  </ol>
+
+  <div class="learning-callout">
+    <p><strong>Reality checks</strong></p>
     <ul>
-      <li>What CPUs, GPUs, and NPUs are best at (in plain language).</li>
-      <li>How that maps to common AI tasks (LLMs, image generation, audio, tools).</li>
-      <li>How to predict your bottleneck before you spend money.</li>
+      <li>Quantization is not free: speed may improve, quality may drop. Test before standardizing.</li>
+      <li>NPU wins depend on runtime support. If your model or ops are unsupported, the CPU/GPU may still win.</li>
+      <li>Battery and noise matter: a slightly slower CPU run can be acceptable if it avoids fans at max.</li>
     </ul>
-  </section>
+  </div>
 
-  <section class="tutorial__section">
-    <h2>Why this matters</h2>
-    <p>
-      Hardware decides your limits. If you know which part is doing the work, you can pick smarter models,
-      tune settings, and avoid expensive upgrades that don't help your use case.
-    </p>
-  </section>
-
-  <section class="tutorial__section">
-    <h2>Core concepts</h2>
-    <div class="callout">
-      <strong>Mental model:</strong>
-      CPU = flexible coordination • GPU = lots of parallel math • NPU = specialized AI math (often low power)
-    </div>
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Map your top AI tasks to hardware and defend the choice.</p>
+    <p><strong>Do:</strong> Write down 3 tasks (chat, image gen, transcription). For each, pick CPU/GPU/NPU, list the limiting resource, and note one risk.</p>
+    <p><strong>Success criteria:</strong></p>
     <ul>
-      <li><strong>CPU</strong>: Great at general logic, orchestration, and running "everything else".</li>
-      <li><strong>GPU</strong>: Great at massive parallel matrix math (the core of most deep learning).</li>
-      <li><strong>NPU</strong>: Great at certain inference operations when the workload matches supported ops.</li>
+      <li>You have a short rationale per task tied to bandwidth/fit, not brand.</li>
+      <li>You identify the limiting resource (VRAM, RAM, bandwidth, thermals) for each task.</li>
+      <li>You name at least one software risk (driver/runtime support) and one hardware risk (heat/noise/battery).</li>
     </ul>
-  </section>
-  <section class="tutorial__section">
-    <h2>Practice lab</h2>
-    <p>
-      This is where you actually run the idea in a model. Pick the environment you have access to and follow the steps.
-      (No checkboxes — this is a hands-on mini lab.)
-    </p>
-
-    <div class="practice" data-practice>
-      <div class="practice__tabs" role="tablist" aria-label="Practice environments">
-        <button class="chip chip--active" type="button" data-practice-tab="chat">Chat</button>
-        <button class="chip" type="button" data-practice-tab="ollama">Ollama</button>
-        <button class="chip" type="button" data-practice-tab="lmstudio">LM Studio</button>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="chat">
-        <h3>Chat (any provider)</h3>
-        <p>Paste this prompt into your chat model and run it twice. Compare results.</p>
-        <textarea class="practice__box" id="practice_prompt_chat" rows="7">Give 3 examples of AI tasks. For each task, explain whether CPU, GPU, or NPU is the best fit and why. Keep each explanation under 2 sentences.</textarea>
-        <div class="practice__actions">
-          <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_prompt_chat">Copy prompt</button>
-        </div>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="ollama" hidden>
-        <h3>Ollama (local)</h3>
-        <p>Run a local model and use the same prompt. If you don’t have a model yet, start with an 8B model.</p>
-        <div class="practice__split">
-          <div class="practice__card">
-            <div class="practice__label">1) Start a chat run</div>
-            <pre class="practice__pre" id="practice_ollama_cmd">ollama run llama3.1:8b</pre>
-            <div class="practice__actions">
-              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_cmd">Copy command</button>
-            </div>
-          </div>
-
-          <div class="practice__card">
-            <div class="practice__label">2) Or call the HTTP API with curl</div>
-            <pre class="practice__pre" id="practice_ollama_curl">curl http://localhost:11434/api/generate -d '{"model":"llama3.1:8b","prompt":"Give 3 examples of AI tasks. For each task, explain whether CPU, GPU, or NPU is the best fit and why. Keep each explanation under 2 sentences.","stream":false}'</pre>
-            <div class="practice__actions">
-              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_curl">Copy curl</button>
-            </div>
-          </div>
-        </div>
-        <div class="callout">
-          <strong>Tip:</strong> Keep the same prompt and only change one variable at a time (model, temperature, context) so you can see what actually caused the change.
-        </div>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="lmstudio" hidden>
-        <h3>LM Studio (local GUI)</h3>
-        <p>Use LM Studio’s chat or server mode. Paste the prompt, then rerun after changing one setting.</p>
-        <ul>
-          <li>Run once at your default settings.</li>
-          <li>Run again with a lower temperature for more consistent answers.</li>
-          <li>Write down what changed and why you think it changed.</li>
-        </ul>
-      </div>
-    </div>
+    <p><strong>Verify:</strong> Find a public benchmark or runtime doc for one task and confirm your choice makes sense.</p>
   </section>
 
-<section class="tutorial__section">
-    <h2>Knowledge check</h2>
-    <p>Pass this quiz to mark the tutorial complete (saved locally in your browser).</p>
-    <div class="quizMount" data-quiz="cpu-vs-gpu-vs-npu.quiz.json"></div>
-  </section>
+  <h2>Check your understanding</h2>
+  <div data-quiz="cpu-vs-gpu-vs-npu.quiz.json"></div>
 
-  <section class="tutorial__section">
-    <h2>What's next</h2>
-    <ul>
-      <li><a href="#" data-nav="vram-vs-ram">VRAM vs RAM: The Bottlenecks That Decide What You Can Run</a></li>
-      <li><a href="#" data-nav="quantization-explained">Quantization Explained (Q4/Q5/Q8) and Why It Matters</a></li>
-    </ul>
-  </section>
+  <h2>Recap</h2>
+  <ul>
+    <li>Speed claims only hold if memory fits and bandwidth keeps up.</li>
+    <li>Pick hardware per workload profile, not headline TFLOPs.</li>
+    <li>Software support can flip the winner; always confirm runtime/driver coverage.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=local-ai-ollama-basics">Local AI: Ollama Basics</a></li>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+  </ul>
 </article>

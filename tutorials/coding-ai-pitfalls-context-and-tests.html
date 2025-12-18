@@ -1,0 +1,68 @@
+<article class="tutorial">
+  <h1>Coding AI: Pitfalls (Context &amp; Tests)</h1>
+  <p class="lede">Most AI coding failures are predictable: missing context, hidden assumptions, fragile tests, and insecure defaults. This tutorial teaches you to spot them early.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-hands-on-code-review-loop">Coding AI: Hands-on Code Review Loop</a></li>
+  </ul>
+
+  <h2>Common pitfalls</h2>
+  <ul>
+    <li><strong>Missing context:</strong> the model can’t see conventions or constraints.</li>
+    <li><strong>Wrong assumptions:</strong> silent mismatches in requirements.</li>
+    <li><strong>Untrusted tests:</strong> tests that pass but don’t prove the right thing.</li>
+  </ul>
+
+  <h2>Fixes</h2>
+  <ul>
+    <li>Provide examples of expected behavior.</li>
+    <li>Ask the model to list assumptions and unknowns.</li>
+    <li>Write tests that fail before the fix and cover edge cases.</li>
+  </ul>
+
+  <h2>Worked example: harden a formatter</h2>
+  <ol>
+    <li>Baseline: formatter trims strings but fails on unicode whitespace.</li>
+    <li>Context: share encoding expectations and max length.</li>
+    <li>Tests: add cases for unicode spaces, empty string, and overlong input.</li>
+    <li>Result: AI suggests tighter trim and length guard; tests enforce it.</li>
+  </ol>
+
+  <h2>Mini build: pitfall checklist</h2>
+  <ol>
+    <li>Pick one function and list pitfalls: nulls, unicode, time, locale, security.</li>
+    <li>Ask AI to state its assumptions; correct any that are wrong.</li>
+    <li>Add tests for at least three pitfalls; ensure they fail before fixes.</li>
+    <li>Fix with minimal code changes; rerun and confirm coverage of edge cases.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Harden a small function with better tests.</p>
+    <p><strong>Do:</strong> Choose a function and write a “pitfall review list” (inputs, nulls, encoding, time, security). Add tests that cover at least 3 pitfalls.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You add at least 6 tests with at least 2 edge cases.</li>
+      <li>You fix at least one bug or ambiguity revealed by the tests.</li>
+      <li>You can explain why each test matters.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the tests and confirm the bug/ambiguity is prevented going forward.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Missing context and weak tests cause most AI coding regressions.</li>
+    <li>Force the model to list assumptions; correct them before coding.</li>
+    <li>Edge-case tests that fail first are your guardrails.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=coding-ai-capstone-build-a-cli-helper">Coding AI Capstone: Build a CLI Helper</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+    <li><a href="?t=agentic-flows-pitfalls-tool-failures-and-infinite-loops">Agentic Flows: Pitfalls</a></li>
+  </ul>
+</article>

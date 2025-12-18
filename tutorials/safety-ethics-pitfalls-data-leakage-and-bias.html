@@ -1,0 +1,68 @@
+<article class="tutorial">
+  <h1>Safety &amp; Ethics: Pitfalls (Data Leakage &amp; Bias)</h1>
+  <p class="lede">The most common harms are accidental: sensitive data leaks, biased outcomes, and overconfident recommendations. This tutorial gives you a practical way to spot and prevent them.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-hands-on-policy-and-red-teaming">Safety &amp; Ethics: Hands-on Policy + Red Team</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>Data leakage:</strong> secrets or personal data exposed in prompts/logs.</li>
+    <li><strong>Bias:</strong> systematically worse outcomes for some groups.</li>
+    <li><strong>Automation bias:</strong> humans defer to the model’s suggestion.</li>
+  </ul>
+
+  <h2>Mitigations</h2>
+  <ul>
+    <li>Redaction and least-privilege access.</li>
+    <li>Evaluate across representative cases.</li>
+    <li>Require evidence and human review for high stakes.</li>
+  </ul>
+
+  <h2>Worked example: leakage + bias check</h2>
+  <ol>
+    <li>Map data flows: input prompts, context, logs, analytics.</li>
+    <li>Identify one leak path (logs contain emails) and add redaction + retention limits.</li>
+    <li>Build a 6-case fairness set (different regions/genders/ages) for your workflow.</li>
+    <li>Define pass criteria: no systematic drop and no PII in outputs/logs.</li>
+  </ol>
+
+  <h2>Mini build: safeguard your workflow</h2>
+  <ol>
+    <li>List your data sources and where they could leak (prompt, context, logs, analytics).</li>
+    <li>Add one mitigation per leak (redact, hash, block).</li>
+    <li>Create a small representative test set (6–10 cases) and a simple scoring rubric.</li>
+    <li>Run once, record findings, and update mitigations and policy.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Identify and mitigate one leakage and one bias risk.</p>
+    <p><strong>Do:</strong> List your workflow’s data sources and where they could leak. Then write a small set of representative test cases and define what “fair enough” means.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You name 1 concrete leakage path and how to block it.</li>
+      <li>You define at least 6 representative cases to evaluate.</li>
+      <li>You document a review policy for high-stakes outputs.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run one evaluation pass and record observations and mitigations.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Data can leak via prompts, context, logs, and analytics; map and mitigate each.</li>
+    <li>Bias checks need representative cases and a clear pass bar.</li>
+    <li>Update policy and mitigations after every evaluation run.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=safety-ethics-capstone-ship-a-safety-case">Safety &amp; Ethics Capstone: Ship a Safety Case</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+    <li><a href="?t=agentic-flows-capstone-build-a-reliable-agent-runbook">Agentic Flows Capstone</a></li>
+  </ul>
+</article>

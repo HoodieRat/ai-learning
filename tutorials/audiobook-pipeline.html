@@ -1,0 +1,46 @@
+<article class="tutorial">
+  <h1>Audiobook Pipeline: From Script to Chapters to Files</h1>
+  <p class="lede">A practical process for generating and organizing audio output with consistent volume and pacing.</p>
+
+  <h2>Core concepts</h2>
+  <ul>
+<li>Good transcripts need clean audio and correct model domain.</li>
+<li>TTS quality depends on script cleanliness and prosody controls.</li>
+<li>Keep consistent sampling rate/format through the pipeline.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <ol>
+<li>Pick a speech model matched to accent/domain.</li>
+<li>Normalize audio (loudness, silence trim) before inference.</li>
+<li>Export consistent formats (wav/flac) for downstream steps.</li>
+  </ol>
+
+  <h2>Mini build</h2>
+  <ol>
+<li>Script: load file, normalize, run STT/TTS.</li>
+<li>Save transcript/audio plus a manifest JSON.</li>
+<li>Include timestamps and model/version metadata.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Transcribe or synthesize one clip and verify timestamps/quality.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You capture parameters and outputs for the run.</li>
+      <li>You can repeat the run and get consistent behavior.</li>
+      <li>You note at least one risk or failure mode to watch.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+<li>Clean input yields better STT/TTS.</li>
+<li>Match model to domain.</li>
+<li>Keep formats consistent.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Pick a related tutorial from the catalog to deepen the skill.</p>
+</article>

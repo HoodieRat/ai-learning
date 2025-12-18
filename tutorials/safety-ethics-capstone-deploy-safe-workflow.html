@@ -1,0 +1,59 @@
+<article class="tutorial">
+  <h1>Safety Capstone: Deploy a Safe Workflow</h1>
+  <p class="lede">You’ll turn safety into a deployable workflow: clear rules, safe data handling, logging with retention, and verification gates — without relying on vague reminders.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls (Data Leakage &amp; Bias)</a></li>
+  </ul>
+
+  <h2>What you deploy</h2>
+  <ul>
+    <li><strong>Rules:</strong> what data can be used and what can’t.</li>
+    <li><strong>Workflow gates:</strong> when a human must review or approve.</li>
+    <li><strong>Logging:</strong> what gets logged, what is redacted, and retention limits.</li>
+    <li><strong>Verification:</strong> evidence required for high-stakes outputs.</li>
+  </ul>
+
+  <h2>Plan your deployment</h2>
+  <ol>
+    <li>Choose one workflow (e.g., summarizing customer calls).</li>
+    <li>Define inputs/outputs and which data is disallowed or redacted.</li>
+    <li>Set review/verification gates: when a human must approve.</li>
+    <li>Write logging + retention rules and who can access logs.</li>
+  </ol>
+
+  <h2>Mini build: test before launch</h2>
+  <ol>
+    <li>Run a sample input; confirm redaction triggers and logs are sanitized.</li>
+    <li>Test a negative/unsafe input; ensure the workflow blocks or escalates.</li>
+    <li>Check monitoring signals (volume spikes, errors, declines) and alert paths.</li>
+    <li>Document the post-launch checklist (who reviews, how often).</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Deploy a safety-first workflow for a real use case.</p>
+    <p><strong>Do:</strong> Choose one workflow (e.g., summarizing customer calls). Define inputs, outputs, redaction rules, review gates, and a monitoring plan (what to watch after launch).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You define at least 3 review gates or verification steps.</li>
+      <li>You document logging and retention rules that minimize sensitive data.</li>
+      <li>You define at least 3 monitoring signals and what you do when they spike.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the workflow on a sample input and confirm the redaction and review gates trigger as designed.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Deploy with explicit data rules, review gates, and redaction/logging plans.</li>
+    <li>Test both happy path and unsafe inputs before launch.</li>
+    <li>Define monitoring and ownership so safety stays active after go-live.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-capstone-guardrailed-agent-prototype">Agentic Flows Capstone</a></li>
+    <li><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone</a></li>
+  </ul>
+</article>

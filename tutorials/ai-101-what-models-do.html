@@ -1,219 +1,117 @@
-<article class="tutorial" data-tutorial>
-  <header class="tutorial__header">
-    <div class="tutorial__meta">
-      <span class="pill" data-field="category">AI Literacy</span>
-      <span class="pill pill--subtle" data-field="difficulty">Beginner</span>
-      <span class="pill pill--subtle" data-field="minutes">15 min</span>
-    </div>
-    <h1 data-field="title">AI 101: What Models Actually Do</h1>
-    <p class="tutorial__lede" data-field="description">
-      A plain-language mental model for how text, image, audio, and multimodal models generate outputs — what they can do, and what they can’t.
-    </p>
-  </header>
+<article class="tutorial">
+  <h1>AI 101: What Models Do</h1>
+  <p class="lede">Language models predict the next token, not “the truth.” Knowing that changes how you prompt, how you verify, and how you react to confident but wrong answers.</p>
 
-  <section class="tutorial__section">
-    <h2>What you'll learn</h2>
-    <ul>
-      <li>A simple “predict-the-next-thing” mental model that applies to text, images, audio, and video.</li>
-      <li>The difference between <strong>training</strong> vs <strong>inference</strong> (why local AI feels “slow” sometimes).</li>
-      <li>Why AI can sound confident and still be wrong (and what to do about it).</li>
+  <div class="learning-callout">
+    <p class="pill">Mini roadmap</p>
+    <ul class="checklist">
+      <li>Why predicting the next token creates fluent but brittle outputs.</li>
+      <li>How hallucinations emerge from missing grounding.</li>
+      <li>Simple prompt patterns that make verification easier.</li>
     </ul>
-  </section>
+  </div>
 
-  <section class="tutorial__section">
-    <h2>Why this matters</h2>
+  <h2>Prereqs</h2>
+  <p>None. This is the mental model that anchors the rest of the curriculum.</p>
+
+  <h2>Core idea: prediction over truth</h2>
+  <p>A base model is trained to continue text. It is rewarded for producing the most plausible next token given the context it has seen, not for being factually correct. This is why models can be simultaneously <em>fluent</em> and <em>wrong</em>.</p>
+
+  <ul>
+    <li><strong>What the model optimizes:</strong> likelihood of the next token.</li>
+    <li><strong>What it does not optimize by default:</strong> correctness, citations, or honesty.</li>
+    <li><strong>Why you care:</strong> your prompts must supply structure and verification hooks.</li>
+  </ul>
+
+  <h2>How that shows up in practice</h2>
+  <div class="practice-lab">
+    <p><strong>Pattern 1: Fluent but ungrounded.</strong> The model fills gaps with plausible details when facts are missing.</p>
+    <p><strong>Pattern 2: Overconfident style.</strong> The model mirrors the certainty in your prompt unless you explicitly ask for uncertainty.</p>
+    <p><strong>Pattern 3: Retrieval gap.</strong> If no source of truth is provided (docs, data, retrieved chunks), it will invent.</p>
+  </div>
+
+  <h2>Settings that change behavior</h2>
+  <ul>
+    <li><strong>Temperature / top_p:</strong> higher values increase variance; lower values make outputs repeatable. Start at 0.2–0.4 for accuracy work.</li>
+    <li><strong>Max tokens:</strong> short caps reduce rambling but can truncate. Match to your schema length.</li>
+    <li><strong>Stop sequences:</strong> force the model to halt before it wanders; add "\n\n" or closing braces for JSON tasks.</li>
+    <li><strong>System vs user:</strong> keep governance in system (“you are cautious”) and task details in user. Avoid hiding constraints in examples.</li>
+    <li><strong>Sampling vs greedy:</strong> for safety/consistency, try deterministic ($P(t_i\mid t_{<i})$ with low temperature) plus verification.</li>
+  </ul>
+
+  <h2>Make answers easier to verify</h2>
+  <p>Use prompts that separate facts from speculation and surface assumptions.</p>
+  <ul>
+    <li>Ask for a short answer <em>plus</em> a list of assumptions.</li>
+    <li>Request 2–3 ways the answer could be wrong or could change with new info.</li>
+    <li>Ask for at least one verifiable claim (something you can check in docs).</li>
+    <li>Keep style concise; verbosity hides errors.</li>
+  </ul>
+
+  <h2>Grounding options</h2>
+  <ul>
+    <li><strong>Retrieval (RAG):</strong> attach sources; ask the model to cite chunk IDs. If sources are empty, the model should say "no evidence".</li>
+    <li><strong>Structured inputs:</strong> pass tables/JSON where possible; schemas reduce speculation.</li>
+    <li><strong>Tool calls:</strong> when a fact can be fetched or computed, have the model call the tool instead of guessing.</li>
+  </ul>
+
+  <h2>Model fit</h2>
+  <ul>
+    <li><strong>Instruct vs base:</strong> prefer instruct-tuned models for chat; base models hallucinate more because they lack the safety layer.</li>
+    <li><strong>Domain-tuned:</strong> for code, use a code model; for long docs, choose models with long context and higher recall.</li>
+    <li><strong>Latency vs quality:</strong> if you lower temp and add verification, smaller models can work for draft iterations.</li>
+  </ul>
+
+  <h2>Examples you can copy</h2>
+  <div class="learning-callout">
+    <p><strong>Verify-first prompt</strong></p>
     <p>
-      If you understand what a model is actually doing, you’ll stop guessing.
-      You’ll choose better tools, write better prompts, and avoid wasting hours (or money)
-      chasing settings that can’t fix the real problem.
+      “You are a careful assistant. Answer in three parts: (1) a concise answer, (2) assumptions you made, (3) 2–3 ways this could be wrong or would change with new info. Mark any claim that should be verified in docs.”
     </p>
-  </section>
+    <p><strong>When to use:</strong> anytime the stakes are non-trivial (policy, customer comms, product guidance).</p>
+  </div>
 
-  <section class="tutorial__section">
-    <h2>Core concepts</h2>
-    <div class="callout">
-      <strong>Mental model:</strong> A model is a sophisticated <em>pattern predictor</em>. It generates an output by repeatedly predicting the next piece of the output from the input + its internal learned patterns.
-    </div>
+  <h2>Quick checks (do these now)</h2>
+  <ol>
+    <li>Run a prompt that asks for “answer + assumptions + ways to be wrong” on a topic you know.</li>
+    <li>Highlight one assumption and note a source you would check.</li>
+    <li>Compare with a direct, unstructured prompt—the difference is the value of structure.</li>
+  </ol>
 
-    <ul>
-      <li>
-        <strong>Training</strong>: The expensive phase where the model learns patterns from lots of data.
-        This is usually done on powerful GPUs/TPUs, takes time, and costs real money.
-      </li>
-      <li>
-        <strong>Inference</strong>: The “use it now” phase where the model produces outputs.
-        Local AI (Ollama / LM Studio / ComfyUI) is running inference on your hardware.
-      </li>
-      <li>
-        <strong>Tokens / chunks</strong>: Models don’t see text as “words.” They see pieces.
-        Generation is done token-by-token (or chunk-by-chunk), which is why outputs arrive in a stream.
-      </li>
-      <li>
-        <strong>Attention</strong>: A mechanism that helps models weigh which parts of the input matter most while generating the next part.
-        (Not “attention” like humans — but it’s why context size matters.)
-      </li>
-      <li>
-        <strong>Latent space</strong> (images/audio): Diffusion and audio models work in compressed representations.
-        They iteratively refine noise into something that matches your prompt + learned patterns.
-      </li>
-    </ul>
-  </section>
-
-  <section class="tutorial__section">
-    <h2>What models are great at</h2>
-    <ul>
-      <li><strong>Drafting</strong>: fast first-pass writing, summaries, outlines, rewrites.</li>
-      <li><strong>Transformation</strong>: convert formats (bullet list → email, notes → plan, etc.).</li>
-      <li><strong>Pattern completion</strong>: code scaffolds, regex ideas, consistent style output.</li>
-      <li><strong>Idea expansion</strong>: brainstorming variations when you provide constraints.</li>
-    </ul>
-
-    <div class="callout">
-      <strong>Rule of thumb:</strong> The clearer your constraints, the less “random” the output feels.
-    </div>
-  </section>
-
-  <section class="tutorial__section">
-    <h2>What models are bad at (without help)</h2>
-    <ul>
-      <li><strong>Fresh facts</strong>: unless they can browse or you provide sources, they can be outdated or wrong.</li>
-      <li><strong>Precise memory</strong>: context windows are not permanent memory; “it remembers” is often an illusion.</li>
-      <li><strong>Guaranteed correctness</strong>: they can produce plausible nonsense (hallucinations).</li>
-      <li><strong>Private data safety</strong>: if you paste sensitive data, you’ve already shared it with the tool.</li>
-    </ul>
-
-    <div class="callout">
-      <strong>Key mindset:</strong> Treat AI like a powerful assistant that still needs verification and guardrails.
-    </div>
-  </section>
-
-  <section class="tutorial__section">
-    <h2>Guided walkthrough (10 minutes)</h2>
+  <section class="practice-lab">
+    <h2>Practice Lab: Build a verify-first prompt</h2>
+    <p><strong>Task:</strong> Create a verify-first prompt for a topic you know well (e.g., a framework you use).</p>
+    <p><strong>Steps:</strong></p>
     <ol>
-      <li>
-        <strong>Run the same prompt twice</strong> in your favorite chat model:
-        <div class="callout">
-          <strong>Prompt:</strong> “Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.”
-        </div>
-        Notice: outputs change because models sample from probabilities (not a single “correct” answer).
-      </li>
-      <li>
-        <strong>Add constraints</strong> and rerun:
-        <div class="callout">
-          <strong>Prompt:</strong> “Same task, but: no sci-fi, no fantasy, no violence, and keep the tone comedic. Return as JSON with fields: location, character, twist.”
-        </div>
-        Notice: the output becomes more structured and consistent.
-      </li>
-      <li>
-        <strong>Ask for self-checking</strong>:
-        <div class="callout">
-          <strong>Prompt:</strong> “Before answering, write a checklist of constraints. After answering, verify each idea against the checklist and fix any violations.”
-        </div>
-        Notice: you can “steer” outputs without building agents.
-      </li>
+      <li>Ask for the answer, assumptions, and “how this could be wrong.”</li>
+      <li>Add a request for one claim that you can check in public docs.</li>
+      <li>Paste the output. Circle the assumptions; underline the verifiable claim.</li>
+      <li>Open an official doc and verify one claim. Note any mismatch.</li>
     </ol>
-  </section>
-  <section class="tutorial__section">
-    <h2>Practice lab</h2>
-    <p>
-      This is where you actually run the idea in a model. Pick the environment you have access to and follow the steps.
-      (No checkboxes — this is a hands-on mini lab.)
-    </p>
-
-    <div class="practice" data-practice>
-      <div class="practice__tabs" role="tablist" aria-label="Practice environments">
-        <button class="chip chip--active" type="button" data-practice-tab="chat">Chat</button>
-        <button class="chip" type="button" data-practice-tab="ollama">Ollama</button>
-        <button class="chip" type="button" data-practice-tab="lmstudio">LM Studio</button>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="chat">
-        <h3>Chat (any provider)</h3>
-        <p>Paste this prompt into your chat model and run it twice. Compare results.</p>
-        <textarea class="practice__box" id="practice_prompt_chat" rows="7">Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.</textarea>
-        <div class="practice__actions">
-          <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_prompt_chat">Copy prompt</button>
-        </div>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="ollama" hidden>
-        <h3>Ollama (local)</h3>
-        <p>Run a local model and use the same prompt. If you don’t have a model yet, start with an 8B model.</p>
-        <div class="practice__split">
-          <div class="practice__card">
-            <div class="practice__label">1) Start a chat run</div>
-            <pre class="practice__pre" id="practice_ollama_cmd">ollama run llama3.1:8b</pre>
-            <div class="practice__actions">
-              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_cmd">Copy command</button>
-            </div>
-          </div>
-
-          <div class="practice__card">
-            <div class="practice__label">2) Or call the HTTP API with curl</div>
-            <pre class="practice__pre" id="practice_ollama_curl">curl http://localhost:11434/api/generate -d '{"model":"llama3.1:8b","prompt":"Give me 5 ideas for a 30-second AI video. Each idea must be: 1 location, 1 character, 1 twist ending.","stream":false}'</pre>
-            <div class="practice__actions">
-              <button class="btn btn--ghost btn--sm" type="button" data-copy-selector="#practice_ollama_curl">Copy curl</button>
-            </div>
-          </div>
-        </div>
-        <div class="callout">
-          <strong>Tip:</strong> Keep the same prompt and only change one variable at a time (model, temperature, context) so you can see what actually caused the change.
-        </div>
-      </div>
-
-      <div class="practice__panel" data-practice-panel="lmstudio" hidden>
-        <h3>LM Studio (local GUI)</h3>
-        <p>Use LM Studio’s chat or server mode. Paste the prompt, then rerun after changing one setting.</p>
-        <ul>
-          <li>Run once at your default settings.</li>
-          <li>Run again with a lower temperature for more consistent answers.</li>
-          <li>Write down what changed and why you think it changed.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-<section class="tutorial__section">
-    <h2>Common mistakes</h2>
+    <p><strong>Success criteria:</strong></p>
     <ul>
-      <li>
-        <strong>“The model knows the truth.”</strong>
-        It knows patterns. If you need truth, add sources, browsing, or verification steps.
-      </li>
-      <li>
-        <strong>“More detail always helps.”</strong>
-        Too much detail can confuse the model. Use constraints + examples instead of giant paragraphs.
-      </li>
-      <li>
-        <strong>“One prompt should do everything.”</strong>
-        Split big tasks into phases: outline → draft → review → format → verify.
-      </li>
+      <li>The response clearly separates answer vs assumptions.</li>
+      <li>There are at least 2 stated failure modes.</li>
+      <li>You verify one claim using a free source (docs, spec, reputable reference).</li>
     </ul>
   </section>
 
-  <section class="tutorial__section">
-    <h2>Knowledge check</h2>
-    <p>Pass this quiz to mark the tutorial complete (saved locally in your browser).</p>
-    <div class="quizMount" data-quiz="ai-101-what-models-do.quiz.json"></div>
-  </section>
+  <h2>Failure modes to watch</h2>
+  <ul>
+    <li><strong>Confident uncertainty:</strong> fluent answers with no grounding.</li>
+    <li><strong>Citation theater:</strong> references that don’t actually support the claim.</li>
+    <li><strong>Hidden assumptions:</strong> missing constraints that change the conclusion.</li>
+  </ul>
 
-  <section class="tutorial__section">
-    <h2>Mini challenge</h2>
-    <p>
-      Write a single prompt that forces a model to output a reliable “starter kit” for a brand-new beginner.
-    </p>
-    <ul>
-      <li>Must include: 5 bullet tips, 3 common mistakes, and 1 verification step.</li>
-      <li>Must be under 180 words.</li>
-      <li>Must end with: “If you’re unsure, say so.”</li>
-    </ul>
-  </section>
+  <h2>Quiz</h2>
+  <div data-quiz="ai-101-what-models-do.quiz.json"></div>
 
-  <section class="tutorial__section">
-    <h2>What's next</h2>
-    <ul>
-      <li><a href="#" data-nav="tokens-context-temperature">Tokens, Context, Temperature, Top‑P (Without the Confusion)</a></li>
-      <li><a href="#" data-nav="hallucinations-and-reliability">Hallucinations: Why They Happen and How to Reduce Them</a></li>
-    </ul>
-  </section>
+  <h2>Next</h2>
+  <p><a href="?t=ai-literacy-first-steps-in-chat">AI Literacy: First Steps in Chat</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
 </article>

@@ -1,0 +1,65 @@
+<article class="tutorial">
+  <h1>Evaluation: Metrics vs Judges</h1>
+  <p class="lede">If you can’t measure it, you can’t improve it. This tutorial explains when to use metrics, human review, or LLM-as-judge — and how evals go wrong.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+  </ul>
+
+  <h2>Pick the right tool</h2>
+  <ul>
+    <li><strong>Metrics:</strong> Fast, consistent, best for structured outputs (JSON, lists, spans).</li>
+    <li><strong>Human review:</strong> Best for nuance or stakes; slow and costly.</li>
+    <li><strong>Judge models:</strong> Scalable nuance; can be biased or unstable without a good rubric.</li>
+  </ul>
+
+  <h2>Worked example: match eval to task</h2>
+  <ol>
+    <li>Task: Summaries of support tickets.</li>
+    <li>Definition of good: includes product, issue, impact, and next step.</li>
+    <li>Approach: Judge model with a rubric that scores each element 0–2; spot-check 10% with a human.</li>
+    <li>What it misses: Tone or subtle empathy signals; mark as a risk.</li>
+  </ol>
+
+  <h2>Mini build: your evaluation choice</h2>
+  <ol>
+    <li>Pick one workflow (summaries, extraction, RAG answers).</li>
+    <li>Write 3–5 bullets for "good looks like" (facts, format, safety).</li>
+    <li>Choose metric vs human vs judge; note cost/speed/risk tradeoffs.</li>
+    <li>Create 5 test cases and do a quick manual score to see if your definition holds.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Choose an evaluation approach for a real workflow.</p>
+    <p><strong>Do:</strong> Pick one workflow. Decide which of the three approaches fits and write why, including one risk.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can define what good means in 3–5 bullets.</li>
+      <li>You pick a method and justify tradeoffs (cost, speed, reliability).</li>
+      <li>You identify one thing your method might miss.</li>
+    </ul>
+    <p><strong>Verify:</strong> Create 5 test cases and do a quick manual score to see if your definition holds up.</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="evaluation-basics-metrics-vs-judges.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Pick eval methods by output type and stakes; mix approaches when needed.</li>
+    <li>Write down what good means before picking metrics or judges.</li>
+    <li>Every method has blind spots; name them upfront.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=rag-basics-chunking-retrieval">Knowledge &amp; RAG: Chunking + Retrieval</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

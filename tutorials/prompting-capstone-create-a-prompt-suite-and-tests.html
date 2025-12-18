@@ -1,0 +1,69 @@
+<article class="tutorial">
+  <h1>Prompting Capstone: Prompt Suite + Tests</h1>
+  <p class="lede">Prompts drift as models or constraints change. Build a prompt suite plus a small test pack so you can detect regressions quickly.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will deliver</p>
+    <ul class="checklist">
+      <li>3 prompt templates for related tasks.</li>
+      <li>10 test inputs (with at least 3 edge cases).</li>
+      <li>A simple rubric (pass/fail + notes) and a short run log.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=prompting-pitfalls-ambiguity-and-overconstraint">Prompting: Pitfalls</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Concept explainer: why a suite</h2>
+  <ul>
+    <li><strong>Stability:</strong> multiple prompts cover related but distinct tasks.</li>
+    <li><strong>Coverage:</strong> test inputs include normals and edge cases.</li>
+    <li><strong>Rubric:</strong> pass/fail with notes; enough to spot drift without heavy scoring.</li>
+  </ul>
+
+  <h2>Worked example: mini suite</h2>
+  <p>Suite: (1) executive summary schema, (2) risk extraction JSON, (3) action-item table. Tests: 7 normal inputs + 3 edge cases (missing data, noisy text, conflicting facts). Rubric: schema valid? key fields filled? no hallucinated items?</p>
+
+  <h2>Guided mini-build: assemble your pack</h2>
+  <ol>
+    <li>Choose 3 related templates (e.g., summarize, extract risks, generate follow-ups).</li>
+    <li>Create 10 inputs; mark at least 3 as edge cases.</li>
+    <li>Write a rubric checklist (pass/fail + short notes) per template.</li>
+    <li>Set up a run log (CSV/MD) with: template, input id, pass/fail, notes.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run the suite</h2>
+    <p><strong>Task:</strong> Execute all templates on all tests; record outcomes.</p>
+    <ol>
+      <li>Run each template on all 10 inputs (can batch by template).</li>
+      <li>Mark pass/fail per rubric; add one-line note for any fail.</li>
+      <li>Change one constraint (e.g., shorten output) and rerun 2 edge cases to ensure the suite catches the change.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Suite runs in under 10 minutes.</li>
+      <li>Every test has pass/fail + note recorded.</li>
+      <li>A changed constraint produces a detected failure in the rerun.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Multiple prompts + shared tests expose drift quickly.</li>
+    <li>Edge cases are the fastest way to detect regressions.</li>
+    <li>Keep the rubric light; consistency beats complexity.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—run the suite and capture the log.</p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=coding-ai-hands-on-code-review-loop">Coding AI: Hands-on Review Loop</a></li>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+  </ul>
+</article>

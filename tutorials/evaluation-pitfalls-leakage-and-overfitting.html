@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Evaluation: Pitfalls (Leakage &amp; Overfitting)</h1>
+  <p class="lede">Evaluations fail quietly. You get “good numbers” that don’t translate into better real-world performance. This tutorial covers the most common causes.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>Leakage:</strong> Test answers appear in prompts, examples, or retrieval context.</li>
+    <li><strong>Judge overfitting:</strong> Optimizing to please the judge prompt instead of users.</li>
+    <li><strong>Dataset shift:</strong> Test set does not match production usage patterns.</li>
+  </ul>
+
+  <h2>Worked example: leakage audit</h2>
+  <ol>
+    <li>Pick 5 eval cases; search your prompts/templates/examples to ensure no answers are present.</li>
+    <li>Search retrieved context for those cases to confirm the answer is not pre-baked.</li>
+    <li>If any leakage is found, rewrite or replace the test case.</li>
+    <li>Document the paths you checked so you can repeat the audit later.</li>
+  </ol>
+
+  <h2>Mini build: shift check</h2>
+  <ol>
+    <li>List how production differs from your test set (domains, lengths, languages, formats).</li>
+    <li>Add 2 new test cases that reflect real recent usage.</li>
+    <li>Run the eval; if scores drop, note which rubric dimension is most sensitive.</li>
+    <li>Decide on one adjustment (new cases, rubric tweak, prompt change) and track impact.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Audit your evaluation for leakage.</p>
+    <p><strong>Do:</strong> Take 5 test cases and confirm none of their answers appear in your prompt templates, examples, or retrieval context.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can name two plausible leakage paths and whether they apply to you.</li>
+      <li>You update at least one test case to reduce memorization risk.</li>
+      <li>You document one shift risk (how production differs from test).</li>
+    </ul>
+    <p><strong>Verify:</strong> Add 2 fresh test cases from real-world usage and compare scores.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Leakage audits are cheap and prevent fake wins; repeat them when prompts or data change.</li>
+    <li>Judge prompts can be overfit; include rationale requirements and spot-check.</li>
+    <li>Continuously add fresh cases to stay aligned with production shift.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=evaluation-capstone-evaluate-your-rag-or-agent">Evaluation Capstone: Evaluate Your RAG or Agent</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=rag-basics-chunking-retrieval">Knowledge &amp; RAG: Chunking + Retrieval</a></li>
+    <li><a href="?t=agentic-flows-pitfalls-tool-failures-and-infinite-loops">Agentic Flows: Pitfalls</a></li>
+  </ul>
+</article>

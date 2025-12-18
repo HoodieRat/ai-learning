@@ -1,0 +1,70 @@
+{
+  "title": "Agentic Flows: What Agents Are — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What distinguishes an agentic system from a simple chatbot?",
+      "options": [
+        "It can plan and take actions using tools",
+        "It always answers correctly",
+        "It never needs prompts",
+        "It cannot access any APIs"
+      ],
+      "answer": "It can plan and take actions using tools",
+      "explanation": "Agents combine planning with tool use and control loops; correctness is not guaranteed."
+    },
+    {
+      "type": "true-false",
+      "question": "A verifier step before external actions can reduce risk.",
+      "answer": true,
+      "explanation": "Verification gates help prevent unsafe or incorrect actions from being executed."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Which is a good stop condition for an agent?",
+      "options": [
+        "The goal criteria are satisfied and verified",
+        "It has used all available tools",
+        "It feels confident",
+        "It has produced a long answer"
+      ],
+      "answer": "The goal criteria are satisfied and verified",
+      "explanation": "Stop conditions should be tied to objective success criteria and verification."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are common containment strategies for agents?",
+      "options": [
+        "Budgets (max tool calls/time)",
+        "Retry forever",
+        "Human review gates",
+        "Logging with redaction"
+      ],
+      "answer": [
+        "Budgets (max tool calls/time)",
+        "Human review gates",
+        "Logging with redaction"
+      ],
+      "explanation": "Budgets, review gates, and safe logging reduce runaway behavior and improve debuggability."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Why is detailed logging important for agent systems?",
+      "options": [
+        "It enables debugging and auditability",
+        "It makes the model smarter",
+        "It removes the need for tests",
+        "It guarantees privacy"
+      ],
+      "answer": "It enables debugging and auditability",
+      "explanation": "Logs help you understand decisions and tool calls; privacy still requires redaction and controls."
+    },
+    {
+      "type": "true-false",
+      "question": "Agents should be designed to fail safely when tools or data are unavailable.",
+      "answer": true,
+      "explanation": "Safe failure modes prevent harmful actions and infinite loops during errors."
+    }
+  ]
+}

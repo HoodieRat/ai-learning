@@ -1,0 +1,78 @@
+<article class="tutorial">
+  <h1>AI Literacy Capstone: Compare Models with a Mini-Benchmark</h1>
+  <p class="lede">Build a tiny, repeatable benchmark to compare two models. You will design tasks, a rubric, run both models, and produce a short report with evidence.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will build</p>
+    <ul class="checklist">
+      <li>A 10–12 item benchmark covering explain, transform, and reason tasks.</li>
+      <li>A simple 0/1/2 rubric with expected properties, not just “correct/incorrect”.</li>
+      <li>A one-page comparison report with examples of wins/fails per model.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-literacy-pitfalls-hallucinations-and-overconfidence">AI Literacy: Pitfalls</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Concept explainer: what “small but useful” means</h2>
+  <ul>
+    <li><strong>Small:</strong> 10–12 prompts you can run in minutes, not hours.</li>
+    <li><strong>Diverse:</strong> cover 3 task shapes—explain (short prose), transform (rewrite/format), reason (multi-step checkable logic).</li>
+    <li><strong>Checkable:</strong> include 2 known-answer items to ensure the rubric catches obvious failures.</li>
+  </ul>
+
+  <h2>Worked example: rubric for “explain vs transform vs reason”</h2>
+  <p><strong>Example rubric (0/1/2):</strong></p>
+  <ul>
+    <li>0 = Missing or wrong core requirement; contradictions; unsafe or off-topic.</li>
+    <li>1 = Partially correct; formatting errors; shallow reasoning; minor safety issues.</li>
+    <li>2 = Meets requirements; correct formatting; reasoning trace present; safety respected.</li>
+  </ul>
+
+  <h2>Guided mini-build: create your benchmark skeleton</h2>
+  <ol>
+    <li>List 4 “explain” prompts, 4 “transform” prompts, 2–4 “reason” prompts.</li>
+    <li>For each prompt, write 2–3 expected properties (e.g., “includes a 3-step chain of thought”, “outputs CSV with headers”).</li>
+    <li>Mark 2 prompts as “known-answer” where you can definitively score correctness.</li>
+    <li>Decide the format you’ll run (same prompt with a system message + user message). Keep it identical for both models.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run the mini-benchmark</h2>
+    <p><strong>Task:</strong> Build and run the benchmark on two models, then summarize findings.</p>
+    <ol>
+      <li>Prepare a sheet with columns: Prompt, Expected properties, Model A score, Model B score, Notes, Evidence link.</li>
+      <li>Run each prompt twice per model to see variance; score with the 0/1/2 rubric.</li>
+      <li>Capture one example response per model for at least three prompts (copy/paste or link).</li>
+      <li>Summarize: where Model A wins, where Model B wins, and 2 caveats for each.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>10–12 prompts scored for both models.</li>
+      <li>Each score justified by an evidence note or snippet.</li>
+      <li>Report states at least 2 consistent differences and 2 caveats per model.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Small, checkable benchmarks beat vague “it feels better” claims.</li>
+    <li>Keep prompts identical and use a simple rubric to stay consistent.</li>
+    <li>Record evidence; it makes decisions defensible and repeatable.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here. Ship your one-page comparison report before moving on.</p>
+
+  <h2>Next</h2>
+  <p>Continue with <a href="?t=prompting-capstone-create-a-prompt-suite-and-tests">Prompting Capstone</a> to turn your benchmark into regression tests.</p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+  </ul>
+</article>

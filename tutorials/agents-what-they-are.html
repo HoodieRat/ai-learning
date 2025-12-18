@@ -1,0 +1,46 @@
+<article class="tutorial">
+  <h1>Agentic AI: What Agents Are (and When They’re Overkill)</h1>
+  <p class="lede">A grounded definition of agents, tools, loops, and the situations where simple prompts are better.</p>
+
+  <h2>Core concepts</h2>
+  <ul>
+<li>Planner, router, tools: separate thinking, choosing, doing.</li>
+<li>Observation-action loop needs guardrails and timeouts.</li>
+<li>Humans stay in the loop to approve high-risk steps.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <ol>
+<li>Define goal -> plan -> choose tool -> act -> reflect.</li>
+<li>Set a max step count and time budget.</li>
+<li>Log each observation/action pair for replay.</li>
+  </ol>
+
+  <h2>Mini build</h2>
+  <ol>
+<li>Write a tiny loop with planner->tool->reflect.</li>
+<li>Add a max-steps and timeout guard.</li>
+<li>Log each step to a file for replay.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Run a 3-step loop on a toy task; capture steps and ensure it stops safely.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You capture parameters and outputs for the run.</li>
+      <li>You can repeat the run and get consistent behavior.</li>
+      <li>You note at least one risk or failure mode to watch.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+<li>Loops need guardrails and logs.</li>
+<li>Separate planning from acting.</li>
+<li>Humans approve high-risk steps.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Pick a related tutorial from the catalog to deepen the skill.</p>
+</article>

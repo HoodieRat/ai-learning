@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Audio AI: Pitfalls (WER &amp; Diarization)</h1>
+  <p class="lede">Audio errors often hide in the parts that matter: names, numbers, and speaker attribution. This tutorial teaches you how to catch those failures reliably.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=audio-ai-hands-on-transcribe-and-summarize">Audio AI: Hands-on Transcribe + Summarize</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>WER blind spots:</strong> low WER can still miss key entities.</li>
+    <li><strong>Diarization drift:</strong> speaker labels swap mid-conversation.</li>
+    <li><strong>Overlap:</strong> crosstalk causes missing or merged phrases.</li>
+  </ul>
+
+  <h2>Worked example: entity check</h2>
+  <ol>
+    <li>Choose 5 critical entities (names, amounts, dates).</li>
+    <li>Check transcript for each; mark errors by type (wrong value, missing, wrong speaker).</li>
+    <li>If diarization drifts, relabel manually and note where it began.</li>
+    <li>Capture a quick remediation note (e.g., tighten VAD, shorter segments).</li>
+  </ol>
+
+  <h2>Mini build: verification step</h2>
+  <ol>
+    <li>List critical entities and speakers for your workflow.</li>
+    <li>Create a 5-item checklist to verify them after transcription.</li>
+    <li>Run on two clips; see which errors recur (overlap, label swap).</li>
+    <li>Adjust the workflow (segment shorter, manual spot checks) based on findings.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Create a verification step for the “important bits”.</p>
+    <p><strong>Do:</strong> Identify 5 entities that must be correct (names, dates, amounts). Check them in the transcript.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You list 5 critical entities.</li>
+      <li>You confirm (or correct) them by inspecting the transcript.</li>
+      <li>You record which failure type happened (name error, diarization, overlap).</li>
+    </ul>
+    <p><strong>Verify:</strong> Re-run on a second audio clip and confirm your verification step still catches errors.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>WER alone hides critical misses; verify entities and speakers directly.</li>
+    <li>Diarization drift and overlap need short segments and spot checks.</li>
+    <li>Keep a checklist to reuse on every transcription run.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=audio-ai-capstone-build-a-voice-notes-workflow">Audio AI Capstone: Build a Voice Notes Workflow</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+  </ul>
+</article>

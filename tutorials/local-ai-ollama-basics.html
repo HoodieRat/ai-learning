@@ -1,0 +1,77 @@
+<article class="tutorial">
+  <h1>Local AI: Ollama Basics</h1>
+  <p class="lede">Get from zero to “I can run and verify a local model” with Ollama. You’ll pick a model, run it offline, log outputs, and know what knobs matter (memory, context, quantization).</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>How Ollama pulls and runs a model locally (no internet at inference).</li>
+      <li>Which specs matter first: VRAM/RAM, context length, quantization.</li>
+      <li>A minimal logging pattern so runs are repeatable.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Concept explainer: what makes local different</h2>
+  <ul>
+    <li><strong>Privacy & offline:</strong> prompts stay on your machine after the initial model download.</li>
+    <li><strong>Determinants of speed:</strong> memory fit (VRAM/RAM) and context size dominate; CPU/GPU/NPU only help if the model fits.</li>
+    <li><strong>Quantization:</strong> smaller weights (e.g., Q4/Q5) trade some quality for fit/speed.</li>
+  </ul>
+
+  <h2>Worked example: first run</h2>
+  <p><strong>Command flow:</strong></p>
+  <ol>
+    <li><code>ollama pull mistral:7b</code> (downloads; one-time)</li>
+    <li><code>ollama run mistral:7b</code> then enter a short prompt</li>
+    <li>Observe: time to first token; total tokens/sec; memory use (OS monitor)</li>
+  </ol>
+  <p><strong>What to note:</strong> model name, quantization tag, prompt text, output, tokens/sec.</p>
+
+  <h2>Guided mini-build: your logging template</h2>
+  <ol>
+    <li>Create a log file (markdown or CSV) with columns: timestamp, model, quantization, prompt, output snippet, tokens/sec (or wall-clock), notes.</li>
+    <li>Pick one short prompt (2 sentences) and one slightly longer prompt (2–3 paragraphs).</li>
+    <li>Run both; fill the log. If tokens/sec is unavailable, record elapsed time.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run a local model with repeatable logs</h2>
+    <p><strong>Task:</strong> Run a small model and log two prompts.</p>
+    <ol>
+      <li>Install Ollama; pull a small model (e.g., mistral:7b or llama3:8b if it fits).</li>
+      <li>Run two prompts (short vs longer) with the same model tag.</li>
+      <li>Capture: model tag, quantization, prompt, output, time-to-first-token, total time/tokens.</li>
+      <li>Re-run one prompt and note variance.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can run offline after the pull.</li>
+      <li>A log exists with at least two runs and timing notes.</li>
+      <li>You can describe one next lever (smaller model or lower context) if it feels slow.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Fit-first: if it fits in memory, it runs; if not, it thrashes.</li>
+    <li>Log the basics (model tag, prompt, timing) so you can compare later.</li>
+    <li>Quantization is your friend when hardware is tight.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="local-ai-ollama-basics.quiz.json"></div>
+
+  <h2>Next</h2>
+  <p><a href="?t=local-ai-running-models-offline">Local AI: Running Models Offline (Workflow)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=cpu-vs-gpu-vs-npu">Hardware: CPU vs GPU vs NPU</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

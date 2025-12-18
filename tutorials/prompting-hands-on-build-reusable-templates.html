@@ -1,0 +1,72 @@
+<article class="tutorial">
+  <h1>Prompting: Hands-on Templates</h1>
+  <p class="lede">Treat prompts like small products: inputs, outputs, examples, and failure handling. You’ll convert a one-off prompt into a reusable template with a test set.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will build</p>
+    <ul class="checklist">
+      <li>One reusable template with variables and a fixed schema.</li>
+      <li>At least one positive and one messy example.</li>
+      <li>A short “what to do when it fails” playbook.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+  </ul>
+
+  <h2>Concept explainer: template ingredients</h2>
+  <ul>
+    <li><strong>Variables:</strong> placeholders you swap (e.g., {{text}}, {{audience}}).</li>
+    <li><strong>Output schema:</strong> required keys/sections; keeps outputs comparable.</li>
+    <li><strong>Examples:</strong> one good example + one messy example beats long rules.</li>
+  </ul>
+
+  <h2>Worked example: JSON extractor</h2>
+  <p>Template: “Extract entities from {{text}}. Output JSON with keys: people, orgs, dates. If none, return an empty array for that key. Keep explanations under 12 words.”</p>
+  <p>Add a messy example (typos, mixed casing) to show intended behavior.</p>
+
+  <h2>Guided mini-build: your template</h2>
+  <ol>
+    <li>Pick a task (summary, extraction, rewrite, classification).</li>
+    <li>Define variables and the schema (JSON or table headers).</li>
+    <li>Write one clean example and one messy example.</li>
+    <li>Write a failure playbook: if output is missing a key → re-run with “ensure keys exist”.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run the template</h2>
+    <p><strong>Task:</strong> Run the template on 5 inputs (include the messy one) and refine once.</p>
+    <ol>
+      <li>Execute on 5 inputs; note any schema breaks.</li>
+      <li>Apply the failure playbook once; re-run the failing input.</li>
+      <li>Record before/after outputs to confirm the tweak.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Outputs are structurally consistent across 5 inputs.</li>
+      <li>Messy input still yields usable output.</li>
+      <li>Failure playbook documented and applied at least once.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Variables + schema + examples = repeatable template.</li>
+    <li>Messy examples surface fragility early.</li>
+    <li>Write the recovery step once; reuse it instead of ad-hoc retries.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—finish the lab and playbook first.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=prompting-pitfalls-ambiguity-and-overconstraint">Prompting: Pitfalls (Ambiguity &amp; Overconstraint)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=ai-literacy-first-steps-in-chat">AI Literacy: First Steps in Chat</a></li>
+  </ul>
+</article>

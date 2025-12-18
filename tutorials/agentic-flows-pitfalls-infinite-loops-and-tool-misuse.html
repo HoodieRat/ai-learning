@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Agentic Flows: Pitfalls (Loops &amp; Tool Misuse)</h1>
+  <p class="lede">Agents fail in recognizable ways: infinite loops, unsafe retries, and “tool spam”. This tutorial teaches practical containment: budgets, stop conditions, and verification gates.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-hands-on-tool-use-and-logging">Agentic Flows: Hands-on Tool Use + Logging</a></li>
+  </ul>
+
+  <h2>Containment techniques</h2>
+  <ul>
+    <li><strong>Budgets:</strong> max tool calls, max tokens, max time.</li>
+    <li><strong>Stop conditions:</strong> explicit “done” checks.</li>
+    <li><strong>Verification gates:</strong> require evidence before acting.</li>
+  </ul>
+
+  <h2>Worked example: stopping runaway retries</h2>
+  <ol>
+    <li>Budget: max 6 tool calls per run; max 2 retries per tool.</li>
+    <li>Stop: if the same error repeats twice, halt and escalate.</li>
+    <li>Verifier: before any write, require evidence of success and a human-readable rationale.</li>
+    <li>Outcome: logs show attempts, reasons, and the halt condition.</li>
+  </ol>
+
+  <h2>Mini build: add containment to your design</h2>
+  <ol>
+    <li>Write numeric budgets (tool calls, time, tokens).</li>
+    <li>Add a deterministic stop rule for repeated failures.</li>
+    <li>Insert a verifier gate before external side effects.</li>
+    <li>Define a human escalation path when budgets or verifiers fail.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Add budgets and stop conditions to a flow.</p>
+    <p><strong>Do:</strong> Take your agent design and add: max tool calls, max retries per tool, and a human-review gate before any external change.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Budgets are explicit and measurable.</li>
+      <li>There is a safe fallback when a tool fails.</li>
+      <li>The agent can stop without “trying forever”.</li>
+    </ul>
+    <p><strong>Verify:</strong> Simulate a tool failure and confirm the flow ends safely.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Budgets and stop rules prevent infinite loops and tool spam.</li>
+    <li>Verification gates block unsafe writes when evidence is missing.</li>
+    <li>Escalation paths make failures safe and observable.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=agentic-flows-capstone-build-a-reliable-agent-runbook">Agentic Flows Capstone: Build an Agent Runbook</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=coding-ai-pitfalls-overreliance-and-security">Coding AI: Pitfalls</a></li>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+  </ul>
+</article>

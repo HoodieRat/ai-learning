@@ -1,0 +1,74 @@
+<article class="tutorial">
+  <h1>AI Literacy: First Steps in Chat</h1>
+  <p class="lede">Turn a fuzzy request into a checkable output. This lesson gives you a simple chat pattern, a worked example, and a guided mini-build so you leave with a reusable template.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>How to turn “help me with X” into a scoped, verifiable request.</li>
+      <li>A reusable chat template: Ask → Constrain → Verify.</li>
+      <li>How to add a lightweight self-check so you trust the output more.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Concept explainer: Ask → Constrain → Verify</h2>
+  <ul>
+    <li><strong>Ask:</strong> State the goal and audience (who is this for, what decision does it support?).</li>
+    <li><strong>Constrain:</strong> Specify structure (table, bullets), length, style, and assumptions.</li>
+    <li><strong>Verify:</strong> Require checkable items (citations, assumptions list, “how to verify” column).</li>
+  </ul>
+
+  <h2>Worked example (from fuzzy to clear)</h2>
+  <p><strong>Initial ask (too fuzzy):</strong> “Explain vector databases.”</p>
+  <p><strong>Better:</strong> “Explain vector databases to a junior engineer shipping a RAG feature this sprint. Produce a 6-row table with columns: Concept, Why it matters, Common pitfall, How to verify (free source). Keep cells under 40 words.”</p>
+  <p><strong>What changed:</strong> Audience set, format fixed, verification baked in.</p>
+
+  <h2>Guided mini-build: your reusable prompt</h2>
+  <ol>
+    <li>Write the goal in one line: audience + decision/context.</li>
+    <li>Choose a structure: table with columns that expose checks (e.g., Claim, Confidence, How to verify).</li>
+    <li>Add guardrails: word limits, neutral tone, no fabricated citations.</li>
+    <li>Add a self-check: ask for 2 assumptions and 2 ways the answer could be wrong.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Build a verifiable explainer</h2>
+    <p><strong>Task:</strong> Get a model to produce a one-page explainer you can validate.</p>
+    <ol>
+      <li>Prompt for a table with columns: Claim, Confidence (low/med/high), How to verify, Short explanation.</li>
+      <li>Cap rows at 6–8; cap each cell at 35 words.</li>
+      <li>Ask for an “Assumptions” block and “Ways this could be wrong” block.</li>
+      <li>Run the prompt; then actually verify two claims using free sources and annotate them.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>At least 6 claims with verification methods.</li>
+      <li>Assumptions and failure modes are explicit.</li>
+      <li>Two claims are checked against free sources and annotated.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Clarity = audience + deliverable + constraints.</li>
+    <li>Verification hooks belong in the prompt, not after the fact.</li>
+    <li>Self-checks (assumptions + ways to be wrong) make errors visible.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz on this step. Apply the mini-build to one work task before moving on.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=ai-literacy-pitfalls-hallucinations-and-overconfidence">AI Literacy: Pitfalls (Hallucinations &amp; Overconfidence)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+</article>

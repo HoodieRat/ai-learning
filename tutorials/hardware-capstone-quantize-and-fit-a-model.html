@@ -1,0 +1,59 @@
+<article class="tutorial">
+  <h1>Hardware Capstone: Quantize and Fit a Model</h1>
+  <p class="lede">Your deliverable is a single-page “fit and tradeoff” note: the model you want, the quantization you chose, the memory it needs, and what quality you lose (if any).</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=hardware-pitfalls-bottlenecks-and-thermals">Hardware: Pitfalls (Bottlenecks &amp; Thermals)</a></li>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>Chosen model + chosen quantization format (what and why)</li>
+    <li>Observed performance before/after (simple timing is fine)</li>
+    <li>Observed quality change on a small test set</li>
+  </ul>
+
+  <h2>Plan your run</h2>
+  <ol>
+    <li>Pick a model that barely fits (or almost fits) your GPU/CPU budget.</li>
+    <li>Choose two quantization options: one conservative, one aggressive.</li>
+    <li>Define a 10-prompt quality tripwire (reuse from Quantization Explained if you made one).</li>
+    <li>Decide on metrics: tokens/sec (or images/min) and a simple pass count on the tripwire.</li>
+  </ol>
+
+  <h2>Mini build: run and compare</h2>
+  <ol>
+    <li>Run the baseline precision once; record throughput and whether the model fits without paging.</li>
+    <li>Run the conservative quantized build; record the same metrics and any quality changes.</li>
+    <li>Run the aggressive build; note if fit improves and where quality drops.</li>
+    <li>Pick the best option; write a one-paragraph "why this wins" tied to fit, speed, and quality.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Make one model fit better on your hardware.</p>
+    <p><strong>Do:</strong> Select a model that is borderline for your memory budget and apply quantization or a smaller variant.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The model runs without memory paging crashes.</li>
+      <li>You can demonstrate a measurable improvement (speed or stability).</li>
+      <li>You record at least one quality regression test (a short prompt set).</li>
+    </ul>
+    <p><strong>Verify:</strong> Run your test set before and after; document the one change that mattered most.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Quantization is the fastest lever to regain fit; track speed and quality together.</li>
+    <li>Decide using a tiny, repeatable test set that mirrors your workload.</li>
+    <li>Document what changed so you can redo the experiment on future hardware.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+    <li><a href="?t=local-ai-capstone-ollama-speed-report">Local AI Capstone: Speed Report</a></li>
+  </ul>
+</article>

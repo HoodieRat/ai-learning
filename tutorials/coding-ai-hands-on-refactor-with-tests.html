@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Coding AI: Hands-on Refactor with Tests</h1>
+  <p class="lede">You’ll refactor a small module while using tests as the safety harness. The goal is to keep behavior stable while improving structure.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+  </ul>
+
+  <h2>Refactor strategy</h2>
+  <ul>
+    <li>Write characterization tests for current behavior.</li>
+    <li>Make one change at a time.</li>
+    <li>Keep diffs small and reviewable.</li>
+  </ul>
+
+  <h2>Worked example: tighten a helper</h2>
+  <ol>
+    <li>Pick a 40–60 line helper with branching.</li>
+    <li>Write 6 characterization tests (happy, null, edge values).</li>
+    <li>Refactor: extract a pure function and remove duplicated branches.</li>
+    <li>Confirm all tests still pass and diff is focused.</li>
+  </ol>
+
+  <h2>Mini build: refactor plan</h2>
+  <ol>
+    <li>Select a module with clear inputs/outputs.</li>
+    <li>Add 6–8 characterization tests that currently pass.</li>
+    <li>Ask AI for a refactor plan; apply in two small iterations.</li>
+    <li>After each change, re-run tests and note any behavior drift.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Refactor safely using a test harness.</p>
+    <p><strong>Do:</strong> Pick a small module and add 6+ tests. Ask the AI for a refactor plan, then apply it in 2–4 small commits (conceptually).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>All tests pass before and after refactor.</li>
+      <li>At least one function gets simpler (smaller, clearer responsibilities).</li>
+      <li>You can explain why the refactor did not change behavior.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run a coverage report or at least confirm key branches are tested.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Characterization tests are the contract; write them before changing structure.</li>
+    <li>Small diffs plus reruns after each change keep behavior stable.</li>
+    <li>Refactors should reduce complexity without altering outputs.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=coding-ai-pitfalls-overreliance-and-security">Coding AI: Pitfalls (Overreliance &amp; Security)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=safety-ethics-hands-on-policy-and-red-teaming">Safety &amp; Ethics: Hands-on Policy + Red Team</a></li>
+  </ul>
+</article>

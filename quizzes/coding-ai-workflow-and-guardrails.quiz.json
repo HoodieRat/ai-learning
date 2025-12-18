@@ -1,0 +1,70 @@
+{
+  "title": "Coding AI: Workflow & Guardrails — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What is the safest way to use AI for coding changes?",
+      "options": [
+        "Ask for small diffs and verify with tests",
+        "Ask for a full rewrite and merge immediately",
+        "Skip code review to save time",
+        "Never run the code"
+      ],
+      "answer": "Ask for small diffs and verify with tests",
+      "explanation": "Small changes are easier to review, and tests provide evidence the behavior is correct."
+    },
+    {
+      "type": "true-false",
+      "question": "If the code compiles, it is necessarily correct.",
+      "answer": false,
+      "explanation": "Compilation is not correctness; logic and edge cases still need tests and review."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is a characterization test?",
+      "options": [
+        "A test that captures current behavior before refactoring",
+        "A test that measures GPU speed",
+        "A test that proves the model is unbiased",
+        "A test that formats code"
+      ],
+      "answer": "A test that captures current behavior before refactoring",
+      "explanation": "Characterization tests lock in behavior so refactors don’t accidentally change outputs."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are good guardrails when using AI for coding?",
+      "options": [
+        "Run tests and add edge cases",
+        "Review diffs like a human reviewer",
+        "Trust hallucinated APIs",
+        "Threat-model hostile inputs"
+      ],
+      "answer": [
+        "Run tests and add edge cases",
+        "Review diffs like a human reviewer",
+        "Threat-model hostile inputs"
+      ],
+      "explanation": "Verification and threat modeling reduce common AI-assisted coding risks; trusting invented APIs increases them."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is a good prompt for implementing a feature?",
+      "options": [
+        "Include requirements, constraints, and expected tests",
+        "Just say: ‘do it’",
+        "Only provide function names",
+        "Avoid mentioning non-goals"
+      ],
+      "answer": "Include requirements, constraints, and expected tests",
+      "explanation": "Clear requirements and verification expectations drive better outputs and easier review."
+    },
+    {
+      "type": "true-false",
+      "question": "It’s useful to ask the AI to list assumptions before it writes code.",
+      "answer": true,
+      "explanation": "Assumptions often hide correctness bugs; surfacing them early prevents wrong implementations."
+    }
+  ]
+}

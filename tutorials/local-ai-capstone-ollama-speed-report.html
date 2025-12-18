@@ -1,0 +1,72 @@
+<article class="tutorial">
+  <h1>Local AI Capstone: Run Ollama + Measure Speed</h1>
+  <p class="lede">Ship a repeatable speed report: environment, model tag, prompts, and timings. You will run three scenarios and capture evidence so you can compare later.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will deliver</p>
+    <ul class="checklist">
+      <li>A markdown report with environment (CPU/GPU/RAM/VRAM), model tag, quantization, and context.</li>
+      <li>Three runs: short prompt, long prompt, real workload.</li>
+      <li>Timings (ttfb + total) or tokens/sec, plus one tuning lever tested.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=local-ai-pitfalls-speed-memory-thermal">Local AI: Pitfalls (Speed, Memory, Thermals)</a></li>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+  </ul>
+
+  <h2>Concept explainer: what to log for repeatability</h2>
+  <ul>
+    <li>Hardware snapshot (CPU/GPU, RAM/VRAM).</li>
+    <li>Model tag + quantization; context window used.</li>
+    <li>Prompt text length (tokens), time-to-first-token, total time or tokens/sec.</li>
+    <li>Any tuning applied (batch, temperature, low-rank/quant choice).</li>
+  </ul>
+
+  <h2>Worked example: three-scenario sheet</h2>
+  <p>Create a table with rows: short (2 sentences), long (multi-paragraph), real task (e.g., JSON extraction). Columns: prompt id, tokens, ttfb, total time/tokens/sec, notes.</p>
+
+  <h2>Guided mini-build: your report skeleton</h2>
+  <ol>
+    <li>Start a markdown file with sections: Environment, Model, Prompts, Results, Observations, Next steps.</li>
+    <li>Define three prompts (short/long/real) and note their token lengths.</li>
+    <li>Decide one lever to test (smaller quant, shorter context, batch size if supported).</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Run and report</h2>
+    <p><strong>Task:</strong> Execute the three scenarios, then test one tuning lever.</p>
+    <ol>
+      <li>Run short/long/real prompts with the base model tag; record ttfb and total time (or tokens/sec).</li>
+      <li>Apply one lever (e.g., lower quant or shorter context) and re-run the long prompt.</li>
+      <li>Update the report with before/after numbers and a one-line conclusion.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Report contains environment, model tag, prompts, and three baseline runs.</li>
+      <li>Includes one lever test with before/after numbers.</li>
+      <li>States one next action (e.g., try GPU vs CPU, different quant, shorter context).</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Evidence beats anecdotes: keep timings and the exact prompt text.</li>
+    <li>Change one lever at a time to see causality.</li>
+    <li>Reuse the same report template next month to spot regressions.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—publish your speed report first.</p>
+
+  <h2>Next</h2>
+  <p>Continue with <a href="?t=hardware-capstone-quantize-and-fit-a-model">Hardware Capstone: Quantize and Fit a Model</a> to turn your measurements into actionable capacity planning.</p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=hardware-pitfalls-bottlenecks-and-thermals">Hardware: Pitfalls (Bottlenecks &amp; Thermals)</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+</article>

@@ -1,0 +1,62 @@
+<article class="tutorial">
+  <h1>Coding AI: Hands-on Code Review Loop</h1>
+  <p class="lede">You’ll use AI as a reviewer: generating test ideas, spotting edge cases, and improving readability — while you stay in control of the final decisions.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+  </ul>
+
+  <h2>The review loop</h2>
+  <ol>
+    <li><strong>Summarize the diff:</strong> what changed, why, and what risks exist.</li>
+    <li><strong>Enumerate edge cases:</strong> nulls, time, encoding, empty inputs.</li>
+    <li><strong>Propose tests first:</strong> failing tests reveal misunderstandings.</li>
+    <li><strong>Refine the change:</strong> simplify and add guardrails.</li>
+  </ol>
+
+  <h2>Worked example: reviewing a parser</h2>
+  <ol>
+    <li>Diff summary: new date parser added.</li>
+    <li>Edge risks: timezones, invalid dates, leap years, empty strings.</li>
+    <li>Ask AI for tests: expect failures on invalid inputs and timezone handling.</li>
+    <li>Refine: add validation, tighten regex, ensure UTC normalization.</li>
+  </ol>
+
+  <h2>Mini build: your review checklist</h2>
+  <ol>
+    <li>Pick a small change (or staged diff).</li>
+    <li>Ask AI to summarize risks and propose 6 tests; select the best 4.</li>
+    <li>Add at least one security/abuse test (large input, weird unicode).</li>
+    <li>Re-run tests and ensure at least one would have failed before.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Run a code review loop on a small change.</p>
+    <p><strong>Do:</strong> Pick a tiny PR-sized change (or a small function). Ask AI to (1) summarize the diff, (2) list risks, (3) propose 6 test cases, then (4) propose a safer implementation.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You add at least 4 tests, including 2 edge cases.</li>
+      <li>You reject or modify at least one AI suggestion based on your judgment.</li>
+      <li>You can explain how the tests cover the risks.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run tests and confirm at least one test would have failed before the change.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Use AI to surface risks and test ideas, but decide yourself.</li>
+    <li>Edge and abuse cases catch most hidden bugs.</li>
+    <li>Keep diffs small so verification stays cheap.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=coding-ai-pitfalls-context-and-tests">Coding AI: Pitfalls (Context &amp; Tests)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=safety-ethics-hands-on-policy-and-red-teaming">Safety &amp; Ethics: Hands-on Policy + Red Team</a></li>
+  </ul>
+</article>

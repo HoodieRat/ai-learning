@@ -1,0 +1,66 @@
+<article class="tutorial">
+  <h1>Coding AI: Workflow &amp; Guardrails</h1>
+  <p class="lede">Coding with AI works best when you treat it as a collaborator: give it context, constrain the task, and verify outputs. This tutorial gives a repeatable loop you can use in any editor.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>The loop</h2>
+  <ol>
+    <li><strong>Define:</strong> input/output, constraints, and non-goals.</li>
+    <li><strong>Generate:</strong> ask for a small change, not a rewrite.</li>
+    <li><strong>Verify:</strong> run tests, read diffs, and check edge cases.</li>
+    <li><strong>Iterate:</strong> refine prompts and add assertions.</li>
+  </ol>
+
+  <h2>Worked example: safe small change</h2>
+  <ol>
+    <li>Task: add input validation to a handler.</li>
+    <li>Prompt: provide the existing function, state accepted inputs, reject rules, and the tests you expect.</li>
+    <li>Generation: ask for just the validation and one new test.</li>
+    <li>Verification: run the test, read the diff, and ensure no unrelated code moved.</li>
+  </ol>
+
+  <h2>Mini build: your repeatable loop</h2>
+  <ol>
+    <li>Pick a tiny function you can test (parse date, sanitize input).</li>
+    <li>Write the input/output and 2 constraints (non-goals included).</li>
+    <li>Ask for code + tests; keep the change small.</li>
+    <li>Run tests, inspect diff, and add one more edge test from your own brain.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Use AI to implement a small feature with verification.</p>
+    <p><strong>Do:</strong> Pick a tiny function you can test (e.g., parse a date, sanitize input). Ask for an implementation + tests.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You have at least 5 tests, including 2 edge cases.</li>
+      <li>You can explain how the tests prove correctness.</li>
+      <li>You made at least one correction based on test failures.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the tests twice: once before changes (failing) and once after (passing).</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="coding-ai-workflow-and-guardrails.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Keep tasks small and explicit: inputs, outputs, constraints, non-goals.</li>
+    <li>Always verify with tests and diff review; never trust first output.</li>
+    <li>Add your own edge cases; AI suggestions are not exhaustive.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=coding-ai-hands-on-refactor-with-tests">Coding AI: Hands-on Refactor with Tests</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-basics-what-agents-are">Agentic Flows: What Agents Are</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

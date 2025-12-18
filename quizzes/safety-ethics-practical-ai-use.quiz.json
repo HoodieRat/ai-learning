@@ -1,0 +1,70 @@
+{
+  "title": "Safety & Ethics: Practical AI Use — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What does data minimization mean in AI workflows?",
+      "options": [
+        "Use the least sensitive data needed to do the job",
+        "Store all prompts forever",
+        "Always share raw datasets with vendors",
+        "Never verify outputs"
+      ],
+      "answer": "Use the least sensitive data needed to do the job",
+      "explanation": "Minimizing sensitive data reduces leakage risk while still enabling the task."
+    },
+    {
+      "type": "true-false",
+      "question": "AI outputs should be treated as drafts for high-stakes decisions.",
+      "answer": true,
+      "explanation": "High-stakes decisions require verification and often human review, regardless of output fluency."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are practical safety practices?",
+      "options": [
+        "Redact secrets and personal data",
+        "Use a review gate for high stakes",
+        "Assume the model is always unbiased",
+        "Keep logs with sensible retention rules"
+      ],
+      "answer": [
+        "Redact secrets and personal data",
+        "Use a review gate for high stakes",
+        "Keep logs with sensible retention rules"
+      ],
+      "explanation": "Redaction, review gates, and controlled logging reduce common operational risks; bias must be evaluated, not assumed away."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is automation bias?",
+      "options": [
+        "Humans defer to AI suggestions even when wrong",
+        "The model runs faster than expected",
+        "A dataset is too small",
+        "A prompt is too short"
+      ],
+      "answer": "Humans defer to AI suggestions even when wrong",
+      "explanation": "Automation bias is over-trusting automated recommendations without sufficient verification."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "When is disclosure of AI assistance most important?",
+      "options": [
+        "When it affects trust, accountability, or policy expectations",
+        "Only when the output is long",
+        "Never",
+        "Only for image generation"
+      ],
+      "answer": "When it affects trust, accountability, or policy expectations",
+      "explanation": "Disclosure is a practical governance tool in contexts where provenance matters."
+    },
+    {
+      "type": "true-false",
+      "question": "A clear escalation path (who to ask when unsure) is part of operational safety.",
+      "answer": true,
+      "explanation": "Teams need a defined process for uncertainty to avoid unsafe improvised decisions."
+    }
+  ]
+}

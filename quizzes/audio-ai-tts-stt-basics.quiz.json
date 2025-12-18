@@ -1,0 +1,70 @@
+{
+  "title": "Audio AI: TTS & STT Basics — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "STT stands for:",
+      "options": [
+        "Speech-to-Text",
+        "Sound-to-Tone",
+        "Sentence-to-Topic",
+        "Speech-to-Translation"
+      ],
+      "answer": "Speech-to-Text",
+      "explanation": "STT converts spoken audio into text."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is a common limitation of relying only on WER?",
+      "options": [
+        "It may miss critical entity errors (names, numbers)",
+        "It guarantees perfect diarization",
+        "It always increases latency",
+        "It makes transcripts longer"
+      ],
+      "answer": "It may miss critical entity errors (names, numbers)",
+      "explanation": "WER can look fine while still failing on the most important details."
+    },
+    {
+      "type": "true-false",
+      "question": "Diarization is about identifying who spoke when.",
+      "answer": true,
+      "explanation": "Diarization labels speakers and their segments in the audio."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are high-value verification steps for audio workflows?",
+      "options": [
+        "Spot-check names and numbers",
+        "Verify action items against the transcript",
+        "Assume summaries are always correct",
+        "Check overlapping speech segments"
+      ],
+      "answer": [
+        "Spot-check names and numbers",
+        "Verify action items against the transcript",
+        "Check overlapping speech segments"
+      ],
+      "explanation": "Verifying critical entities and overlap catches common, high-impact errors."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "TTS stands for:",
+      "options": [
+        "Text-to-Speech",
+        "Tone-to-Signal",
+        "Text-to-Source",
+        "Test-to-Score"
+      ],
+      "answer": "Text-to-Speech",
+      "explanation": "TTS converts text into spoken audio."
+    },
+    {
+      "type": "true-false",
+      "question": "Overlapping speakers can make transcription and diarization harder.",
+      "answer": true,
+      "explanation": "Overlap often leads to missed words or mixed speaker attribution."
+    }
+  ]
+}

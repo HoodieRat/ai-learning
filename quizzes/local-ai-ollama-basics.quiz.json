@@ -1,0 +1,70 @@
+{
+  "title": "Local AI: Ollama Basics — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What is a key benefit of running models locally?",
+      "options": [
+        "You can run offline and keep data on your machine",
+        "Outputs are always more accurate",
+        "It requires zero hardware resources",
+        "It automatically verifies facts"
+      ],
+      "answer": "You can run offline and keep data on your machine",
+      "explanation": "Local runs can reduce data exposure and allow offline use, but accuracy depends on the model and setup."
+    },
+    {
+      "type": "true-false",
+      "question": "Local models typically consume CPU/GPU and RAM/VRAM while running.",
+      "answer": true,
+      "explanation": "Inference uses compute and memory; size and quantization influence requirements."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "If a local model is slow, which is the best first diagnostic?",
+      "options": [
+        "Check whether you’re using CPU vs GPU acceleration",
+        "Increase the prompt length",
+        "Disable all caching and retry",
+        "Assume the model is broken"
+      ],
+      "answer": "Check whether you’re using CPU vs GPU acceleration",
+      "explanation": "CPU-only inference can be much slower; confirming hardware acceleration is a common first step."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which factors can reduce local inference speed?",
+      "options": [
+        "Thermal throttling",
+        "Insufficient memory bandwidth",
+        "Shorter context window",
+        "Running multiple heavy apps simultaneously"
+      ],
+      "answer": [
+        "Thermal throttling",
+        "Insufficient memory bandwidth",
+        "Running multiple heavy apps simultaneously"
+      ],
+      "explanation": "Thermals, bandwidth, and system contention can hurt speed; a shorter context window usually helps."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What does quantization generally trade off?",
+      "options": [
+        "Lower memory/compute for some quality loss",
+        "Higher memory for higher quality",
+        "Internet access for offline use",
+        "GPU for CPU"
+      ],
+      "answer": "Lower memory/compute for some quality loss",
+      "explanation": "Quantization reduces precision to fit and run faster, sometimes at a quality cost."
+    },
+    {
+      "type": "true-false",
+      "question": "A model’s context length affects how much text it can consider at once.",
+      "answer": true,
+      "explanation": "Longer context windows can increase memory use and latency."
+    }
+  ]
+}

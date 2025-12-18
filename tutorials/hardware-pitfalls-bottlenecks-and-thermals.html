@@ -1,0 +1,60 @@
+<article class="tutorial">
+  <h1>Hardware: Pitfalls (Bottlenecks &amp; Thermals)</h1>
+  <p class="lede">Most slowdowns are not mysterious. They are bandwidth stalls, thermal throttling, or memory spills. This lesson shows how to spot each and pick a fix.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+  </ul>
+
+  <h2>Core failure modes</h2>
+  <ul>
+    <li><strong>Memory bandwidth bound:</strong> GPU/CPU cores wait on memory; utilization looks low but clocks are high.</li>
+    <li><strong>Thermal throttling:</strong> Clocks drop after sustained load; perf degrades after a few minutes.</li>
+    <li><strong>VRAM paging/offload:</strong> Latency spikes when working set spills to RAM or disk.</li>
+  </ul>
+
+  <h2>Worked example: read the signals</h2>
+  <ul>
+    <li><strong>Bandwidth bound:</strong> Utilization oscillates, power steady, temps stable; tokens/sec flat but below expected.</li>
+    <li><strong>Thermals:</strong> Temps rise, clocks drop, power dips; tokens/sec fall over time.</li>
+    <li><strong>Paging:</strong> Sudden pauses; system RAM climbs; disk light or swap usage spikes.</li>
+  </ul>
+
+  <h2>Mini build: one-measurement playbook</h2>
+  <ol>
+    <li>Pick a repeatable prompt (e.g., 512-token generation) and note tokens/sec from a cold start.</li>
+    <li>Run the same prompt after 10 minutes of continuous generation; log tokens/sec and temperature.</li>
+    <li>If slower, change one knob: lower temp target (fan), smaller context, or higher quantization.</li>
+    <li>Repeat once to confirm which knob helped.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Identify your bottleneck with simple observation.</p>
+    <p><strong>Do:</strong> Run the same workload twice: cold start and after 10 minutes. Record tokens/sec, temps, and any pauses.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can describe whether performance degrades over time.</li>
+      <li>You can name a likely cause (thermals, bandwidth, or memory spill) based on signals.</li>
+      <li>You propose one mitigation and tie it to the suspected cause.</li>
+    </ul>
+    <p><strong>Verify:</strong> Apply one mitigation (fan curve, smaller context, quantization) and rerun to confirm improvement.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Watch tokens/sec over time to separate thermals (degrade) from bandwidth limits (flat, low).</li>
+    <li>Paging/offload shows up as pauses and rising system RAM; fixing fit is the right lever.</li>
+    <li>Change one knob at a time to see which constraint actually mattered.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=hardware-capstone-quantize-and-fit-a-model">Hardware Capstone: Quantize and Fit a Model</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=local-ai-capstone-ollama-speed-report">Local AI Capstone: Speed Report</a></li>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+  </ul>
+</article>

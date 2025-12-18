@@ -1,0 +1,59 @@
+<article class="tutorial">
+  <h1>Agentic Flows Capstone: Guardrailed Agent Prototype</h1>
+  <p class="lede">You’ll design a small agent prototype that is operable and safe: budgets, logging, verification gates, and an incident playbook.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-pitfalls-tool-failures-and-infinite-loops">Agentic Flows: Pitfalls (Tool Failures &amp; Loops)</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>Tool catalog + schemas</li>
+    <li>Budgets + stop conditions</li>
+    <li>Logging/redaction plan</li>
+    <li>Verifier gate before external actions</li>
+  </ul>
+
+  <h2>Plan your prototype</h2>
+  <ol>
+    <li>Pick a low-risk automation (status drafting, FAQ answer, changelog summary).</li>
+    <li>List tools with schemas and which are read vs write.</li>
+    <li>Set numeric budgets (tool calls, retries, time) and stop conditions.</li>
+    <li>Define verification gates for every state-changing action.</li>
+  </ol>
+
+  <h2>Mini build: run a tabletop</h2>
+  <ol>
+    <li>Simulate one happy-path run; capture logs you would keep.</li>
+    <li>Simulate two failure cases (tool timeout, bad data) and note the halt/escalation.</li>
+    <li>Ensure redaction rules are applied in the logs.</li>
+    <li>Write the incident steps: who gets alerted, what gets rolled back.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Produce a “runbook-ready” agent design.</p>
+    <p><strong>Do:</strong> Pick one automation (safe and low-risk). Specify tools, budgets, and verification gates. Write 3 failure scenarios and your responses.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The design can be operated by someone else with your notes.</li>
+      <li>There is a clear escalation path for failures or uncertainty.</li>
+      <li>All state-changing actions require verification (and optionally human review).</li>
+    </ul>
+    <p><strong>Verify:</strong> Walk through a failure scenario and confirm the agent ends in a safe state.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Guardrails = constrained tools, budgets, verifiers, and clear escalation.</li>
+    <li>Tabletop simulations surface missing logs and redactions.</li>
+    <li>Document the incident path so operators know how to halt safely.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-capstone-deploy-safe-workflow">Safety Capstone</a></li>
+    <li><a href="?t=coding-ai-capstone-build-a-cli-helper">Coding AI Capstone</a></li>
+  </ul>
+</article>

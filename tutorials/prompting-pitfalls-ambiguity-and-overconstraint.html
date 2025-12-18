@@ -1,0 +1,74 @@
+<article class="tutorial">
+  <h1>Prompting: Pitfalls (Ambiguity &amp; Overconstraint)</h1>
+  <p class="lede">Prompts fail by being too vague (model guesses) or overconstrained (rules conflict). Learn the smells, the fixes, and how to prove the fix works.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>How to identify ambiguity vs conflicting constraints.</li>
+      <li>How to prioritize “must” vs “nice-to-have”.</li>
+      <li>How to use positive and negative examples to lock behavior.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=prompting-hands-on-build-reusable-templates">Prompting: Hands-on Templates</a></li>
+  </ul>
+
+  <h2>Concept explainer: two failure classes</h2>
+  <ul>
+    <li><strong>Ambiguity:</strong> missing audience, objective, success criteria.</li>
+    <li><strong>Overconstraint:</strong> conflicting rules (“be brief” and “include all details”).</li>
+    <li><strong>Uncheckable asks:</strong> no schema/examples to judge against.</li>
+  </ul>
+
+  <h2>Worked example: fixing both</h2>
+  <p><strong>Before (vague):</strong> “Summarize this for me.”</p>
+  <p><strong>After (fixed):</strong> “Summarize for executives. Output JSON {decisions:[], risks:[], open_questions:[]}. Max 3 items each. If info missing, set to []. Include one source quote.”</p>
+  <p><strong>Overconstraint fix:</strong> drop conflicting tone/length rules; keep one primary constraint (schema) and one secondary (max words).</p>
+
+  <h2>Guided mini-build: diagnose and rewrite</h2>
+  <ol>
+    <li>Pick a failing prompt; label it “ambiguous” or “overconstrained”.</li>
+    <li>Add/clarify the deliverable (schema/table/steps) and audience.</li>
+    <li>List constraints; keep the top 3 “musts”; remove or soften the rest.</li>
+    <li>Add one positive example and one negative example (what not to do).</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Debug a prompt</h2>
+    <p><strong>Task:</strong> Rewrite and prove the fix.</p>
+    <ol>
+      <li>Run the original prompt on one input; save the output.</li>
+      <li>Apply your rewrite (schema + prioritized constraints + examples).</li>
+      <li>Run the same input; compare: format consistency, missing info, conflicts resolved.</li>
+      <li>If one issue remains, adjust one constraint or example and re-run once.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Rewritten prompt has a fixed output format.</li>
+      <li>At least one conflicting constraint removed or clarified.</li>
+      <li>New output is easier to verify and closer to the intended shape.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Decide the deliverable first; constraints serve it.</li>
+    <li>Prioritize must-haves; avoid dueling rules.</li>
+    <li>Use examples to lock behavior; one negative example is powerful.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No quiz here—run the before/after comparison first.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=prompting-capstone-create-a-prompt-suite-and-tests">Prompting Capstone: Prompt Suite + Tests</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=ai-literacy-pitfalls-hallucinations-and-overconfidence">AI Literacy: Pitfalls</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+</article>

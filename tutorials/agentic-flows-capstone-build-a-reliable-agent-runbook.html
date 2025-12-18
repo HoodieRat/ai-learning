@@ -1,0 +1,60 @@
+<article class="tutorial">
+  <h1>Agentic Flows Capstone: Build an Agent Runbook</h1>
+  <p class="lede">You’ll create a runbook that makes an agent operable: what it does, what tools it can use, how it logs, what budgets apply, and what to do when it fails.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-pitfalls-infinite-loops-and-tool-misuse">Agentic Flows: Pitfalls</a></li>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>Tool catalog with schemas</li>
+    <li>Logging/redaction plan</li>
+    <li>Budgets and stop conditions</li>
+    <li>Failure playbook (what to do when stuck)</li>
+  </ul>
+
+  <h2>Plan your runbook</h2>
+  <ol>
+    <li>Choose one agent use case and its goal.</li>
+    <li>List allowed tools (read vs write) with parameter schemas.</li>
+    <li>Set numeric budgets and stop conditions for loops and retries.</li>
+    <li>Define escalation: when to involve a human and how to pause the agent.</li>
+  </ol>
+
+  <h2>Mini build: incident walkthrough</h2>
+  <ol>
+    <li>Write three common failure modes (tool timeout, bad data, verifier fail).</li>
+    <li>For each, specify logs to capture, what to redact, and who is notified.</li>
+    <li>Include rollback/containment steps for any state changes.</li>
+    <li>Test one scenario as a tabletop and adjust the runbook where unclear.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Write an operational runbook.</p>
+    <p><strong>Do:</strong> Choose one agent use case and produce a one-page runbook covering: inputs, outputs, tools, budgets, and review gates.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The runbook is specific enough someone else could operate it.</li>
+      <li>There is a clear escalation path (human review or rollback).</li>
+      <li>It includes at least 3 known failure modes and mitigations.</li>
+    </ul>
+    <p><strong>Verify:</strong> Walk through a hypothetical incident and confirm the runbook provides steps.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Runbooks make agents operable: clear tools, budgets, and logs.</li>
+    <li>Escalation and rollback steps keep incidents contained.</li>
+    <li>Tabletop drills reveal missing details before production.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone</a></li>
+    <li><a href="?t=coding-ai-capstone-ship-a-small-feature-with-tests">Coding AI Capstone</a></li>
+  </ul>
+</article>

@@ -1,1369 +1,1145 @@
-(function () {
-  "use strict";
+/* global AIHubQuizEngine */
 
-  const LS = {
-    PROGRESS: "aihub.progress",
-    THEME: "aihub.theme",
-    GITHUB: "aihub.github",
-    SIDEBAR_OPEN: "aihub.sidebarOpen",
-    SELECTED_CATEGORY: "aihub.selectedCategory",
-    SHOW_DRAFTS: "aihub.showDrafts",
-    SORT_MODE: "aihub.sortMode",
-    LAST_SLUG: "aihub.lastSlug",
-    SCROLL_MAP: "aihub.scrollBySlug"
+const ASSET_VERSION = "2025-12-17c";
+
+function toUrl(path) {
+  return new URL(path, document.baseURI);
+}
+
+const STORAGE_KEYS = {
+  progress: "aihub.progress",
+  theme: "aihub.theme",
+  showDrafts: "aihub.showDrafts",
+  lastVisited: "aihub.lastVisited",
+  lastActivePath: "aihub.lastActivePath",
+};
+
+const DIFFICULTY_ORDER = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+
+function readJsonStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJsonStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function qs(sel) {
+  const el = document.querySelector(sel);
+  if (!el) throw new Error(`Missing required element: ${sel}`);
+  return el;
+}
+
+function getSlugFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const slug = params.get("t");
+  return slug && slug.trim() ? slug.trim() : null;
+}
+
+function setSlugInUrl(slug, { replace = false } = {}) {
+  const url = new URL(location.href);
+  if (slug) url.searchParams.set("t", slug);
+  else url.searchParams.delete("t");
+  if (replace) history.replaceState({ t: slug }, "", url);
+  else history.pushState({ t: slug }, "", url);
+}
+
+function setTheme(theme) {
+  const safe = theme === "dark" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", safe);
+  localStorage.setItem(STORAGE_KEYS.theme, safe);
+}
+
+function getTheme() {
+  return localStorage.getItem(STORAGE_KEYS.theme) || "light";
+}
+
+function withVersion(path) {
+  const url = toUrl(path);
+  url.searchParams.set("v", ASSET_VERSION);
+  return url.toString();
+}
+
+async function fetchJson(path) {
+  const res = await fetch(withVersion(path), { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
+  return res.json();
+}
+
+function normalizeTutorial(t) {
+  return {
+    slug: t.slug,
+    title: t.title,
+    description: t.description,
+    category: t.category,
+    difficulty: t.difficulty,
+    minutes: t.minutes,
+    status: t.status,
+    featured: Boolean(t.featured),
+    tags: Array.isArray(t.tags) ? t.tags : [],
+    quiz: typeof t.quiz === "string" ? t.quiz : null,
+    prereqs: Array.isArray(t.prereqs) ? t.prereqs : [],
+    next: typeof t.next === "string" ? t.next : null,
+    related: Array.isArray(t.related) ? t.related : [],
+    path: typeof t.path === "string" ? t.path : null,
+    orderInPath: Number.isFinite(t.orderInPath) ? t.orderInPath : null,
+    publishedAt: typeof t.publishedAt === "string" ? t.publishedAt : null,
+  };
+}
+
+function computeCategoryCounts(tutorials, { showDrafts }) {
+  const counts = new Map();
+  for (const t of tutorials) {
+    if (!showDrafts && t.status === "draft") continue;
+    counts.set(t.category, (counts.get(t.category) || 0) + 1);
+  }
+  return counts;
+}
+
+function sortTutorials(tutorials, sortKey) {
+  const copy = [...tutorials];
+  if (sortKey === "title") {
+    copy.sort((a, b) => a.title.localeCompare(b.title));
+    return copy;
+  }
+  if (sortKey === "time") {
+    copy.sort((a, b) => (a.minutes ?? 0) - (b.minutes ?? 0));
+    return copy;
+  }
+  if (sortKey === "difficulty") {
+    copy.sort((a, b) => (DIFFICULTY_ORDER[a.difficulty] || 99) - (DIFFICULTY_ORDER[b.difficulty] || 99));
+    return copy;
+  }
+
+  // recommended
+  copy.sort((a, b) => {
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
+    if (a.status !== b.status) return a.status === "published" ? -1 : 1;
+    // stable ordering
+    return a.title.localeCompare(b.title);
+  });
+  return copy;
+}
+
+function renderTutorialList({ tutorials, activeSlug, showDrafts, category, search, sortKey, progress }) {
+  const list = qs("#tutorialList");
+  const term = (search || "").trim().toLowerCase();
+  const filtered = tutorials.filter((t) => {
+    if (!showDrafts && t.status === "draft") return false;
+    if (category && category !== "__all__" && t.category !== category) return false;
+    if (!term) return true;
+    const hay = `${t.title} ${t.description} ${(t.tags || []).join(" ")}`.toLowerCase();
+    return hay.includes(term);
+  });
+
+  const sorted = sortTutorials(filtered, sortKey);
+
+  if (!sorted.length) {
+    list.innerHTML = `
+      <div class="emptyState" style="margin: 6px 0;">
+        <div style="font-weight:650;">No tutorials match these filters.</div>
+        <div class="muted" style="font-size:13px;">Clear search or pick another category.</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = sorted
+    .map((t) => {
+      const isActive = t.slug === activeSlug;
+      const passed = Boolean(progress?.[t.slug]);
+      const statusTags = [
+        passed ? `<span class="tag good" title="Quiz passed">Passed</span>` : "",
+        t.status === "draft" ? `<span class="tag draft">Draft</span>` : "",
+      ].join("");
+      return `
+        <div class="tutorialRow ${isActive ? "active" : ""}" role="button" tabindex="0" data-slug="${escapeHtml(
+          t.slug
+        )}" aria-current="${isActive ? "page" : "false"}">
+          <div class="rowTop">
+            <div class="rowTitle">${escapeHtml(t.title)}</div>
+            <div class="rowMeta">
+              <span>${escapeHtml(t.difficulty)}</span>
+              <span>·</span>
+              <span>${Number(t.minutes) || 0}m</span>
+            </div>
+          </div>
+          <div class="rowMeta">${statusTags}</div>
+          <div class="rowDesc">${escapeHtml(t.description)}</div>
+        </div>
+      `;
+    })
+    .join("");
+
+  for (const row of list.querySelectorAll(".tutorialRow")) {
+    row.addEventListener("click", () => navigateToTutorial(row.dataset.slug));
+    row.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        navigateToTutorial(row.dataset.slug);
+      }
+    });
+  }
+}
+
+function comingSoonHtml({ title, message }) {
+  return `
+    <div class="breadcrumbs"><a href="/" data-nav="home">Home</a><span>›</span><span>Coming soon</span></div>
+    <div class="emptyState">
+      <h2 style="margin:0 0 8px;">${escapeHtml(title || "Coming Soon")}</h2>
+      <p style="margin:0;">${escapeHtml(message || "This tutorial is listed in the catalog but its content is not available yet.")}</p>
+    </div>
+  `;
+}
+
+function renderHome({ tutorials, paths, progress }) {
+  const main = qs("#main");
+  const lastVisited = localStorage.getItem(STORAGE_KEYS.lastVisited);
+  const lastActivePathId = localStorage.getItem(STORAGE_KEYS.lastActivePath);
+  const activePath = paths.find((p) => p.id === lastActivePathId) || null;
+
+  const featured = tutorials.filter((t) => t.featured && t.status === "published").slice(0, 6);
+  const newest = [...tutorials]
+    .filter((t) => t.status === "published")
+    .sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""))
+    .slice(0, 6);
+
+  let continueSlug = lastVisited || null;
+  if (activePath) {
+    const nextInPath = activePath.lessons.find((slug) => !progress?.[slug]);
+    continueSlug = nextInPath || activePath.lessons[0] || continueSlug;
+  }
+
+  const continueTutorial = continueSlug ? tutorials.find((t) => t.slug === continueSlug) : null;
+
+  main.innerHTML = `
+    <div class="tutorial">
+      <h1>Home</h1>
+      <p class="lede">Catalog-driven tutorials with Practice Labs and quizzes. Use the sidebar to browse, or start a learning path.</p>
+
+      <div class="gridHome">
+        <div class="card">
+          <h3>Continue Learning</h3>
+          ${continueTutorial ? `<p class="muted">${escapeHtml(continueTutorial.title)}</p>` : `<p class="muted">Pick a tutorial to start.</p>`}
+          <div class="contentActions">
+            <button class="btn" type="button" id="continueBtn" ${continueTutorial ? "" : "disabled"}>Open</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Hardware Reference</h3>
+          <p class="muted">A quick reference modal for CPU/GPU/NPU, memory, and quantization basics.</p>
+          <div class="contentActions">
+            <button class="btn" type="button" id="hardwareRefBtn">Open reference</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="gridHome">
+        <div class="card">
+          <h3>Learning Paths</h3>
+          <p class="muted">Pick a path to get Prev/Next navigation and a structured sequence.</p>
+          <div id="pathsList"></div>
+        </div>
+
+        <div class="card">
+          <h3>Featured</h3>
+          <div id="featuredList"></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card">
+        <h3>Newest</h3>
+        <div id="newestList"></div>
+      </div>
+    </div>
+  `;
+
+  const listToHtml = (items) => {
+    if (!items.length) return `<p class="muted">Nothing here yet.</p>`;
+    return `<div class="tutorialList">${items
+      .map(
+        (t) => `
+        <div class="tutorialRow" role="button" tabindex="0" data-slug="${escapeHtml(t.slug)}">
+          <div class="rowTop">
+            <div class="rowTitle">${escapeHtml(t.title)}</div>
+            <div class="rowMeta"><span>${escapeHtml(t.difficulty)}</span><span>·</span><span>${Number(t.minutes) || 0}m</span></div>
+          </div>
+          <div class="rowDesc">${escapeHtml(t.description)}</div>
+        </div>
+      `
+      )
+      .join("")}</div>`;
   };
 
-  const DEFAULT_REPO_URL = "https://github.com/HoodieRat/ai-learning";
-  const TUTORIALS_JSON_URL = "tutorials.json";
-  const TUTORIAL_HTML_PREFIX = "tutorials/";
-  const TUTORIAL_HTML_SUFFIX = ".html";
-  const LEARNING_PATHS_MD_URL = "learning-paths.md";
+  qs("#featuredList").innerHTML = listToHtml(featured);
+  qs("#newestList").innerHTML = listToHtml(newest);
 
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const pathsHost = qs("#pathsList");
+  pathsHost.innerHTML = `<div class="tutorialList">${paths
+    .slice(0, 6)
+    .map(
+      (p) => `
+      <div class="tutorialRow" role="button" tabindex="0" data-path="${escapeHtml(p.id)}">
+        <div class="rowTop">
+          <div class="rowTitle">${escapeHtml(p.title)}</div>
+          <div class="rowMeta"><span>${p.lessons.length} lessons</span></div>
+        </div>
+        <div class="rowDesc">${escapeHtml(p.description)}</div>
+      </div>
+    `
+    )
+    .join("")}</div>`;
 
-  const el = {
-    app: $(".app"),
-    sidebar: $("#sidebar"),
-    btnNav: $("#btnNav"),
-    btnTheme: $("#btnTheme"),
-    btnGithub: $("#btnGithub"),
-    btnHome: $("#btnHome"),
-    btnOpenSample: $("#btnOpenSample"),
-
-    btnCopyLink: $("#btnCopyLink"),
-    btnPrint: $("#btnPrint"),
-    btnBackHome: $("#btnBackHome"),
-    btnResetProgress: $("#btnResetProgress"),
-
-    searchInput: $("#searchInput"),
-    searchClear: $("#searchClear"),
-
-    categoryFilter: $("#categoryFilter"),
-    categoryChips: $("#categoryChips"),
-    categoryCurrent: $("#categoryCurrent"),
-
-    tutorialList: $("#tutorialList"),
-    sidebarHint: $("#sidebarHint"),
-
-    welcome: $("#welcome"),
-    tutorialShell: $("#tutorialShell"),
-    tutorialMount: $("#tutorialMount"),
-    breadcrumbs: $("#breadcrumbs"),
-    errorBox: $("#errorBox"),
-    errorText: $("#errorText"),
-    content: $("#content"),
-    contentInner: $("#contentInner"),
-
-    progressText: $("#progressText"),
-    progressFill: $("#progressFill"),
-
-    // Home
-    btnContinue: $("#btnContinue"),
-    continueHeading: $("#continueHeading"),
-    continueText: $("#continueText"),
-    continueMeta: $("#continueMeta"),
-    featuredList: $("#featuredList"),
-    newestList: $("#newestList"),
-    pathsList: $("#pathsList"),
-
-    // Hardware reference modal
-    btnHardwareReference: $("#btnHardwareReference"),
-    hardwareModal: $("#hardwareModal"),
-    hardwareContent: $("#hardwareContent")
-  };
-
-  function lsGet(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw == null) return fallback;
-      return JSON.parse(raw);
-    } catch {
-      return fallback;
-    }
-  }
-
-  function lsSet(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {}
-  }
-
-  function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-  }
-
-  function normalizeStr(s) {
-    return String(s || "")
-      .toLowerCase()
-      .replace(/\u2011|\u2012|\u2013|\u2014/g, "-")
-      .replace(/[^\p{L}\p{N}]+/gu, " ")
-      .trim()
-      .replace(/\s+/g, " ");
-  }
-
-  function safeUrl(s) {
-    try {
-      const u = new URL(String(s || "").trim(), window.location.href);
-      if (u.protocol === "http:" || u.protocol === "https:") return u.toString();
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
-  function ensureGithubLink() {
-    if (!el.btnGithub) return;
-    const stored = lsGet(LS.GITHUB, "");
-    const storedUrl = safeUrl(stored);
-    const currentHref = el.btnGithub.getAttribute("href") || "";
-    const currentUrl = safeUrl(currentHref);
-    const fallback = currentUrl || DEFAULT_REPO_URL;
-
-    el.btnGithub.href = storedUrl || fallback;
-    if (!el.btnGithub.getAttribute("target")) el.btnGithub.setAttribute("target", "_blank");
-    if (!el.btnGithub.getAttribute("rel")) el.btnGithub.setAttribute("rel", "noreferrer");
-  }
-
-  function setTheme(theme) {
-    if (!el.app) return;
-    const t = theme === "light" ? "light" : "dark";
-    el.app.setAttribute("data-theme", t);
-    lsSet(LS.THEME, t);
-  }
-
-  function toggleTheme() {
-    const cur = (el.app && el.app.getAttribute("data-theme")) || "dark";
-    setTheme(cur === "dark" ? "light" : "dark");
-  }
-
-  function setSidebarOpen(open) {
-    if (!el.sidebar) return;
-    if (window.matchMedia("(max-width: 980px)").matches) {
-      el.sidebar.classList.toggle("sidebar--open", !!open);
-      lsSet(LS.SIDEBAR_OPEN, !!open);
-    }
-  }
-
-  function closeSidebarOnMobile() {
-    if (window.matchMedia("(max-width: 980px)").matches) {
-      setSidebarOpen(false);
-    }
-  }
-
-  function showHome() {
-    if (el.welcome) el.welcome.hidden = false;
-    if (el.tutorialShell) el.tutorialShell.hidden = true;
-    if (el.errorBox) el.errorBox.hidden = true;
-    document.title = "AI Learning Hub";
-    if (el.content) el.content.focus();
-    renderHomeSections().catch(() => {});
-  }
-
-  function showError(msg) {
-    if (el.welcome) el.welcome.hidden = true;
-    if (el.tutorialShell) el.tutorialShell.hidden = true;
-    if (el.errorBox) el.errorBox.hidden = false;
-    if (el.errorText) el.errorText.textContent = msg || "Unknown error.";
-    document.title = "Error • AI Learning Hub";
-    if (el.content) el.content.focus();
-  }
-
-  function fileProtocolMessage() {
-    return [
-      "You're opening this site as a local file (file://), which blocks fetch() in most browsers.",
-      "",
-      "Fix (local preview):",
-      "• VS Code: open the folder and use the Live Server extension",
-      "• Python: open a terminal in the ai-learning folder and run:  python -m http.server 8000",
-      "  then visit: http://localhost:8000",
-      "",
-      "Fix (publish): host on GitHub Pages and open the https:// URL."
-    ].join("\n");
-  }
-
-  // App state
-  let catalog = null;
-  let progress = lsGet(LS.PROGRESS, {});
-  let selectedCategory = lsGet(LS.SELECTED_CATEGORY, "All");
-  let showDrafts = !!lsGet(LS.SHOW_DRAFTS, false);
-  let sortMode = lsGet(LS.SORT_MODE, "recommended"); // recommended | title | time | difficulty
-  let searchTerm = "";
-  let availability = Object.create(null); // slug -> true/false/null
-  let effectiveTutorials = []; // enriched with _status, _exists, etc
-
-  function computeProgressStats(tutorials) {
-    const list = Array.isArray(tutorials) ? tutorials : [];
-    const all = list.length;
-    const done = list.reduce((acc, t) => acc + (progress[t.slug] ? 1 : 0), 0);
-    const pct = all ? Math.round((done / all) * 100) : 0;
-    return { all, done, pct };
-  }
-
-  function renderProgress() {
-    if (!el.progressText || !el.progressFill) return;
-    const visible = getVisibleTutorialsForProgress();
-    const { all, done, pct } = computeProgressStats(visible);
-    el.progressText.textContent = `${done} completed • ${all} total`;
-    el.progressFill.style.width = `${pct}%`;
-  }
-
-  function getVisibleTutorialsForProgress() {
-    // Progress should match the same notion of "what counts" the user sees by default:
-    // published + existing (plus drafts if toggled)
-    return effectiveTutorials.filter((t) => isTutorialVisibleByDefault(t));
-  }
-
-  function getTutorialMeta(slug) {
-    return effectiveTutorials.find((t) => t.slug === slug) || null;
-  }
-
-  function statusFromMeta(t) {
-    const raw = (t && (t.status ?? t.published)) as any;
-    // Supported:
-    // - status: "draft" | "published"
-    // - published: true/false
-    if (typeof raw === "string") {
-      const s = raw.trim().toLowerCase();
-      if (s === "draft" || s === "hidden") return "draft";
-      if (s === "published" || s === "public") return "published";
-    }
-    if (typeof raw === "boolean") return raw ? "published" : "draft";
-    return null;
-  }
-
-  function isTutorialVisibleByDefault(t) {
-    const st = t._status;
-    if (st === "draft" && !showDrafts) return false;
-
-    // If no explicit status AND the file is missing, treat it like draft (hide by default).
-    // If explicit published but missing, keep visible (it will show "Coming soon" on click).
-    if (st === "published") return true;
-    if (st === "draft") return true; // only if showDrafts
-    if (st === "auto-draft") return showDrafts;
-    return true;
-  }
-
-  function isTutorialIncludedInBrowse(t) {
-    if (!isTutorialVisibleByDefault(t)) return false;
-    // Hide "auto-draft" when drafts hidden
-    if (t._status === "auto-draft" && !showDrafts) return false;
-    return true;
-  }
-
-  function matchesSearch(t) {
-    if (!searchTerm) return true;
-    const hay = normalizeStr(
-      [
-        t.title,
-        t.description,
-        t.category,
-        Array.isArray(t.tags) ? t.tags.join(" ") : "",
-        t.slug
-      ].join(" ")
-    );
-    return hay.includes(normalizeStr(searchTerm));
-  }
-
-  function matchesCategory(t) {
-    if (!selectedCategory || selectedCategory === "All") return true;
-    return (t.category || "Uncategorized") === selectedCategory;
-  }
-
-  function difficultyRank(d) {
-    const s = String(d || "").toLowerCase();
-    if (s.includes("beginner")) return 1;
-    if (s.includes("intermediate")) return 2;
-    if (s.includes("advanced")) return 3;
-    return 9;
-  }
-
-  function sortTutorials(list) {
-    const arr = list.slice();
-    if (sortMode === "title") {
-      arr.sort((a, b) => String(a.title).localeCompare(String(b.title)));
-      return arr;
-    }
-    if (sortMode === "time") {
-      arr.sort((a, b) => (a.minutes || 0) - (b.minutes || 0) || String(a.title).localeCompare(String(b.title)));
-      return arr;
-    }
-    if (sortMode === "difficulty") {
-      arr.sort((a, b) => difficultyRank(a.difficulty) - difficultyRank(b.difficulty) || (a.minutes || 0) - (b.minutes || 0));
-      return arr;
-    }
-
-    // recommended (default): keep catalog order, but push completed lower in browse to encourage progress
-    // while still preserving relative order within groups
-    arr.sort((a, b) => {
-      const ad = progress[a.slug] ? 1 : 0;
-      const bd = progress[b.slug] ? 1 : 0;
-      if (ad !== bd) return ad - bd;
-      return a._idx - b._idx;
-    });
-    return arr;
-  }
-
-  function filteredTutorialsForBrowse() {
-    const base = effectiveTutorials.filter(isTutorialIncludedInBrowse);
-    const filtered = base.filter((t) => matchesCategory(t) && matchesSearch(t));
-    return sortTutorials(filtered);
-  }
-
-  function computeCategoryCounts() {
-    const base = effectiveTutorials.filter(isTutorialIncludedInBrowse).filter(matchesSearch);
-    const counts = new Map();
-    for (const t of base) {
-      const c = (t.category || "Uncategorized");
-      counts.set(c, (counts.get(c) || 0) + 1);
-    }
-    const total = base.length;
-    return { counts, total };
-  }
-
-  // UI: category dropdown + counts + drafts toggle + sort
-  function ensureBrowseControls() {
-    if (!el.categoryFilter) return;
-
-    const body = el.categoryFilter.querySelector(".filter__body");
-    if (!body) return;
-
-    // Hide old chip wall container (we'll keep it as a fallback if needed)
-    if (el.categoryChips) el.categoryChips.style.display = "none";
-
-    // Category select
-    let sel = $("#categorySelect", body);
-    if (!sel) {
-      sel = document.createElement("select");
-      sel.id = "categorySelect";
-      sel.className = "search__input";
-      sel.style.width = "100%";
-      sel.style.marginBottom = "10px";
-      body.insertBefore(sel, body.firstChild);
-
-      sel.addEventListener("change", () => {
-        selectedCategory = sel.value || "All";
-        lsSet(LS.SELECTED_CATEGORY, selectedCategory);
-        if (el.categoryCurrent) el.categoryCurrent.textContent = selectedCategory;
-        buildTutorialList();
-        renderProgress();
-      });
-    }
-
-    // Draft toggle
-    let draftWrap = $("#draftToggleWrap", body);
-    if (!draftWrap) {
-      draftWrap = document.createElement("label");
-      draftWrap.id = "draftToggleWrap";
-      draftWrap.style.display = "flex";
-      draftWrap.style.alignItems = "center";
-      draftWrap.style.gap = "10px";
-      draftWrap.style.margin = "0 0 10px 0";
-      draftWrap.style.color = "var(--muted)";
-      draftWrap.style.fontSize = "12px";
-
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.id = "showDraftsToggle";
-      cb.checked = !!showDrafts;
-
-      const txt = document.createElement("span");
-      txt.textContent = "Show drafts";
-
-      draftWrap.appendChild(cb);
-      draftWrap.appendChild(txt);
-
-      body.insertBefore(draftWrap, sel.nextSibling);
-
-      cb.addEventListener("change", () => {
-        showDrafts = !!cb.checked;
-        lsSet(LS.SHOW_DRAFTS, showDrafts);
-        // Recompute categories + list (drafts impact counts)
-        populateCategorySelect();
-        buildTutorialList();
-        renderProgress();
-        renderHomeSections().catch(() => {});
-      });
-    } else {
-      const cb = $("#showDraftsToggle", draftWrap);
-      if (cb) cb.checked = !!showDrafts;
-    }
-
-    // Sort select
-    let sortSel = $("#sortSelect", body);
-    if (!sortSel) {
-      sortSel = document.createElement("select");
-      sortSel.id = "sortSelect";
-      sortSel.className = "search__input";
-      sortSel.style.width = "100%";
-      sortSel.style.marginBottom = "6px";
-
-      const opts = [
-        ["recommended", "Sort: Recommended"],
-        ["title", "Sort: Title (A→Z)"],
-        ["time", "Sort: Time (short→long)"],
-        ["difficulty", "Sort: Difficulty"]
-      ];
-      for (const [val, label] of opts) {
-        const o = document.createElement("option");
-        o.value = val;
-        o.textContent = label;
-        sortSel.appendChild(o);
+  for (const row of main.querySelectorAll(".tutorialRow[data-slug]")) {
+    row.addEventListener("click", () => navigateToTutorial(row.dataset.slug));
+    row.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        navigateToTutorial(row.dataset.slug);
       }
-
-      body.insertBefore(sortSel, draftWrap.nextSibling);
-
-      sortSel.addEventListener("change", () => {
-        sortMode = sortSel.value || "recommended";
-        lsSet(LS.SORT_MODE, sortMode);
-        buildTutorialList();
-      });
-    }
-    sortSel.value = sortMode || "recommended";
-
-    populateCategorySelect();
+    });
+  }
+  for (const row of main.querySelectorAll(".tutorialRow[data-path]")) {
+    row.addEventListener("click", () => {
+      const id = row.dataset.path;
+      localStorage.setItem(STORAGE_KEYS.lastActivePath, id);
+      const path = paths.find((p) => p.id === id);
+      if (path?.lessons?.length) navigateToTutorial(path.lessons[0]);
+    });
   }
 
-  function populateCategorySelect() {
-    const select = $("#categorySelect");
-    if (!select) return;
-    const { counts, total } = computeCategoryCounts();
-
-    const cats = Array.from(counts.keys()).sort((a, b) => String(a).localeCompare(String(b)));
-    const desired = selectedCategory || "All";
-
-    select.innerHTML = "";
-    {
-      const o = document.createElement("option");
-      o.value = "All";
-      o.textContent = `All (${total})`;
-      select.appendChild(o);
-    }
-    for (const c of cats) {
-      const o = document.createElement("option");
-      o.value = c;
-      o.textContent = `${c} (${counts.get(c) || 0})`;
-      select.appendChild(o);
-    }
-
-    // Keep selection valid
-    if (desired !== "All" && !counts.has(desired)) selectedCategory = "All";
-    select.value = selectedCategory;
-    if (el.categoryCurrent) el.categoryCurrent.textContent = selectedCategory;
+  const continueBtn = main.querySelector("#continueBtn");
+  if (continueBtn && continueTutorial) {
+    continueBtn.addEventListener("click", () => navigateToTutorial(continueTutorial.slug));
   }
 
-  function setSidebarHint(msg) {
-    if (el.sidebarHint) el.sidebarHint.textContent = msg;
-  }
+  main.querySelector("#hardwareRefBtn")?.addEventListener("click", openHardwareReference);
+}
 
-  function buildTutorialList() {
-    if (!el.tutorialList) return;
-    const list = filteredTutorialsForBrowse();
+function renderHardwareReference() {
+  const host = qs("#hardwareRefBody");
+  host.innerHTML = `
+    <div class="tutorial">
+      <h3>CPU / GPU / NPU</h3>
+      <ul>
+        <li><strong>CPU</strong>: general-purpose; great for orchestration and small models; slow for large dense matmul.</li>
+        <li><strong>GPU</strong>: high throughput; best for training and fast inference; constrained by VRAM.</li>
+        <li><strong>NPU</strong>: efficient inference for supported ops; best for on-device/low power; model/driver constraints vary.</li>
+      </ul>
 
-    el.tutorialList.innerHTML = "";
+      <h3>Memory</h3>
+      <ul>
+        <li><strong>VRAM</strong>: on-GPU memory; often the primary limiter for large models and context size.</li>
+        <li><strong>RAM</strong>: system memory; supports CPU inference and can back GPU via paging (usually much slower).</li>
+      </ul>
 
-    if (list.length === 0) {
-      setSidebarHint("No tutorials match your filters.");
-      const empty = document.createElement("div");
-      empty.className = "emptyState";
-      empty.textContent = "Try clearing the search, switching category, or enabling drafts.";
-      el.tutorialList.appendChild(empty);
+      <h3>Quantization</h3>
+      <ul>
+        <li>Reduces model size (and often speeds inference) by using lower precision weights (e.g., 8-bit / 4-bit).</li>
+        <li>Tradeoff: quality can drop, and not all runtimes accelerate all quantization formats.</li>
+      </ul>
+    </div>
+  `;
+}
+
+function openHardwareReference() {
+  renderHardwareReference();
+  const dialog = qs("#hardwareRefDialog");
+  if (typeof dialog.showModal === "function") dialog.showModal();
+}
+
+async function renderTutorial({ tutorial, tutorialsBySlug, paths, progress }) {
+  const main = qs("#main");
+  const url = toUrl(`tutorials/${tutorial.slug}.html`);
+  let html = "";
+  try {
+    const res = await fetch(url.toString(), { cache: "no-store" });
+    if (!res.ok) {
+      main.innerHTML = comingSoonHtml({ title: tutorial.title, message: `Content missing (${res.status}).` });
       return;
     }
-    setSidebarHint("Pick a tutorial or search.");
-
-    const currentSlug = getCurrentSlugFromUrl();
-
-    for (const t of list) {
-      const a = document.createElement("a");
-      a.href = `?t=${encodeURIComponent(t.slug)}`;
-      a.className =
-        "tocItem" +
-        (progress[t.slug] ? " tocItem--done" : "") +
-        (t.slug === currentSlug ? " tocItem--active" : "") +
-        (t._status === "draft" ? " tocItem--draft" : "") +
-        (t._exists === false ? " tocItem--coming" : "");
-
-      a.setAttribute("data-slug", t.slug);
-
-      const row = document.createElement("div");
-      row.className = "tocItem__row";
-
-      const title = document.createElement("div");
-      title.className = "tocItem__title";
-      title.textContent = t.title || t.slug;
-
-      const meta = document.createElement("div");
-      meta.className = "tocItem__meta";
-
-      const dot = document.createElement("span");
-      dot.className = "tocItem__status";
-      meta.appendChild(dot);
-
-      const m1 = document.createElement("span");
-      const bits = [];
-      bits.push(`${t.difficulty || "—"}`);
-      bits.push(`${typeof t.minutes === "number" ? `${t.minutes}m` : "—"}`);
-
-      if (t._status === "draft") bits.push("Draft");
-      if (t._exists === false && t._status === "published") bits.push("Coming soon");
-      meta.appendChild((m1.textContent = bits.join(" • "), m1));
-
-      row.appendChild(title);
-      row.appendChild(meta);
-
-      const desc = document.createElement("div");
-      desc.className = "tocItem__desc";
-      desc.textContent = t.description || "";
-
-      a.appendChild(row);
-      a.appendChild(desc);
-
-      a.addEventListener("click", (ev) => {
-        ev.preventDefault();
-        navigateToTutorial(t.slug);
-        closeSidebarOnMobile();
-      });
-
-      el.tutorialList.appendChild(a);
-    }
-
-    renderProgress();
-  }
-
-  function setBreadcrumbs(t) {
-    if (!el.breadcrumbs) return;
-    const c = t.category || "Uncategorized";
-    const title = t.title || t.slug;
-    let suffix = "";
-    if (t._status === "draft") suffix = " • Draft";
-    if (t._exists === false && t._status === "published") suffix = " • Coming soon";
-    el.breadcrumbs.textContent = `${c} / ${title}${suffix}`;
-  }
-
-  function getCurrentSlugFromUrl() {
-    try {
-      const url = new URL(window.location.href);
-      return url.searchParams.get("t");
-    } catch {
-      return null;
-    }
-  }
-
-  function updateActiveInSidebar(slug) {
-    if (!el.tutorialList) return;
-    for (const node of $$("[data-slug]", el.tutorialList)) {
-      node.classList.toggle("tocItem--active", node.getAttribute("data-slug") === slug);
-    }
-  }
-
-  function createComingSoonHtml(meta, reason) {
-    const title = meta && meta.title ? meta.title : "Coming soon";
-    const desc =
-      (meta && meta.description) ||
-      "This tutorial is listed in the catalog but the page isn't published yet.";
-    const cat = (meta && meta.category) || "Uncategorized";
-    const diff = (meta && meta.difficulty) || "—";
-    const mins = typeof (meta && meta.minutes) === "number" ? `${meta.minutes} min` : "—";
-
-    const extra =
-      reason && String(reason).trim()
-        ? `<div class="callout"><strong>Note:</strong> ${escapeHtml(String(reason))}</div>`
-        : "";
-
-    return `
-<article class="tutorial" data-tutorial>
-  <header class="tutorial__header">
-    <div class="tutorial__meta">
-      <span class="pill" data-field="category">${escapeHtml(cat)}</span>
-      <span class="pill pill--subtle" data-field="difficulty">${escapeHtml(diff)}</span>
-      <span class="pill pill--subtle" data-field="minutes">${escapeHtml(mins)}</span>
-    </div>
-    <h1 data-field="title">${escapeHtml(title)}</h1>
-    <p class="tutorial__lede" data-field="description">${escapeHtml(desc)}</p>
-  </header>
-
-  ${extra}
-
-  <section class="tutorial__section">
-    <h2>Coming soon</h2>
-    <p>This page isn’t published yet. If you’re building the site, either:</p>
-    <ul>
-      <li>Create <code>${escapeHtml(TUTORIAL_HTML_PREFIX + (meta && meta.slug ? meta.slug : "your-slug") + TUTORIAL_HTML_SUFFIX)}</code></li>
-      <li>Or mark this tutorial as <code>status: "draft"</code> in <code>tutorials.json</code> to hide it by default.</li>
-    </ul>
-    <div class="callout">
-      <strong>Tip:</strong> You can enable “Show drafts” in the sidebar while you build.
-    </div>
-  </section>
-</article>
-`.trim();
-  }
-
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  async function loadTutorialHtml(slug) {
-    const file = `${TUTORIAL_HTML_PREFIX}${encodeURIComponent(slug)}${TUTORIAL_HTML_SUFFIX}`;
-    const resp = await fetch(file, { cache: "no-store" });
-    if (!resp.ok) {
-      const meta = getTutorialMeta(slug);
-      // Friendly fallback (no hard error)
-      return createComingSoonHtml(meta || { slug }, `Missing file: ${file}`);
-    }
-    return await resp.text();
-  }
-
-  function wireInternalNav(container) {
-    $$("[data-nav]", container).forEach((a) => {
-      a.addEventListener("click", (ev) => {
-        ev.preventDefault();
-        const slug = a.getAttribute("data-nav");
-        if (slug) navigateToTutorial(slug);
-      });
-    });
-  }
-
-  function wireCopyButtons(container) {
-    $$("[data-copy-selector]", container).forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const sel = btn.getAttribute("data-copy-selector");
-        const node = sel ? container.querySelector(sel) : null;
-        const text = node ? (node.value != null ? node.value : node.textContent) : "";
-        const payload = (text || "").trim();
-
-        try {
-          await navigator.clipboard.writeText(payload);
-          const old = btn.textContent;
-          btn.textContent = "Copied!";
-          setTimeout(() => (btn.textContent = old), 900);
-        } catch {
-          const old = btn.textContent;
-          btn.textContent = "Copy failed";
-          setTimeout(() => (btn.textContent = old), 900);
-        }
-      });
-    });
-  }
-
-  function wirePracticeTabs(container) {
-    $$("[data-practice]", container).forEach((practice) => {
-      const tabs = $$("[data-practice-tab]", practice);
-      const panels = $$("[data-practice-panel]", practice);
-
-      function activate(name) {
-        tabs.forEach((t) => t.classList.toggle("chip--active", t.getAttribute("data-practice-tab") === name));
-        panels.forEach((p) => {
-          const is = p.getAttribute("data-practice-panel") === name;
-          p.hidden = !is;
-        });
-      }
-
-      tabs.forEach((t) => t.addEventListener("click", () => activate(t.getAttribute("data-practice-tab"))));
-      activate(tabs[0]?.getAttribute("data-practice-tab") || "chat");
-    });
-  }
-
-  function storeLastSlug(slug) {
-    if (!slug) return;
-    lsSet(LS.LAST_SLUG, slug);
-  }
-
-  function getScrollMap() {
-    const m = lsGet(LS.SCROLL_MAP, {});
-    return m && typeof m === "object" ? m : {};
-  }
-
-  function saveScrollForSlug(slug) {
-    if (!slug || !el.content) return;
-    const map = getScrollMap();
-    map[slug] = clamp(Math.round(el.content.scrollTop || 0), 0, 10_000_000);
-    lsSet(LS.SCROLL_MAP, map);
-  }
-
-  function restoreScrollForSlug(slug) {
-    if (!slug || !el.content) return;
-    const map = getScrollMap();
-    const v = map[slug];
-    if (typeof v === "number" && isFinite(v)) {
-      el.content.scrollTop = clamp(v, 0, 10_000_000);
-    } else {
-      el.content.scrollTop = 0;
-    }
-  }
-
-  async function renderTutorial(slug) {
-    const meta = getTutorialMeta(slug);
-    if (!meta) {
-      // Not a normal scenario, but still friendly
-      const msg = `Tutorial not found in ${TUTORIALS_JSON_URL}: ${slug}`;
-      if (el.tutorialMount) el.tutorialMount.innerHTML = createComingSoonHtml({ slug }, msg);
-      if (el.welcome) el.welcome.hidden = true;
-      if (el.errorBox) el.errorBox.hidden = true;
-      if (el.tutorialShell) el.tutorialShell.hidden = false;
-      setBreadcrumbs({ slug, category: "Missing", title: "Missing tutorial" });
-      document.title = "Missing tutorial • AI Learning Hub";
-      updateActiveInSidebar(slug);
-      storeLastSlug(slug);
-      restoreScrollForSlug(slug);
-      if (el.content) el.content.focus();
+    html = await res.text();
+    if (!html || !html.trim()) {
+      main.innerHTML = comingSoonHtml({ title: tutorial.title, message: "Content file is empty." });
       return;
     }
+  } catch {
+    main.innerHTML = comingSoonHtml({ title: tutorial.title, message: "Failed to load content." });
+    return;
+  }
 
-    // Save scroll of previous tutorial before swap
-    const currentSlug = getCurrentSlugFromUrl();
-    if (currentSlug && currentSlug !== slug) saveScrollForSlug(currentSlug);
+  const crumbs = `
+    <div class="breadcrumbs">
+      <a href="./" data-nav="home">Home</a>
+      <span>›</span>
+      <span>${escapeHtml(tutorial.category)}</span>
+      <span>›</span>
+      <span>${escapeHtml(tutorial.title)}</span>
+    </div>
+  `;
 
-    const html = await loadTutorialHtml(slug);
-    if (el.tutorialMount) el.tutorialMount.innerHTML = html;
+  const actions = `
+    <div class="contentActions">
+      <button class="btn" type="button" id="copyLinkBtn">Copy link</button>
+      <button class="btn" type="button" id="printBtn">Print</button>
+    </div>
+  `;
 
-    // Populate fields if template uses data-field placeholders
-    const root = (el.tutorialMount && el.tutorialMount.querySelector("[data-tutorial]")) || el.tutorialMount;
-    if (root) {
-      const setField = (name, value) => {
-        const node = root.querySelector(`[data-field='${name}']`);
-        if (node) node.textContent = value;
-      };
-      setField("title", meta.title || meta.slug);
-      setField("description", meta.description || "");
-      setField("category", meta.category || "Uncategorized");
-      setField("difficulty", meta.difficulty || "—");
-      setField("minutes", typeof meta.minutes === "number" ? `${meta.minutes} min` : "—");
+  const nav = computePrevNext({ tutorial, tutorialsBySlug, paths });
+  const prevNext = `
+    <div class="contentActions" aria-label="Prev/Next">
+      <button class="btn" type="button" id="prevBtn" ${nav.prev ? "" : "disabled"}>Prev</button>
+      <button class="btn" type="button" id="nextBtn" ${nav.next ? "" : "disabled"}>Next</button>
+    </div>
+  `;
+
+  main.innerHTML = `${crumbs}${actions}${prevNext}<div class="divider"></div>${html}`;
+
+  main.querySelector("#copyLinkBtn")?.addEventListener("click", async () => {
+    const link = location.href;
+    try {
+      await navigator.clipboard.writeText(link);
+    } catch {
+      // fallback
+      window.prompt("Copy link:", link);
     }
+  });
+  main.querySelector("#printBtn")?.addEventListener("click", () => window.print());
+  main.querySelector("#prevBtn")?.addEventListener("click", () => nav.prev && navigateToTutorial(nav.prev));
+  main.querySelector("#nextBtn")?.addEventListener("click", () => nav.next && navigateToTutorial(nav.next));
 
-    // Wire behaviors
-    if (el.tutorialMount) {
-      wireInternalNav(el.tutorialMount);
-      wirePracticeTabs(el.tutorialMount);
-      wireCopyButtons(el.tutorialMount);
+  // Track last visited
+  localStorage.setItem(STORAGE_KEYS.lastVisited, tutorial.slug);
 
-      if (window.AIHubQuiz?.mountQuizzesWithin) {
-        try {
-          await window.AIHubQuiz.mountQuizzesWithin(el.tutorialMount, slug);
-        } catch {}
-      }
-    }
+  // Mount quizzes (only where data-quiz exists)
+  for (const el of main.querySelectorAll("[data-quiz]")) {
+    el.setAttribute("data-quiz-slug", tutorial.slug);
+  }
+  if (window.AIHubQuizEngine?.mountAll) window.AIHubQuizEngine.mountAll();
 
-    if (el.welcome) el.welcome.hidden = true;
-    if (el.errorBox) el.errorBox.hidden = true;
-    if (el.tutorialShell) el.tutorialShell.hidden = false;
-
-    setBreadcrumbs(meta);
-    document.title = `${meta.title || meta.slug} • AI Learning Hub`;
-
-    updateActiveInSidebar(slug);
-    storeLastSlug(slug);
-
-    // Restore scroll (after layout)
-    requestAnimationFrame(() => {
-      restoreScrollForSlug(slug);
-      if (el.content) el.content.focus();
+  // Local cross-links inside tutorial content
+  for (const a of main.querySelectorAll('a[href^="?t="]')) {
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = a.getAttribute("href") || "";
+      const slug = new URLSearchParams(href.replace(/^\?/, "")).get("t");
+      if (slug) navigateToTutorial(slug);
     });
   }
+}
 
-  function navigateToTutorial(slug) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("t", slug);
-    history.pushState({ t: slug }, "", url.toString());
-    renderTutorial(slug).catch((err) => showError(err?.message || String(err)));
-  }
-
-  function handleRoute() {
-    const slug = getCurrentSlugFromUrl();
-    if (slug) {
-      renderTutorial(slug).catch((err) => showError(err?.message || String(err)));
-    } else {
-      showHome();
-      // Save scroll of last tutorial when returning home
-      const last = lsGet(LS.LAST_SLUG, "");
-      if (typeof last === "string" && last) saveScrollForSlug(last);
-    }
-  }
-
-  function copyLink() {
-    const url = window.location.href;
-    const btn = el.btnCopyLink;
-    if (!btn) return;
-
-    const done = (ok) => {
-      const old = btn.textContent;
-      btn.textContent = ok ? "Copied!" : "Copy failed";
-      setTimeout(() => (btn.textContent = old), 1200);
+function computePrevNext({ tutorial, tutorialsBySlug, paths }) {
+  const activePathId = localStorage.getItem(STORAGE_KEYS.lastActivePath);
+  const activePath = activePathId ? paths.find((p) => p.id === activePathId) : null;
+  if (activePath?.lessons?.includes(tutorial.slug)) {
+    const idx = activePath.lessons.indexOf(tutorial.slug);
+    return {
+      prev: idx > 0 ? activePath.lessons[idx - 1] : null,
+      next: idx >= 0 && idx < activePath.lessons.length - 1 ? activePath.lessons[idx + 1] : null,
     };
-
-    (navigator.clipboard?.writeText ? navigator.clipboard.writeText(url) : Promise.reject())
-      .then(() => done(true))
-      .catch(() => done(false));
   }
 
-  async function checkFileExists(slug) {
-    const file = `${TUTORIAL_HTML_PREFIX}${encodeURIComponent(slug)}${TUTORIAL_HTML_SUFFIX}`;
+  if (tutorial.path && Number.isFinite(tutorial.orderInPath)) {
+    const siblings = [...tutorialsBySlug.values()]
+      .filter((t) => t.path === tutorial.path)
+      .sort((a, b) => (a.orderInPath ?? 0) - (b.orderInPath ?? 0));
+    const idx = siblings.findIndex((t) => t.slug === tutorial.slug);
+    return {
+      prev: idx > 0 ? siblings[idx - 1].slug : null,
+      next: idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1].slug : null,
+    };
+  }
+  return { prev: null, next: null };
+}
 
-    // Try HEAD first
-    try {
-      const resp = await fetch(file, { method: "HEAD", cache: "no-store" });
-      if (resp.ok) return true;
-      if (resp.status === 404) return false;
-      // Some hosts might block HEAD; treat as unknown
-    } catch {}
+let APP = {
+  tutorials: [],
+  tutorialsBySlug: new Map(),
+  paths: [],
+  site: null,
+  progress: {},
+};
 
-    // Fallback: lightweight GET (still okay on static pages)
-    try {
-      const resp = await fetch(file, { cache: "no-store" });
-      if (resp.ok) return true;
-      if (resp.status === 404) return false;
-      return null;
-    } catch {
-      return null;
-    }
+function navigateToTutorial(slug) {
+  setSlugInUrl(slug);
+  update();
+}
+
+async function update() {
+  const activeSlug = getSlugFromUrl();
+  const showDrafts = Boolean(readJsonStorage(STORAGE_KEYS.showDrafts, false));
+  const category = qs("#categorySelect").value || "__all__";
+  const search = qs("#searchInput").value || "";
+  const sortKey = qs("#sortSelect").value || "recommended";
+  const progress = readJsonStorage(STORAGE_KEYS.progress, {});
+  APP.progress = progress;
+
+  renderTutorialList({
+    tutorials: APP.tutorials,
+    activeSlug,
+    showDrafts,
+    category,
+    search,
+    sortKey,
+    progress,
+  });
+
+  const t = activeSlug ? APP.tutorialsBySlug.get(activeSlug) : null;
+  if (!t) {
+    renderHome({ tutorials: APP.tutorials, paths: APP.paths, progress });
+    return;
   }
 
-  async function promisePool(items, concurrency, worker) {
-    const ret = new Array(items.length);
-    let idx = 0;
-
-    async function runOne() {
-      while (idx < items.length) {
-        const my = idx++;
-        try {
-          ret[my] = await worker(items[my], my);
-        } catch (e) {
-          ret[my] = e;
-        }
-      }
-    }
-
-    const n = clamp(concurrency || 6, 1, 16);
-    const runners = [];
-    for (let i = 0; i < n; i++) runners.push(runOne());
-    await Promise.all(runners);
-    return ret;
+  if (!showDrafts && t.status === "draft") {
+    // hidden unless explicitly shown
+    renderHome({ tutorials: APP.tutorials, paths: APP.paths, progress });
+    return;
   }
-
-  async function enrichTutorialsWithStatusAndAvailability(rawTutorials) {
-    const arr = rawTutorials.map((t, i) => ({ ...t, _idx: i }));
-
-    // Check existence for slugs that are likely unfinished:
-    // - no explicit status/published flag
-    // - OR explicitly draft (so we can show "Coming soon" state when drafts are enabled)
-    const toCheck = [];
-    for (const t of arr) {
-      const st = statusFromMeta(t);
-      const needsCheck = st == null || st === "draft";
-      if (needsCheck && typeof t.slug === "string" && t.slug) toCheck.push(t.slug);
-    }
-
-    const uniqueSlugs = Array.from(new Set(toCheck));
-    const results = await promisePool(uniqueSlugs, 8, async (slug) => {
-      const exists = await checkFileExists(slug);
-      availability[slug] = exists;
-      return exists;
-    });
-
-    // Map results back (availability already filled)
-    for (let i = 0; i < uniqueSlugs.length; i++) {
-      const slug = uniqueSlugs[i];
-      const exists = results[i];
-      availability[slug] = typeof exists === "boolean" ? exists : availability[slug] ?? null;
-    }
-
-    // Compute effective status
-    for (const t of arr) {
-      const explicit = statusFromMeta(t);
-      const ex = availability[t.slug];
-      const exists = typeof ex === "boolean" ? ex : null;
-
-      t._exists = exists;
-
-      if (explicit) {
-        t._status = explicit;
-      } else {
-        // Auto-draft: no status provided + file missing => hide by default (but reveal with Show drafts)
-        if (exists === false) t._status = "auto-draft";
-        else t._status = "published";
-      }
-    }
-
-    return arr;
-  }
-
-  function buildHomeItem(t) {
-    const a = document.createElement("a");
-    a.className =
-      "tocItem" +
-      (progress[t.slug] ? " tocItem--done" : "") +
-      (t._status === "draft" ? " tocItem--draft" : "") +
-      (t._exists === false && t._status === "published" ? " tocItem--coming" : "");
-
-    a.href = `?t=${encodeURIComponent(t.slug)}`;
-    a.style.padding = "10px";
-
-    const row = document.createElement("div");
-    row.className = "tocItem__row";
-
-    const title = document.createElement("div");
-    title.className = "tocItem__title";
-    title.textContent = t.title || t.slug;
-
-    const meta = document.createElement("div");
-    meta.className = "tocItem__meta";
-
-    const dot = document.createElement("span");
-    dot.className = "tocItem__status";
-    meta.appendChild(dot);
-
-    const span = document.createElement("span");
-    const bits = [];
-    bits.push(`${t.difficulty || "—"}`);
-    bits.push(`${typeof t.minutes === "number" ? `${t.minutes}m` : "—"}`);
-    if (t._status === "draft") bits.push("Draft");
-    if (t._exists === false && t._status === "published") bits.push("Coming soon");
-    span.textContent = bits.join(" • ");
-    meta.appendChild(span);
-
-    row.appendChild(title);
-    row.appendChild(meta);
-
-    const desc = document.createElement("div");
-    desc.className = "tocItem__desc";
-    desc.textContent = t.description || "";
-
-    a.appendChild(row);
-    a.appendChild(desc);
-
-    a.addEventListener("click", (ev) => {
-      ev.preventDefault();
-      navigateToTutorial(t.slug);
-      closeSidebarOnMobile();
-    });
-
-    return a;
-  }
-
-  function pickContinueSlug() {
-    const bySlug = new Map(effectiveTutorials.map((t) => [t.slug, t]));
-
-    const last = lsGet(LS.LAST_SLUG, "");
-    if (typeof last === "string" && last && bySlug.has(last) && isTutorialVisibleByDefault(bySlug.get(last))) {
-      return last;
-    }
-
-    // First unfinished published (prefer existing files)
-    const candidates = effectiveTutorials.filter(isTutorialVisibleByDefault);
-    const unfinished = candidates.find((t) => !progress[t.slug] && t._status !== "draft" && t._exists !== false);
-    if (unfinished) return unfinished.slug;
-
-    const anyUnfinished = candidates.find((t) => !progress[t.slug]);
-    if (anyUnfinished) return anyUnfinished.slug;
-
-    return candidates[0]?.slug || "ai-101-what-models-do";
-  }
-
-  function curatedFeatured() {
-    const list = effectiveTutorials.filter(isTutorialVisibleByDefault);
-    const explicit = list.filter((t) => t.featured === true || t.pinned === true);
-
-    const take = (arr, n) => arr.slice(0, n);
-
-    if (explicit.length >= 4) return take(explicit, 6);
-
-    const preferredSlugs = [
-      "ai-101-what-models-do",
-      "cpu-vs-gpu-vs-npu",
-      "vram-vs-ram",
-      "quantization-explained",
-      "local-ai-ollama-basics",
-      "prompting-structure"
-    ];
-
-    const picked = [];
-    const seen = new Set();
-    for (const s of preferredSlugs) {
-      const t = list.find((x) => x.slug === s);
-      if (t && !seen.has(t.slug)) {
-        picked.push(t);
-        seen.add(t.slug);
-      }
-    }
-
-    // Fill remainder from explicit and then from catalog order
-    for (const t of explicit) {
-      if (picked.length >= 6) break;
-      if (!seen.has(t.slug)) {
-        picked.push(t);
-        seen.add(t.slug);
-      }
-    }
-    for (const t of list) {
-      if (picked.length >= 6) break;
-      if (!seen.has(t.slug) && t._status !== "draft") {
-        picked.push(t);
-        seen.add(t.slug);
-      }
-    }
-    return picked.slice(0, 6);
-  }
-
-  function curatedNewest() {
-    const list = effectiveTutorials.filter(isTutorialVisibleByDefault).filter((t) => t._status !== "draft");
-
-    // If tutorials.json provides a date/order, use it
-    const withDate = list.filter((t) => t.added_at || t.updated_at || t.created_at || t.order != null);
-    if (withDate.length) {
-      const score = (t) => {
-        if (typeof t.order === "number") return t.order;
-        const d = t.updated_at || t.added_at || t.created_at;
-        const ms = Date.parse(d);
-        return isFinite(ms) ? ms : 0;
-      };
-      return list
-        .slice()
-        .sort((a, b) => score(b) - score(a))
-        .slice(0, 6);
-    }
-
-    // Fallback: "recently curated" = early catalog entries that exist and aren't drafts, excluding featured picks
-    const featuredSlugs = new Set(curatedFeatured().map((t) => t.slug));
-    const picked = [];
-    for (const t of list) {
-      if (picked.length >= 6) break;
-      if (featuredSlugs.has(t.slug)) continue;
-      if (t._exists === false) continue;
-      picked.push(t);
-    }
-    if (picked.length) return picked;
-
-    return list.slice(0, 6);
-  }
-
-  async function parseLearningPathsMd() {
-    try {
-      const resp = await fetch(LEARNING_PATHS_MD_URL, { cache: "no-store" });
-      if (!resp.ok) return null;
-      const md = await resp.text();
-
-      // Minimal parser for the current format:
-      // ## Path Name
-      // 1. Title
-      const lines = md.split(/\r?\n/);
-      const paths = [];
-      let current = null;
-
-      for (const line of lines) {
-        const h2 = line.match(/^##\s+(.+)\s*$/);
-        if (h2) {
-          if (current) paths.push(current);
-          current = { name: h2[1].trim(), items: [] };
-          continue;
-        }
-        const li = line.match(/^\s*\d+\.\s+(.+)\s*$/);
-        if (li && current) {
-          current.items.push(li[1].trim());
-        }
-      }
-      if (current) paths.push(current);
-      return paths.length ? paths : null;
-    } catch {
-      return null;
-    }
-  }
-
-  function buildPathsFromTitles(pathsMd) {
-    const byTitle = new Map();
-    for (const t of effectiveTutorials) {
-      byTitle.set(normalizeStr(t.title), t);
-    }
-
-    const paths = [];
-    for (const p of pathsMd) {
-      const slugs = [];
-      for (const title of p.items) {
-        const key = normalizeStr(title);
-        const match = byTitle.get(key);
-        if (match) slugs.push(match.slug);
-      }
-      if (slugs.length) paths.push({ name: p.name, slugs });
-    }
-    return paths;
-  }
-
-  async function renderHomeSections() {
-    if (!el.welcome) return;
-
-    // Continue Learning
-    const continueSlug = pickContinueSlug();
-    const continueMeta = getTutorialMeta(continueSlug);
-
-    if (el.btnContinue && continueMeta) {
-      el.btnContinue.href = `?t=${encodeURIComponent(continueMeta.slug)}`;
-      el.btnContinue.textContent = (progress[continueMeta.slug] ? "Review: " : "Continue: ") + continueMeta.title;
-    }
-
-    if (el.continueHeading) {
-      el.continueHeading.textContent = progress[continueSlug] ? "Keep going" : "Continue learning";
-    }
-
-    if (el.continueText) {
-      el.continueText.textContent = progress[continueSlug]
-        ? "You’ve completed this one. Review it, or jump to the next unfinished lesson."
-        : "Pick up where you left off. Your progress is stored locally in this browser.";
-    }
-
-    if (el.continueMeta && continueMeta) {
-      el.continueMeta.textContent = `${continueMeta.category || "Uncategorized"} • ${continueMeta.difficulty || "—"} • ${
-        typeof continueMeta.minutes === "number" ? `${continueMeta.minutes}m` : "—"
-      }`;
-    }
-
-    // Featured
-    if (el.featuredList) {
-      el.featuredList.innerHTML = "";
-      const featured = curatedFeatured();
-      for (const t of featured) el.featuredList.appendChild(buildHomeItem(t));
-    }
-
-    // Newest
-    if (el.newestList) {
-      el.newestList.innerHTML = "";
-      const newest = curatedNewest();
-      for (const t of newest) el.newestList.appendChild(buildHomeItem(t));
-    }
-
-    // Learning Paths
-    if (el.pathsList) {
-      el.pathsList.innerHTML = "";
-
-      let pathsMd = await parseLearningPathsMd();
-      let paths = [];
-      if (pathsMd) {
-        paths = buildPathsFromTitles(pathsMd);
-      }
-
-      // Fallback paths (if md missing)
-      if (!paths.length) {
-        paths = [
-          { name: "Beginner (No Coding)", slugs: ["ai-101-what-models-do", "tokens-context-temperature", "hallucinations-and-reliability"] },
-          { name: "Local Power User", slugs: ["cpu-vs-gpu-vs-npu", "vram-vs-ram", "quantization-explained"] },
-          { name: "Builder Track", slugs: ["ai-coding-workflow", "debugging-with-ai", "testing-with-ai"] }
-        ];
-      }
-
-      // Only show paths whose first step exists in catalog & is visible
-      const bySlug = new Map(effectiveTutorials.map((t) => [t.slug, t]));
-      for (const p of paths) {
-        const firstVisible = p.slugs.map((s) => bySlug.get(s)).find((t) => t && isTutorialVisibleByDefault(t));
-        if (!firstVisible) continue;
-
-        const wrap = document.createElement("div");
-        wrap.className = "callout";
-        wrap.style.margin = "0";
-
-        const strong = document.createElement("strong");
-        strong.textContent = p.name;
-        wrap.appendChild(strong);
-
-        const meta = document.createElement("div");
-        meta.style.color = "var(--muted)";
-        meta.style.fontSize = "13px";
-        meta.style.marginTop = "4px";
-
-        const stepCount = p.slugs.map((s) => bySlug.get(s)).filter((t) => t && isTutorialVisibleByDefault(t)).length;
-        meta.textContent = `${stepCount} steps • Start with: ${firstVisible.title}`;
-        wrap.appendChild(meta);
-
-        const actions = document.createElement("div");
-        actions.style.marginTop = "10px";
-
-        const start = document.createElement("a");
-        start.className = "btn btn--ghost btn--sm";
-        start.href = `?t=${encodeURIComponent(firstVisible.slug)}`;
-        start.textContent = "Start";
-        start.addEventListener("click", (ev) => {
-          ev.preventDefault();
-          navigateToTutorial(firstVisible.slug);
-          closeSidebarOnMobile();
-        });
-
-        actions.appendChild(start);
-        wrap.appendChild(actions);
-
-        el.pathsList.appendChild(wrap);
-      }
-    }
-
-    // Keep progress updated on Home
-    renderProgress();
-  }
-
-  async function loadHardwareReferenceText() {
-    const candidates = ["shared/hardware-reference.md", "hardware-reference.md"];
-    for (const url of candidates) {
-      try {
-        const resp = await fetch(url, { cache: "no-store" });
-        if (resp.ok) return await resp.text();
-      } catch {}
-    }
-    return "Could not load hardware reference.\n\nExpected file:\n• shared/hardware-reference.md\nor\n• hardware-reference.md";
-  }
-
-  function wireHardwareReferenceViewer() {
-    if (!el.btnHardwareReference || !el.hardwareModal || !el.hardwareContent) return;
-
-    // Avoid double-binding if index.html already attached a handler
-    if (el.btnHardwareReference.dataset.boundHw === "1") return;
-    el.btnHardwareReference.dataset.boundHw = "1";
-
-    el.btnHardwareReference.addEventListener("click", async () => {
-      el.hardwareContent.textContent = "Loading…";
-      try {
-        const md = await loadHardwareReferenceText();
-        el.hardwareContent.textContent = md;
-      } catch (err) {
-        el.hardwareContent.textContent = "Failed to load.\n\n" + (err?.message || String(err));
-      }
-
-      try {
-        el.hardwareModal.showModal();
-      } catch {
-        // <dialog> not supported
-        window.open("hardware-reference.md", "_blank", "noreferrer");
-      }
-    });
-  }
-
-  function wireGlobalEvents() {
-    if (el.btnNav) {
-      el.btnNav.addEventListener("click", () => {
-        const open = !el.sidebar?.classList.contains("sidebar--open");
-        setSidebarOpen(open);
+  await renderTutorial({ tutorial: t, tutorialsBySlug: APP.tutorialsBySlug, paths: APP.paths, progress });
+}
+
+let initialized = false;
+
+function populateCategories({ showDrafts }) {
+  const counts = computeCategoryCounts(APP.tutorials, { showDrafts });
+  const categories = [...new Set(APP.tutorials.map((t) => t.category))].sort((a, b) => a.localeCompare(b));
+  const select = qs("#categorySelect");
+  select.innerHTML = [`<option value="__all__">All (${APP.tutorials.filter((t) => showDrafts || t.status !== "draft").length})</option>`]
+    .concat(categories.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)} (${counts.get(c) || 0})</option>`))
+    .join("");
+}
+
+async function init() {
+  try {
+    const [tutorialsRaw, pathsRaw, site] = await Promise.all([
+      fetchJson("data/tutorials.json"),
+      fetchJson("data/paths.json"),
+      fetchJson("data/site.json").catch(() => null),
+    ]);
+
+    const tutorials = (tutorialsRaw.tutorials || tutorialsRaw).map(normalizeTutorial);
+    APP.tutorials = tutorials;
+    APP.tutorialsBySlug = new Map(tutorials.map((t) => [t.slug, t]));
+    APP.paths = pathsRaw.paths || pathsRaw;
+    APP.site = site;
+
+    if (site?.repoUrl) qs("#githubLink").setAttribute("href", site.repoUrl);
+
+    const showDrafts = Boolean(readJsonStorage(STORAGE_KEYS.showDrafts, false));
+    populateCategories({ showDrafts });
+
+    if (!initialized) {
+      // Settings
+      setTheme(getTheme());
+      qs("#showDraftsToggle").checked = showDrafts;
+
+      // UI events (run once)
+      qs("#themeToggle").addEventListener("click", () => setTheme(getTheme() === "dark" ? "light" : "dark"));
+      qs("#searchInput").addEventListener("input", () => update());
+      qs("#categorySelect").addEventListener("change", () => update());
+      qs("#sortSelect").addEventListener("change", () => update());
+      qs("#showDraftsToggle").addEventListener("change", (e) => {
+        const value = Boolean(e.target.checked);
+        writeJsonStorage(STORAGE_KEYS.showDrafts, value);
+        populateCategories({ showDrafts: value });
+        update();
       });
-    }
 
-    if (el.btnTheme) el.btnTheme.addEventListener("click", toggleTheme);
-
-    if (el.btnHome) {
-      el.btnHome.addEventListener("click", (ev) => {
-        ev.preventDefault();
-        const url = new URL(window.location.href);
-        url.searchParams.delete("t");
-        history.pushState({}, "", url.toString());
-        showHome();
+      document.addEventListener("click", (e) => {
+        const a = e.target.closest("a[data-nav='home']");
+        if (!a) return;
+        e.preventDefault();
+        setSlugInUrl(null);
+        update();
       });
-    }
 
-    if (el.btnOpenSample) el.btnOpenSample.addEventListener("click", () => navigateToTutorial("cpu-vs-gpu-vs-npu"));
-
-    if (el.btnCopyLink) el.btnCopyLink.addEventListener("click", copyLink);
-    if (el.btnPrint) el.btnPrint.addEventListener("click", () => window.print());
-
-    if (el.btnBackHome) {
-      el.btnBackHome.addEventListener("click", () => {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("t");
-        history.pushState({}, "", url.toString());
-        showHome();
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-modal-close]");
+        if (!btn) return;
+        const dialog = qs("#hardwareRefDialog");
+        if (typeof dialog.close === "function") dialog.close();
       });
+
+      window.addEventListener("popstate", () => update());
+      document.addEventListener("aihub:progress", () => update());
+
+      const initialSlug = getSlugFromUrl();
+      history.replaceState({ t: initialSlug }, "", location.href);
+      initialized = true;
     }
 
-    if (el.btnResetProgress) {
-      el.btnResetProgress.addEventListener("click", () => {
-        if (!confirm("Reset all local progress?")) return;
-        progress = {};
-        lsSet(LS.PROGRESS, progress);
-        buildTutorialList();
-        renderProgress();
-        renderHomeSections().catch(() => {});
-      });
-    }
-
-    if (el.searchInput) {
-      el.searchInput.addEventListener("input", () => {
-        searchTerm = (el.searchInput.value || "").trim();
-        buildTutorialList();
-        populateCategorySelect();
-      });
-    }
-    if (el.searchClear) {
-      el.searchClear.addEventListener("click", () => {
-        if (el.searchInput) el.searchInput.value = "";
-        searchTerm = "";
-        buildTutorialList();
-        populateCategorySelect();
-        el.searchInput?.focus();
-      });
-    }
-
-    document.addEventListener("click", (ev) => {
-      if (!window.matchMedia("(max-width: 980px)").matches) return;
-      if (el.sidebar && el.sidebar.classList.contains("sidebar--open")) {
-        const within = el.sidebar.contains(ev.target) || (el.btnNav && el.btnNav.contains(ev.target));
-        if (!within) setSidebarOpen(false);
-      }
-    });
-
-    window.addEventListener("popstate", handleRoute);
-
-    // Progress updates from quiz-engine
-    document.addEventListener("aihub:progress", () => {
-      progress = lsGet(LS.PROGRESS, {});
-      buildTutorialList();
-      renderProgress();
-      renderHomeSections().catch(() => {});
-    });
-
-    // Save scroll while reading
-    if (el.content) {
-      let lastTick = 0;
-      el.content.addEventListener(
-        "scroll",
-        () => {
-          const now = Date.now();
-          if (now - lastTick < 400) return;
-          lastTick = now;
-          const slug = getCurrentSlugFromUrl();
-          if (slug) saveScrollForSlug(slug);
-        },
-        { passive: true }
-      );
-    }
+    await update();
+  } catch (err) {
+    const main = document.querySelector("#main");
+    const hint =
+      location.protocol === "file:"
+        ? `It looks like you opened this via <strong>file://</strong>. Browsers block <code>fetch()</code> for local files. Run a local server in <code>c:\\ai_learning_site</code> and open <code>http://localhost:8000</code>.`
+        : "";
+    if (main)
+      main.innerHTML = `
+        <div class="emptyState" style="margin-top:10px;">
+          <div style="font-weight:650; margin-bottom:6px;">App failed to initialize</div>
+          <div class="muted" style="margin-bottom:10px;">${escapeHtml(err?.message || String(err))}</div>
+          ${hint ? `<div class="status">${hint}</div>` : ""}
+          <div class="contentActions" style="margin-top:12px;">
+            <button class="btn" type="button" id="retryInit">Retry</button>
+          </div>
+        </div>
+      `;
+    document.querySelector("#retryInit")?.addEventListener("click", () => init());
   }
+}
 
-  async function init() {
-    setTheme(lsGet(LS.THEME, "dark"));
-    ensureGithubLink();
+init();
 
-    if (window.location.protocol === "file:") {
-      showError(fileProtocolMessage());
+/*
+
+const state = {
+  tutorials: [],
+  paths: [],
+  ui: {
+    search: '',
+    category: 'All Categories',
+    sort: 'recommended',
+    showDrafts: false,
+  },
+  activeSlug: null,
+};
+
+async function loadCatalog() {
+  const tUrl = new URL('tutorials.json', DATA_BASE);
+  const pUrl = new URL('paths.json', DATA_BASE);
+
+  const [tRes, pRes] = await Promise.all([fetch(tUrl), fetch(pUrl)]);
+
+  if (!tRes.ok) throw new Error(`Failed to load tutorials.json (${tRes.status})`);
+  if (!pRes.ok) throw new Error(`Failed to load paths.json (${pRes.status})`);
+
+  const tutorials = await tRes.json();
+  const paths = await pRes.json();
+
+  if (!Array.isArray(tutorials)) throw new Error('tutorials.json must be an array');
+  if (!Array.isArray(paths)) throw new Error('paths.json must be an array');
+
+  state.tutorials = tutorials;
+  state.paths = paths;
+}
+
+function initUiBindings() {
+  const searchInput = $('searchInput');
+  const categorySelect = $('categorySelect');
+  const sortSelect = $('sortSelect');
+  const showDrafts = $('showDrafts');
+
+  searchInput.addEventListener('input', () => {
+    state.ui.search = searchInput.value;
+    renderSidebar();
+  });
+
+  sortSelect.addEventListener('change', () => {
+    state.ui.sort = sortSelect.value;
+    renderSidebar();
+  });
+
+  showDrafts.addEventListener('change', () => {
+    state.ui.showDrafts = showDrafts.checked;
+    renderSidebar();
+  });
+
+  categorySelect.addEventListener('change', () => {
+    state.ui.category = categorySelect.value;
+    renderSidebar();
+  });
+
+  const browseToggle = $('browseToggle');
+  const browsePanel = $('browsePanel');
+  browseToggle.addEventListener('click', () => {
+    const isOpen = !browsePanel.hasAttribute('hidden');
+    if (isOpen) browsePanel.setAttribute('hidden', '');
+    else browsePanel.removeAttribute('hidden');
+    browseToggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  $('themeToggle').addEventListener('click', () => {
+    const next = getTheme() === 'light' ? 'dark' : 'light';
+    setTheme(next);
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const modalClose = target.closest('[data-modal-close]');
+    if (modalClose) {
+      closeModal();
       return;
     }
 
-    // Restore sidebar open on mobile
-    setSidebarOpen(!!lsGet(LS.SIDEBAR_OPEN, false));
+    const navHome = target.closest('[data-nav="home"]');
+    if (navHome) {
+      e.preventDefault();
+      navigateHome();
+      return;
+    }
 
-    // Load catalog
-    const resp = await fetch(TUTORIALS_JSON_URL, { cache: "no-store" });
-    if (!resp.ok) throw new Error("Could not load tutorials.json");
-    catalog = await resp.json();
+    const navTutorial = target.closest('[data-nav="tutorial"]');
+    if (navTutorial) {
+      e.preventDefault();
+      const slug = navTutorial.getAttribute('data-slug');
+      if (slug) navigateToTutorial(slug);
+      return;
+    }
 
-    if (!catalog || !Array.isArray(catalog.tutorials)) throw new Error("Invalid tutorials.json format");
+    // Intercept normal links containing ?t=
+    const link = target.closest('a[href]');
+    if (link && link instanceof HTMLAnchorElement) {
+      const url = new URL(link.href, window.location.href);
+      const t = url.searchParams.get('t');
+      if (t) {
+        e.preventDefault();
+        navigateToTutorial(t);
+      }
+    }
+  });
 
-    // Enrich with status + existence checks (so missing pages don't clutter by default)
-    effectiveTutorials = await enrichTutorialsWithStatusAndAvailability(catalog.tutorials);
+  window.addEventListener('popstate', () => {
+    const slug = getSlugFromUrl();
+    if (slug) void showTutorial(slug, { replace: true });
+    else showHome({ replace: true });
+  });
+}
 
-    // Clamp selected category to known categories after enrich
-    ensureBrowseControls();
-    buildTutorialList();
-    renderProgress();
-    wireHardwareReferenceViewer();
-    wireGlobalEvents();
-    handleRoute();
+function openModal(html) {
+  const root = $('modalRoot');
+  root.innerHTML = html;
+  root.hidden = false;
+  root.addEventListener(
+    'click',
+    (e) => {
+      if (e.target === root) closeModal();
+    },
+    { once: true },
+  );
+}
+
+function closeModal() {
+  const root = $('modalRoot');
+  root.hidden = true;
+  root.innerHTML = '';
+}
+
+function getFilteredTutorials() {
+  const q = state.ui.search.trim().toLowerCase();
+  const progress = getProgress();
+
+  let items = state.tutorials.filter((t) => {
+    if (!t || !isNonEmptyString(t.slug)) return false;
+    if (!isNonEmptyString(t.title)) return false;
+    if (!isNonEmptyString(t.description)) return false;
+    if (!CATEGORIES.includes(t.category)) return false;
+    if (!isNonEmptyString(t.status)) return false;
+
+    if (t.status === 'draft' && !state.ui.showDrafts) return false;
+
+    if (state.ui.category !== 'All Categories' && t.category !== state.ui.category) return false;
+
+    if (q) {
+      const blob = `${t.title} ${t.description} ${(t.tags || []).join(' ')} ${t.category}`.toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+
+    return true;
+  });
+
+  const sorter =
+    state.ui.sort === 'title'
+      ? byTitle
+      : state.ui.sort === 'time'
+        ? byTime
+        : state.ui.sort === 'difficulty'
+          ? byDifficulty
+          : byRecommended;
+
+  items = items.slice().sort(sorter);
+
+  // Optional: keep active item visible at top if desired (not required), so don't.
+  // Attach derived flags for rendering
+  return items.map((t) => ({ ...t, _done: !!progress[t.slug] }));
+}
+
+function renderSidebar() {
+  // Category dropdown with counts
+  const categorySelect = $('categorySelect');
+  const showDrafts = $('showDrafts');
+  const sortSelect = $('sortSelect');
+
+  showDrafts.checked = !!state.ui.showDrafts;
+  sortSelect.value = state.ui.sort;
+
+  const counts = new Map();
+  for (const c of CATEGORIES) counts.set(c, 0);
+  let visibleTotal = 0;
+
+  for (const t of state.tutorials) {
+    if (!t || !CATEGORIES.includes(t.category)) continue;
+    if (t.status === 'draft' && !state.ui.showDrafts) continue;
+    counts.set(t.category, (counts.get(t.category) || 0) + 1);
+    visibleTotal += 1;
   }
 
-  init().catch((err) => showError(err?.message || String(err)));
-})();
+  const options = ['All Categories', ...CATEGORIES].map((c) => {
+    if (c === 'All Categories') return `<option value="All Categories">All Categories (${visibleTotal})</option>`;
+    return `<option value="${escapeHtml(c)}">${escapeHtml(c)} (${counts.get(c) || 0})</option>`;
+  });
+  categorySelect.innerHTML = options.join('');
+  categorySelect.value = state.ui.category;
+
+  // Tutorial list
+  const list = $('tutorialList');
+  const items = getFilteredTutorials();
+
+  list.innerHTML = items
+    .map((t) => {
+      const active = t.slug === state.activeSlug;
+      const meta = `${difficultyLabel(t.difficulty)} · ${t.minutes || 0}m`;
+      const done = t._done;
+      const tags = [
+        done ? '<span class="dot dot--ok" title="Completed"></span>' : '<span class="dot" title="Not completed"></span>',
+        t.status === 'draft' ? '<span class="tag">Draft</span>' : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      return `
+        <div class="tutorial-row ${active ? 'is-active' : ''}" role="button" tabindex="0" data-nav="tutorial" data-slug="${escapeHtml(t.slug)}" aria-label="Open ${escapeHtml(t.title)}">
+          <div class="tutorial-row__top">
+            <div>
+              <div class="tutorial-row__title">${escapeHtml(t.title)}</div>
+              <div class="tutorial-row__meta">${escapeHtml(meta)}</div>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center; justify-content:flex-end;">${tags}</div>
+          </div>
+          <div class="tutorial-row__desc">${escapeHtml(t.description)}</div>
+        </div>
+      `;
+    })
+    .join('');
+
+  // Keyboard access
+  list.querySelectorAll('.tutorial-row').forEach((row) => {
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const slug = row.getAttribute('data-slug');
+        if (slug) navigateToTutorial(slug);
+      }
+    });
+  });
+}
+
+function tutorialBySlug(slug) {
+  return state.tutorials.find((t) => t.slug === slug) || null;
+}
+
+function computePrevNext(slug) {
+  const t = tutorialBySlug(slug);
+  if (!t) return { prev: null, next: null };
+
+  if (t.path && typeof t.orderInPath === 'number') {
+    const samePath = state.tutorials
+      .filter((x) => x.path === t.path && typeof x.orderInPath === 'number')
+      .slice()
+      .sort((a, b) => a.orderInPath - b.orderInPath);
+
+    const idx = samePath.findIndex((x) => x.slug === slug);
+    const prev = idx > 0 ? samePath[idx - 1] : null;
+    const next = idx >= 0 && idx < samePath.length - 1 ? samePath[idx + 1] : null;
+    return { prev, next };
+  }
+
+  return { prev: null, next: null };
+}
+
+function renderTutorialShell(tutorial, innerHtml, { comingSoon = false } = {}) {
+  const main = $('main');
+  const url = new URL(window.location.href);
+
+  const { prev, next } = computePrevNext(tutorial.slug);
+
+  const crumbs = `
+    <div class="breadcrumbs">
+      <a href="./" data-nav="home">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>${escapeHtml(tutorial.category)}</span>
+      <span aria-hidden="true">/</span>
+      <span>${escapeHtml(tutorial.title)}</span>
+    </div>
+  `;
+
+  const actions = `
+    <div class="page-actions">
+      <button class="button button--ghost" type="button" data-copy-link>Copy link</button>
+      <button class="button button--ghost" type="button" data-print>Print</button>
+    </div>
+  `;
+
+  const nav = `
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;">
+      ${prev ? `<button class="button button--ghost" type="button" data-nav="tutorial" data-slug="${escapeHtml(prev.slug)}">← Prev</button>` : ''}
+      ${next ? `<button class="button button--ghost" type="button" data-nav="tutorial" data-slug="${escapeHtml(next.slug)}">Next →</button>` : ''}
+    </div>
+  `;
+
+  const badge = comingSoon ? '<span class="tag">Coming soon</span>' : tutorial.status === 'draft' ? '<span class="tag">Draft</span>' : '';
+
+  main.innerHTML = `
+    <div class="page-head">
+      ${crumbs}
+      <div class="card" style="box-shadow:none;">
+        <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+          <div>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <h1 style="margin:0;">${escapeHtml(tutorial.title)}</h1>
+              ${badge}
+            </div>
+            <p style="margin: 8px 0 0; color: var(--muted)">${escapeHtml(tutorial.description)}</p>
+            <p style="margin: 8px 0 0; color: var(--muted); font-size: 12px;">${escapeHtml(tutorial.category)} · ${escapeHtml(difficultyLabel(tutorial.difficulty))} · ${tutorial.minutes || 0}m</p>
+          </div>
+          ${actions}
+        </div>
+        ${nav}
+      </div>
+    </div>
+
+    <div class="card" id="tutorialContent" style="box-shadow:none;">
+      ${innerHtml}
+    </div>
+  `;
+
+  main.querySelector('[data-copy-link]')?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(url.toString());
+    } catch {
+      // Clipboard may be blocked; degrade silently.
+    }
+  });
+
+  main.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+
+  // Let quiz engine mount
+  const root = main.querySelector('#tutorialContent');
+  document.dispatchEvent(new CustomEvent('aihub:contentRendered', { detail: { root, slug: tutorial.slug } }));
+}
+
+function renderComingSoon(tutorial) {
+  const html = `
+    <div class="notice">
+      <strong>Coming Soon</strong>
+      <p style="margin: 6px 0 0;">This tutorial is listed in the catalog, but the HTML content isn’t available yet. The app keeps running without errors.</p>
+    </div>
+  `;
+  renderTutorialShell(tutorial, html, { comingSoon: true });
+}
+
+async function showTutorial(slug, { replace = false } = {}) {
+  const t = tutorialBySlug(slug);
+  if (!t) {
+    showHome({ replace: true });
+    return;
+  }
+
+  state.activeSlug = slug;
+  renderSidebar();
+
+  setSlugInUrl(slug, { replace });
+  localStorage.setItem('aihub.lastViewed', slug);
+
+  const url = new URL(`${t.slug}.html`, TUTORIALS_BASE);
+  let res;
+  try {
+    res = await fetch(url.toString(), { cache: 'no-store' });
+  } catch {
+    renderComingSoon(t);
+    return;
+  }
+
+  if (!res.ok) {
+    renderComingSoon(t);
+    return;
+  }
+
+  const html = await res.text();
+  renderTutorialShell(t, html);
+}
+
+function pickContinueLearning() {
+  const progress = getProgress();
+  const lastPathId = localStorage.getItem('aihub.lastPath');
+
+  if (lastPathId) {
+    const path = state.paths.find((p) => p.id === lastPathId);
+    if (path && Array.isArray(path.lessons)) {
+      const next = path.lessons.find((slug) => !progress[slug]);
+      if (next) return tutorialBySlug(next);
+      const first = path.lessons[0];
+      return first ? tutorialBySlug(first) : null;
+    }
+  }
+
+  const lastViewed = localStorage.getItem('aihub.lastViewed');
+  if (lastViewed) return tutorialBySlug(lastViewed);
+
+  return null;
+}
+
+function showHome({ replace = false } = {}) {
+  state.activeSlug = null;
+  setSlugInUrl(null, { replace });
+  renderSidebar();
+
+  const main = $('main');
+
+  const cont = pickContinueLearning();
+  const featured = state.tutorials.filter((t) => t.featured && t.status !== 'draft').slice().sort(byRecommended).slice(0, 6);
+  const newest = state.tutorials
+    .filter((t) => t.status !== 'draft')
+    .slice()
+    .sort((a, b) => (Date.parse(b.created || '') || 0) - (Date.parse(a.created || '') || 0))
+    .slice(0, 6);
+
+  const paths = state.paths.slice(0, 6);
+
+  main.innerHTML = `
+    <div class="card" style="box-shadow:none;">
+      <h1 style="margin:0;">Home</h1>
+      <p style="margin: 8px 0 0; color: var(--muted);">Browse calm, catalog-driven tutorials. Quizzes track progress locally in your browser.</p>
+
+      <hr class="sep" />
+
+      <div style="display:grid; gap: 14px;">
+        <section class="card" style="box-shadow:none;">
+          <div style="display:flex; justify-content:space-between; gap: 10px; align-items:center;">
+            <h2 style="margin:0;">Continue Learning</h2>
+            <button class="button button--ghost" type="button" id="hardwareRef">Hardware Reference</button>
+          </div>
+          ${cont ? `
+            <p style="margin: 8px 0 10px; color: var(--muted);">Pick up where you left off.</p>
+            <button class="button" type="button" data-nav="tutorial" data-slug="${escapeHtml(cont.slug)}">Open: ${escapeHtml(cont.title)}</button>
+          ` : `
+            <p style="margin: 8px 0 0; color: var(--muted);">No recent activity yet. Choose a tutorial from the sidebar to start.</p>
+          `}
+        </section>
+
+        <section class="card" style="box-shadow:none;">
+          <h2 style="margin:0;">Learning Paths</h2>
+          <p style="margin: 8px 0 10px; color: var(--muted);">Curated sequences spanning multiple categories.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            ${paths
+              .map(
+                (p) => `<button class="button" type="button" data-path="${escapeHtml(p.id)}">${escapeHtml(p.title)}</button>`,
+              )
+              .join('')}
+          </div>
+        </section>
+
+        <section class="card" style="box-shadow:none;">
+          <h2 style="margin:0;">Featured</h2>
+          <div style="display:grid; gap: 8px; margin-top: 10px;">
+            ${featured
+              .map(
+                (t) => `<button class="button button--ghost" type="button" data-nav="tutorial" data-slug="${escapeHtml(t.slug)}">${escapeHtml(t.title)} · ${escapeHtml(t.category)}</button>`,
+              )
+              .join('') || `<p style="margin:0; color: var(--muted);">No featured tutorials yet.</p>`}
+          </div>
+        </section>
+
+        <section class="card" style="box-shadow:none;">
+          <h2 style="margin:0;">Newest</h2>
+          <div style="display:grid; gap: 8px; margin-top: 10px;">
+            ${newest
+              .map(
+                (t) => `<button class="button button--ghost" type="button" data-nav="tutorial" data-slug="${escapeHtml(t.slug)}">${escapeHtml(t.title)} · ${escapeHtml(t.category)}</button>`,
+              )
+              .join('')}
+          </div>
+        </section>
+      </div>
+    </div>
+  `;
+
+  $('hardwareRef')?.addEventListener('click', () => openModal(makeHardwareReferenceHtml()));
+
+  main.querySelectorAll('[data-path]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-path');
+      const path = state.paths.find((p) => p.id === id);
+      if (!path) return;
+      localStorage.setItem('aihub.lastPath', id);
+      const progress = getProgress();
+      const next = (path.lessons || []).find((s) => !progress[s]) || (path.lessons || [])[0];
+      if (next) navigateToTutorial(next);
+    });
+  });
+}
+
+function navigateHome() {
+  showHome({ replace: false });
+}
+
+function navigateToTutorial(slug) {
+  void showTutorial(slug, { replace: false });
+}
+
+function applyGithubLink() {
+  // If the generator wrote a repo URL into localStorage, prefer it.
+  const stored = localStorage.getItem('aihub.repo');
+  const link = $('githubLink');
+  if (stored && isNonEmptyString(stored)) link.href = stored;
+}
+
+async function bootstrap() {
+  setTheme(getTheme());
+  initUiBindings();
+
+  try {
+    await loadCatalog();
+  } catch (err) {
+    $('main').innerHTML = `<div class="card"><div class="notice notice--warn"><strong>Failed to load catalog</strong><p style="margin:6px 0 0;">${escapeHtml(String(err?.message || err))}</p></div></div>`;
+    return;
+  }
+
+  renderSidebar();
+  applyGithubLink();
+
+  document.addEventListener('aihub:progress', () => renderSidebar());
+
+  const slug = getSlugFromUrl();
+  if (slug) {
+    await showTutorial(slug, { replace: true });
+  } else {
+    showHome({ replace: true });
+  }
+}
+
+void bootstrap();
+
+*/

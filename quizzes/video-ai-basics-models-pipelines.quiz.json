@@ -1,0 +1,70 @@
+{
+  "title": "Video AI: Models & Pipelines — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What is the biggest difference between video generation and image generation?",
+      "options": [
+        "Time consistency across frames",
+        "Video prompts are always shorter",
+        "Video has no artifacts",
+        "Video never needs references"
+      ],
+      "answer": "Time consistency across frames",
+      "explanation": "Video adds a temporal dimension, making stability and continuity major challenges."
+    },
+    {
+      "type": "true-false",
+      "question": "A storyboard helps you define success criteria before generating clips.",
+      "answer": true,
+      "explanation": "Planning first prevents aimless iteration and makes it obvious when a clip fails."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "A good strategy to reduce flicker is to:",
+      "options": [
+        "Generate shorter clips and stitch",
+        "Increase randomness as much as possible",
+        "Change identity constraints every shot",
+        "Avoid keyframes"
+      ],
+      "answer": "Generate shorter clips and stitch",
+      "explanation": "Shorter generations can be more stable and easier to control; stitching preserves quality."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which can improve continuity across shots?",
+      "options": [
+        "Reference images/keyframes",
+        "Identity constraints",
+        "Changing all variables per shot",
+        "A style guide"
+      ],
+      "answer": [
+        "Reference images/keyframes",
+        "Identity constraints",
+        "A style guide"
+      ],
+      "explanation": "References and constraints anchor identity and style; changing everything increases drift."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is identity drift?",
+      "options": [
+        "The subject changes appearance over time",
+        "The video file gets smaller",
+        "The prompt becomes shorter",
+        "The GPU runs cooler"
+      ],
+      "answer": "The subject changes appearance over time",
+      "explanation": "Identity drift is when the character/subject morphs across frames or clips."
+    },
+    {
+      "type": "true-false",
+      "question": "If you can’t describe what must stay consistent, you’ll struggle to get consistent outputs.",
+      "answer": true,
+      "explanation": "Explicit continuity constraints are what you enforce; without them, you can’t debug failures."
+    }
+  ]
+}

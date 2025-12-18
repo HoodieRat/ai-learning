@@ -1,0 +1,100 @@
+<article class="tutorial">
+  <h1>Prompting: Structure Quickstart</h1>
+  <p class="lede">Stop writing fuzzy prompts. You’ll learn a compact template (Goal, Context, Constraints, Checks) with examples, then build your own and test it.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>The four-part structure (G/C/C/C) and why it stabilizes outputs.</li>
+      <li>How to pick checks that make verification easy.</li>
+      <li>How to convert a vague prompt into a repeatable one.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Concept explainer: G/C/C/C</h2>
+  <ul>
+    <li><strong>Goal:</strong> what you want and for whom.</li>
+    <li><strong>Context:</strong> facts, inputs, constraints the model should assume.</li>
+    <li><strong>Constraints:</strong> format, length, tone, must/never statements.</li>
+    <li><strong>Checks:</strong> examples, edge cases, or rubric items that let you score it.</li>
+  </ul>
+
+  <h2>Template starter you can reuse</h2>
+  <pre><code>System: You are a careful assistant.
+Goal: &lt;task + audience&gt;
+Context: &lt;facts, inputs, constraints&gt;
+Constraints: format = &lt;JSON/table&gt;; length = &lt;max&gt;; tone = &lt;style&gt;; never &lt;list&gt;
+Checks: return &lt;1-2 verifiable items&gt;; handle edge case: &lt;describe&gt;
+Controls: temperature=0.3, stop when JSON closes
+</code></pre>
+
+  <h2>Quick knobs to pair with structure</h2>
+  <ul>
+    <li>Temperature 0.2–0.5 for consistent schemas; raise only for ideation.</li>
+    <li>Stop sequences to end after the schema (e.g., "\n\n" or closing brace).</li>
+    <li>Max tokens sized to your schema to prevent rambles.</li>
+    <li>Ask for "assumptions" when context is thin; it exposes gaps.</li>
+  </ul>
+
+  <h2>Worked example: vague → structured</h2>
+  <p><strong>Vague:</strong> “Summarize this doc.”</p>
+  <p><strong>Structured:</strong> “You are a PM. Summarize for executives. Output JSON: {decisions:[], risks:[], follow_ups:[]}. Keep each array max 4 items. If missing info, state 'unknown'. Provide one citation to the input text for each decision.”</p>
+  <p><strong>Why it works:</strong> audience set, schema fixed, verification via citations.</p>
+
+  <h2>Guided mini-build: your first template</h2>
+  <ol>
+    <li>Write Goal (task + audience) in one sentence.</li>
+    <li>List Context items the model can assume.</li>
+    <li>Define Constraints: output format (JSON/table), length, tone, must/never.</li>
+    <li>Add Checks: one edge case and one rule you can quickly verify.</li>
+  </ol>
+
+  <h2>Common anti-patterns</h2>
+  <ul>
+    <li>Mixing multiple goals in one prompt; split into steps.</li>
+    <li>Leaving format implicit; always name the schema and include an example.</li>
+    <li>Testing only happy paths; include an empty/malformed input as an edge case.</li>
+    <li>Changing three knobs at once; adjust one variable between runs.</li>
+  </ul>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Rewrite and test</h2>
+    <p><strong>Task:</strong> Rewrite a vague prompt using G/C/C/C and test on 4 inputs.</p>
+    <ol>
+      <li>Pick a real task (summary, extraction, rewrite).</li>
+      <li>Draft the structured prompt (G/C/C/C).</li>
+      <li>Run it on 3 normal inputs + 1 edge case.</li>
+      <li>Note any format breaks; add/adjust a constraint to prevent them and rerun the edge case.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Outputs share the same format across 4 inputs.</li>
+      <li>You can judge quality quickly using the built-in checks.</li>
+      <li>One constraint was added/adjusted to fix a failure.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Structure reduces variance; checks make quality visible.</li>
+    <li>Edge cases are where structure breaks—use them early.</li>
+    <li>Keep prompts short; let the schema do the heavy lifting.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="prompting-structure-quickstart.quiz.json"></div>
+
+  <h2>Next</h2>
+  <p><a href="?t=prompting-hands-on-build-reusable-templates">Prompting: Hands-on Templates</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+    <li><a href="?t=coding-ai-workflow-and-guardrails">Coding AI: Workflow &amp; Guardrails</a></li>
+  </ul>
+</article>

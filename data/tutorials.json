@@ -1,0 +1,1765 @@
+{
+  "tutorials": [
+    {
+      "slug": "ai-101-what-models-do",
+      "title": "AI 101: What Models Do",
+      "description": "A practical mental model for what an AI model is doing, where it fails, and how to use it safely.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "featured": true,
+      "tags": [
+        "basics",
+        "mental model",
+        "limits"
+      ],
+      "quiz": "ai-101-what-models-do.quiz.json",
+      "prereqs": [],
+      "next": "ai-literacy-first-steps-in-chat",
+      "related": [
+        "prompting-structure-quickstart",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:ai-literacy",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "ai-literacy-capstone-compare-models-with-a-mini-benchmark",
+      "title": "AI Literacy Capstone: Compare Models with a Mini-Benchmark",
+      "description": "Build a tiny benchmark set and compare two models on the same tasks.",
+      "category": "AI Literacy",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "benchmark",
+        "evaluation"
+      ],
+      "prereqs": [
+        "ai-literacy-pitfalls-hallucinations-and-overconfidence"
+      ],
+      "next": null,
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "prompting-capstone-create-a-prompt-suite-and-tests"
+      ],
+      "path": "cat:ai-literacy",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "ai-literacy-first-steps-in-chat",
+      "title": "AI Literacy: First Steps in Chat",
+      "description": "Turn vague goals into clear prompts and measurable outputs using a simple chat workflow.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "workflow",
+        "prompting",
+        "verification"
+      ],
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "ai-literacy-pitfalls-hallucinations-and-overconfidence",
+      "related": [
+        "prompting-structure-quickstart",
+        "evaluation-basics-metrics-vs-judges"
+      ],
+      "path": "cat:ai-literacy",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "ai-literacy-pitfalls-hallucinations-and-overconfidence",
+      "title": "AI Literacy: Pitfalls (Hallucinations & Overconfidence)",
+      "description": "Spot failure modes like confident wrong answers, missing caveats, and citation theater.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "verification"
+      ],
+      "prereqs": [
+        "ai-literacy-first-steps-in-chat"
+      ],
+      "next": "ai-literacy-capstone-compare-models-with-a-mini-benchmark",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:ai-literacy",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "ai-coding-workflow",
+      "title": "AI\u2011Assisted Coding Workflow (Safe and Repeatable)",
+      "description": "How to use AI on real projects: diffs, constraints, and verifying changes without chaos.",
+      "category": "Coding AI",
+      "difficulty": "Beginner",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "agents-what-they-are",
+      "title": "Agentic AI: What Agents Are (and When They\u2019re Overkill)",
+      "description": "A grounded definition of agents, tools, loops, and the situations where simple prompts are better.",
+      "category": "Agentic Flows",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "agentic-flows-capstone-guardrailed-agent-prototype",
+      "title": "Agentic Capstone: Guardrailed Agent Prototype",
+      "description": "Create an agent loop with planner/router/memory and explicit guardrails (simulated tools).",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 40,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "agents",
+        "guardrails"
+      ],
+      "prereqs": [
+        "agentic-flows-pitfalls-tool-failures-and-infinite-loops"
+      ],
+      "next": null,
+      "related": [
+        "coding-ai-capstone-build-a-cli-helper",
+        "safety-ethics-capstone-deploy-safe-workflow"
+      ],
+      "path": "cat:agentic",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "agentic-flows-hands-on-simulated-agent-loop",
+      "title": "Agentic Flows: Hands-on Simulated Loop",
+      "description": "Build a simulated agent loop (planner/router/memory) without paid tools.",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "loop"
+      ],
+      "prereqs": [
+        "agentic-flows-planner-router-memory"
+      ],
+      "next": "agentic-flows-pitfalls-tool-failures-and-infinite-loops",
+      "related": [
+        "coding-ai-hands-on-code-review-loop",
+        "evaluation-hands-on-design-a-rubric-and-judge"
+      ],
+      "path": "cat:agentic",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "agentic-flows-pitfalls-tool-failures-and-infinite-loops",
+      "title": "Agentic Flows: Pitfalls (Tool Failures & Loops)",
+      "description": "Failure modes: tool flakiness, infinite loops, memory poisoning, and bad routing.",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "reliability"
+      ],
+      "prereqs": [
+        "agentic-flows-hands-on-simulated-agent-loop"
+      ],
+      "next": "agentic-flows-capstone-guardrailed-agent-prototype",
+      "related": [
+        "safety-ethics-hands-on-policy-and-red-teaming",
+        "evaluation-pitfalls-leakage-and-overfitting"
+      ],
+      "path": "cat:agentic",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "agentic-flows-planner-router-memory",
+      "title": "Agentic Flows: Planner, Router, Memory",
+      "description": "A clear model of agent loops: planning, routing, tools, and memory.",
+      "category": "Agentic Flows",
+      "difficulty": "Beginner",
+      "minutes": 22,
+      "status": "published",
+      "tags": [
+        "agents",
+        "planner",
+        "memory"
+      ],
+      "quiz": "agentic-flows-planner-router-memory.quiz.json",
+      "prereqs": [
+        "coding-ai-workflow-and-guardrails"
+      ],
+      "next": "agentic-flows-hands-on-simulated-agent-loop",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:agentic",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "audio-ai-capstone-build-a-voice-notes-workflow",
+      "title": "Audio AI Capstone: Build a Voice Notes Workflow",
+      "description": "Produce an end-to-end workflow that converts voice notes into structured tasks.",
+      "category": "Audio AI",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "workflow"
+      ],
+      "prereqs": [
+        "audio-ai-pitfalls-word-error-rate-and-diarization"
+      ],
+      "next": null,
+      "related": [
+        "coding-ai-workflow-and-guardrails",
+        "video-ai-capstone-create-a-short-video-pipeline"
+      ],
+      "path": "cat:audio-ai",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "audio-ai-hands-on-transcribe-and-summarize",
+      "title": "Audio AI: Hands-on Transcribe + Summarize",
+      "description": "Create a workflow that turns audio into notes with verification.",
+      "category": "Audio AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "workflow"
+      ],
+      "prereqs": [
+        "audio-ai-tts-stt-basics"
+      ],
+      "next": "audio-ai-pitfalls-word-error-rate-and-diarization",
+      "related": [
+        "prompting-structure-quickstart",
+        "evaluation-hands-on-design-a-rubric-and-judge"
+      ],
+      "path": "cat:audio-ai",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "audio-ai-pitfalls-word-error-rate-and-diarization",
+      "title": "Audio AI: Pitfalls (WER & Diarization)",
+      "description": "Failure modes: accented speech, overlap, diarization errors, and mis-measuring WER.",
+      "category": "Audio AI",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "metrics"
+      ],
+      "prereqs": [
+        "audio-ai-hands-on-transcribe-and-summarize"
+      ],
+      "next": "audio-ai-capstone-build-a-voice-notes-workflow",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "safety-ethics-pitfalls-data-leakage-and-bias"
+      ],
+      "path": "cat:audio-ai",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "audio-ai-tts-stt-basics",
+      "title": "Audio AI: TTS & STT Basics",
+      "description": "Understand transcription and speech synthesis pipelines, and what quality metrics mean.",
+      "category": "Audio AI",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "audio",
+        "stt",
+        "tts"
+      ],
+      "quiz": "audio-ai-tts-stt-basics.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "audio-ai-hands-on-transcribe-and-summarize",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:audio-ai",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "audiobook-pipeline",
+      "title": "Audiobook Pipeline: From Script to Chapters to Files",
+      "description": "A practical process for generating and organizing audio output with consistent volume and pacing.",
+      "category": "Audio AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "budget-hardware-paths",
+      "title": "Budget AI Hardware Paths (Realistic Home Builds)",
+      "description": "Cost-effective upgrade paths, used GPU considerations, power/thermals, and \u201cgood enough\u201d builds.",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "model-selection-by-task",
+      "title": "Choosing the Right Model for the Job",
+      "description": "Pick models based on task type (creative, coding, analysis, image) and your hardware budget; avoid common traps.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "civitai-reading-model-pages",
+      "title": "Civitai 101: How to Read Model Pages and Choose Wisely",
+      "description": "Understand checkpoints, LoRAs, triggers, example settings, and how to avoid junk downloads.",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "code-review-with-ai",
+      "title": "Code Review with AI: Catch Issues Before They Ship",
+      "description": "Use AI as a reviewer: readability, safety, performance, and correctness checks.",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "coding-ai-capstone-build-a-cli-helper",
+      "title": "Coding AI Capstone: Build a CLI Helper",
+      "description": "Build a tiny CLI that wraps an LLM call (or mock) with logging and safeguards.",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "cli",
+        "guardrails"
+      ],
+      "prereqs": [
+        "coding-ai-pitfalls-context-and-tests"
+      ],
+      "next": null,
+      "related": [
+        "agentic-flows-hands-on-simulated-agent-loop",
+        "safety-ethics-capstone-deploy-safe-workflow"
+      ],
+      "path": "cat:coding-ai",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "coding-ai-hands-on-code-review-loop",
+      "title": "Coding AI: Hands-on Review Loop",
+      "description": "A practical workflow: ask for a patch, review it, test it, and iterate with guardrails.",
+      "category": "Coding AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "testing"
+      ],
+      "prereqs": [
+        "coding-ai-workflow-and-guardrails"
+      ],
+      "next": "coding-ai-pitfalls-context-and-tests",
+      "related": [
+        "prompting-capstone-create-a-prompt-suite-and-tests",
+        "agentic-flows-hands-on-simulated-agent-loop"
+      ],
+      "path": "cat:coding-ai",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "coding-ai-pitfalls-context-and-tests",
+      "title": "Coding AI: Pitfalls (Context & Tests)",
+      "description": "Failure modes: missing context, wrong assumptions, fragile code, and untrusted tests.",
+      "category": "Coding AI",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "quality"
+      ],
+      "prereqs": [
+        "coding-ai-hands-on-code-review-loop"
+      ],
+      "next": "coding-ai-capstone-build-a-cli-helper",
+      "related": [
+        "evaluation-pitfalls-leakage-and-overfitting",
+        "safety-ethics-pitfalls-data-leakage-and-bias"
+      ],
+      "path": "cat:coding-ai",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "coding-ai-workflow-and-guardrails",
+      "title": "Coding AI: Workflow & Guardrails",
+      "description": "Use AI coding tools safely: scope control, tests, review loops, and guardrails.",
+      "category": "Coding AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "coding",
+        "guardrails",
+        "review"
+      ],
+      "quiz": "coding-ai-workflow-and-guardrails.quiz.json",
+      "prereqs": [
+        "prompting-structure-quickstart"
+      ],
+      "next": "coding-ai-hands-on-code-review-loop",
+      "related": [
+        "agentic-flows-planner-router-memory",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:coding-ai",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "compare-two-outputs",
+      "title": "Compare Two Outputs: Picking the Better Result (and Why)",
+      "description": "Learn a quick method to judge outputs for accuracy, constraint-following, and usefulness.",
+      "category": "Evaluation",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "context-is-not-memory",
+      "title": "Context Is Not Memory: Why AI \u201cForgets\u201d",
+      "description": "Understand context windows vs memory and how to keep AI aligned over long tasks.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "copyright-and-licensing-basics",
+      "title": "Copyright & Licensing Basics for AI Assets",
+      "description": "Understand licenses, attribution, and how to share models/assets responsibly.",
+      "category": "Safety & Ethics",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "debugging-with-ai",
+      "title": "Debugging with AI: From Error Log to Fix Plan",
+      "description": "Use AI to interpret logs, propose fixes, and validate outcomes systematically.",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "evaluation-capstone-evaluate-your-rag-or-agent",
+      "title": "Evaluation Capstone: Evaluate Your RAG or Agent",
+      "description": "Build a small eval harness: dataset, rubric, pass/fail thresholds, and a report.",
+      "category": "Evaluation",
+      "difficulty": "Advanced",
+      "minutes": 40,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "harness",
+        "report"
+      ],
+      "prereqs": [
+        "evaluation-pitfalls-leakage-and-overfitting"
+      ],
+      "next": null,
+      "related": [
+        "rag-capstone-tiny-rag-with-eval",
+        "agentic-flows-capstone-guardrailed-agent-prototype"
+      ],
+      "path": "cat:evaluation",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "evaluation-hands-on-design-a-rubric-and-judge",
+      "title": "Evaluation: Hands-on Rubric + Judge",
+      "description": "Design a rubric, create a small test set, and run a repeatable judge evaluation.",
+      "category": "Evaluation",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "rubric",
+        "judge",
+        "workflow"
+      ],
+      "prereqs": [
+        "evaluation-basics-metrics-vs-judges"
+      ],
+      "next": "evaluation-pitfalls-leakage-and-overfitting",
+      "related": [
+        "prompting-capstone-create-a-prompt-suite-and-tests",
+        "rag-capstone-tiny-rag-with-eval"
+      ],
+      "path": "cat:evaluation",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "evaluation-basics-metrics-vs-judges",
+      "title": "Evaluation: Metrics vs Judges",
+      "description": "Know when to use metrics, human review, or LLM-as-judge \u2014 and how to avoid bad evals.",
+      "category": "Evaluation",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "evaluation",
+        "rubrics"
+      ],
+      "quiz": "evaluation-basics-metrics-vs-judges.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do",
+        "prompting-structure-quickstart"
+      ],
+      "next": "evaluation-hands-on-design-a-rubric-and-judge",
+      "related": [
+        "rag-basics-chunking-retrieval",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:evaluation",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "evaluation-pitfalls-leakage-and-overfitting",
+      "title": "Evaluation: Pitfalls (Leakage & Overfitting)",
+      "description": "Avoid evaluation leakage, brittle judge prompts, and tuning to your test set.",
+      "category": "Evaluation",
+      "difficulty": "Intermediate",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "methodology"
+      ],
+      "prereqs": [
+        "evaluation-hands-on-design-a-rubric-and-judge"
+      ],
+      "next": "evaluation-capstone-evaluate-your-rag-or-agent",
+      "related": [
+        "rag-basics-chunking-retrieval",
+        "agentic-flows-pitfalls-tool-failures-and-infinite-loops"
+      ],
+      "path": "cat:evaluation",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "file-based-knowledge",
+      "title": "File\u2011Based Knowledge: Organizing Notes for AI to Use",
+      "description": "Simple folder and document patterns that help both you and AI find the right info quickly.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "judge-loop-mini",
+      "title": "Generate \u2192 Judge \u2192 Fix: The Simplest Agentic Loop",
+      "description": "A minimal quality loop that boosts outputs using scoring and targeted revisions.",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "hallucinations-and-reliability",
+      "title": "Hallucinations: Why They Happen and How to Reduce Them",
+      "description": "Practical techniques to make AI more reliable: verification prompts, citations, uncertainty, and constraints.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "hardware-capstone-quantize-and-fit-a-model",
+      "title": "Hardware Capstone: Quantize and Fit a Model",
+      "description": "Quantize a model to fit your hardware and record the speed/quality tradeoff.",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "quantization",
+        "memory"
+      ],
+      "prereqs": [
+        "hardware-pitfalls-bottlenecks-and-thermals"
+      ],
+      "next": null,
+      "related": [
+        "quantization-explained",
+        "local-ai-capstone-ollama-speed-report"
+      ],
+      "path": "cat:hardware",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "cpu-vs-gpu-vs-npu",
+      "title": "Hardware: CPU vs GPU vs NPU",
+      "description": "Understand which chip helps which AI workloads, and what specs actually matter.",
+      "category": "Hardware",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "hardware",
+        "performance"
+      ],
+      "quiz": "cpu-vs-gpu-vs-npu.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "vram-vs-ram",
+      "related": [
+        "local-ai-ollama-basics",
+        "quantization-explained"
+      ],
+      "path": "cat:hardware",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "hardware-pitfalls-bottlenecks-and-thermals",
+      "title": "Hardware: Pitfalls (Bottlenecks & Thermals)",
+      "description": "Avoid common bottlenecks: PCIe, memory bandwidth, VRAM paging, and thermal throttling.",
+      "category": "Hardware",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "thermals"
+      ],
+      "prereqs": [
+        "vram-vs-ram"
+      ],
+      "next": "hardware-capstone-quantize-and-fit-a-model",
+      "related": [
+        "local-ai-capstone-ollama-speed-report",
+        "quantization-explained"
+      ],
+      "path": "cat:hardware",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "quantization-explained",
+      "title": "Hardware: Quantization Explained",
+      "description": "A clear explanation of quantization formats, what they change, and how to choose.",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "quantization",
+        "formats"
+      ],
+      "prereqs": [
+        "vram-vs-ram"
+      ],
+      "next": null,
+      "related": [
+        "hardware-capstone-quantize-and-fit-a-model",
+        "local-ai-pitfalls-speed-memory-thermal"
+      ],
+      "path": "cat:hardware",
+      "orderInPath": 5,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "vram-vs-ram",
+      "title": "Hardware: VRAM vs RAM",
+      "description": "Learn what actually runs out first, and how to reason about model size vs memory.",
+      "category": "Hardware",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "memory",
+        "vram",
+        "ram"
+      ],
+      "prereqs": [
+        "cpu-vs-gpu-vs-npu"
+      ],
+      "next": "hardware-pitfalls-bottlenecks-and-thermals",
+      "related": [
+        "local-ai-pitfalls-speed-memory-thermal",
+        "quantization-explained"
+      ],
+      "path": "cat:hardware",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "human-in-the-loop-loops",
+      "title": "Human\u2011in\u2011the\u2011Loop Loops: Automate Without Losing Control",
+      "description": "Build a safe loop where AI proposes, you approve, and the system tracks progress and errors.",
+      "category": "Agentic Flows",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-ai-capstone-build-a-style-guide-workflow",
+      "title": "Image AI Capstone: Build a Style Guide Workflow",
+      "description": "Create a style guide and a repeatable workflow that produces consistent images.",
+      "category": "Image AI",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "workflow"
+      ],
+      "prereqs": [
+        "image-ai-pitfalls-artifacts-and-prompt-leakage"
+      ],
+      "next": null,
+      "related": [
+        "prompting-capstone-create-a-prompt-suite-and-tests",
+        "video-ai-basics-models-pipelines"
+      ],
+      "path": "cat:image-ai",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-ai-prompting-basics",
+      "title": "Image AI Prompting Basics: Consistency Over Randomness",
+      "description": "Build prompts that reliably produce a consistent subject, style, and composition.",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-ai-hands-on-controlnet-and-inpainting",
+      "title": "Image AI: Hands-on Control + Inpainting",
+      "description": "Control composition and fix details using constraints and inpainting-style iteration.",
+      "category": "Image AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "workflow"
+      ],
+      "prereqs": [
+        "image-ai-models-and-workflows"
+      ],
+      "next": "image-ai-pitfalls-artifacts-and-prompt-leakage",
+      "related": [
+        "prompting-hands-on-build-reusable-templates",
+        "safety-ethics-hands-on-policy-and-red-teaming"
+      ],
+      "path": "cat:image-ai",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-ai-models-and-workflows",
+      "title": "Image AI: Models & Workflows",
+      "description": "A beginner map of image generation models, workflows, and what knobs actually matter.",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "image",
+        "diffusion"
+      ],
+      "quiz": "image-ai-models-and-workflows.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "image-ai-hands-on-controlnet-and-inpainting",
+      "related": [
+        "video-ai-basics-models-pipelines",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:image-ai",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-ai-pitfalls-artifacts-and-prompt-leakage",
+      "title": "Image AI: Pitfalls (Artifacts & Prompt Leakage)",
+      "description": "Common failure modes: artifacts, uncanny faces, text rendering, and style drift.",
+      "category": "Image AI",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "quality"
+      ],
+      "prereqs": [
+        "image-ai-hands-on-controlnet-and-inpainting"
+      ],
+      "next": "image-ai-capstone-build-a-style-guide-workflow",
+      "related": [
+        "video-ai-pitfalls-flicker-and-temporal-consistency",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:image-ai",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "image-pipelines-iterative",
+      "title": "Image Pipelines: Iteration, Variations, and Style Locking",
+      "description": "A repeatable workflow to refine images while keeping identity, style, and quality stable.",
+      "category": "Image AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "rag-basics-chunking-retrieval",
+      "title": "Knowledge & RAG: Chunking + Retrieval",
+      "description": "RAG basics: chunking, embeddings, retrieval, and why \u2018just add docs\u2019 fails.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "rag",
+        "retrieval",
+        "embeddings"
+      ],
+      "quiz": "rag-basics-chunking-retrieval.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "rag-hands-on-chunking-and-retrieval-tuning",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:rag",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "rag-hands-on-chunking-and-retrieval-tuning",
+      "title": "Knowledge & RAG: Hands-on Tuning",
+      "description": "Tune chunk size, overlap, and retrieval settings using a small test set.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "tuning",
+        "workflow"
+      ],
+      "prereqs": [
+        "rag-basics-chunking-retrieval"
+      ],
+      "next": "rag-pitfalls-chunking-metadata-and-citations",
+      "related": [
+        "evaluation-hands-on-design-a-rubric-and-judge",
+        "prompting-structure-quickstart"
+      ],
+      "path": "cat:rag",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "rag-pitfalls-chunking-metadata-and-citations",
+      "title": "Knowledge & RAG: Pitfalls (Metadata & Citations)",
+      "description": "Failure modes: wrong chunks, missing metadata, citation mismatches, and retrieval blind spots.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "citations"
+      ],
+      "prereqs": [
+        "rag-hands-on-chunking-and-retrieval-tuning"
+      ],
+      "next": "rag-capstone-tiny-rag-with-eval",
+      "related": [
+        "evaluation-pitfalls-leakage-and-overfitting",
+        "safety-ethics-pitfalls-data-leakage-and-bias"
+      ],
+      "path": "cat:rag",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-lm-studio-basics",
+      "title": "Local AI Basics: LM Studio Quickstart",
+      "description": "Use LM Studio for local inference, model downloads, and simple server mode for tools.",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-capstone-ollama-speed-report",
+      "title": "Local AI Capstone: Run Ollama + Measure Speed",
+      "description": "Run a local model with Ollama and produce a small speed report you can repeat.",
+      "category": "Local AI",
+      "difficulty": "Intermediate",
+      "minutes": 40,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "benchmark",
+        "ollama"
+      ],
+      "prereqs": [
+        "local-ai-pitfalls-speed-memory-thermal"
+      ],
+      "next": null,
+      "related": [
+        "hardware-capstone-quantize-and-fit-a-model",
+        "evaluation-basics-metrics-vs-judges"
+      ],
+      "path": "cat:local-ai",
+      "orderInPath": 5,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-performance-basics",
+      "title": "Local AI Performance: What Actually Speeds Things Up",
+      "description": "Understand batching, context size, quantization, and why some settings dramatically slow down generation.",
+      "category": "Local AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-workflows-offline-first",
+      "title": "Local AI: Offline-First Workflows",
+      "description": "Design a repeatable, offline-first workflow with pinned models, logged runs, and no hidden downloads.",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "offline",
+        "workflow",
+        "verification"
+      ],
+      "prereqs": [
+        "local-ai-running-models-offline"
+      ],
+      "next": "local-ai-pitfalls-speed-memory-thermal",
+      "related": [
+        "vram-vs-ram",
+        "quantization-explained",
+        "prompting-structure-quickstart"
+      ],
+      "path": "cat:local-ai",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-ollama-basics",
+      "title": "Local AI: Ollama Basics",
+      "description": "Run a local model with Ollama, understand model naming, and verify outputs offline.",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "featured": true,
+      "tags": [
+        "ollama",
+        "local",
+        "offline"
+      ],
+      "quiz": "local-ai-ollama-basics.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "local-ai-running-models-offline",
+      "related": [
+        "cpu-vs-gpu-vs-npu",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:local-ai",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-pitfalls-speed-memory-thermal",
+      "title": "Local AI: Pitfalls (Speed, Memory, Thermals)",
+      "description": "Why local models feel slow: context growth, swapping, thermal throttling, and wrong batch sizes.",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "performance",
+        "failure modes"
+      ],
+      "prereqs": [
+        "local-ai-running-models-offline"
+      ],
+      "next": "local-ai-capstone-ollama-speed-report",
+      "related": [
+        "cpu-vs-gpu-vs-npu",
+        "quantization-explained"
+      ],
+      "path": "cat:local-ai",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "local-ai-running-models-offline",
+      "title": "Local AI: Running Models Offline (Workflow)",
+      "description": "A repeatable workflow for local inference: prompts, files, logging, and verification.",
+      "category": "Local AI",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "workflow",
+        "verification"
+      ],
+      "prereqs": [
+        "local-ai-ollama-basics"
+      ],
+      "next": "local-ai-workflows-offline-first",
+      "related": [
+        "vram-vs-ram",
+        "prompting-structure-quickstart"
+      ],
+      "path": "cat:local-ai",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "npu-and-edge-ai-reality",
+      "title": "NPUs & Edge AI: What\u2019s Real vs What\u2019s Hype",
+      "description": "Where NPUs help, where they don\u2019t, and what you can realistically do without enterprise gear.",
+      "category": "Hardware",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "output-formatting-and-validators",
+      "title": "Output Formatting: JSON, Checklists, and Self\u2011Validation",
+      "description": "Force consistent outputs using schemas, validators, and step-by-step \u201cverify then answer\u201d patterns.",
+      "category": "Prompting",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompt-debugging",
+      "title": "Prompt Debugging: Fix Bad Outputs Fast",
+      "description": "Diagnose why a prompt failed and apply targeted changes that improve results immediately.",
+      "category": "Prompting",
+      "difficulty": "Intermediate",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompting-capstone-create-a-prompt-suite-and-tests",
+      "title": "Prompting Capstone: Prompt Suite + Tests",
+      "description": "Create a small prompt suite and a test set to keep outputs stable over time.",
+      "category": "Prompting",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "testing",
+        "regression"
+      ],
+      "prereqs": [
+        "prompting-pitfalls-ambiguity-and-overconstraint"
+      ],
+      "next": null,
+      "related": [
+        "evaluation-hands-on-design-a-rubric-and-judge",
+        "coding-ai-hands-on-code-review-loop"
+      ],
+      "path": "cat:prompting",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompting-structure",
+      "title": "Prompting as a System: Roles, Constraints, and Formats",
+      "description": "Stop prompt roulette. Learn a repeatable structure that works across models and tasks.",
+      "category": "Prompting",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompting-hands-on-build-reusable-templates",
+      "title": "Prompting: Hands-on Templates",
+      "description": "Turn a good prompt into a reusable template with variables, guardrails, and examples.",
+      "category": "Prompting",
+      "difficulty": "Beginner",
+      "minutes": 25,
+      "status": "published",
+      "tags": [
+        "templates",
+        "workflow"
+      ],
+      "prereqs": [
+        "prompting-structure-quickstart"
+      ],
+      "next": "prompting-pitfalls-ambiguity-and-overconstraint",
+      "related": [
+        "evaluation-hands-on-design-a-rubric-and-judge",
+        "ai-literacy-first-steps-in-chat"
+      ],
+      "path": "cat:prompting",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompting-pitfalls-ambiguity-and-overconstraint",
+      "title": "Prompting: Pitfalls (Ambiguity & Overconstraint)",
+      "description": "Avoid vague requests, conflicting constraints, and prompts that force the model into failure.",
+      "category": "Prompting",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "prompting"
+      ],
+      "prereqs": [
+        "prompting-hands-on-build-reusable-templates"
+      ],
+      "next": "prompting-capstone-create-a-prompt-suite-and-tests",
+      "related": [
+        "ai-literacy-pitfalls-hallucinations-and-overconfidence",
+        "evaluation-basics-metrics-vs-judges"
+      ],
+      "path": "cat:prompting",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "prompting-structure-quickstart",
+      "title": "Prompting: Structure Quickstart",
+      "description": "A simple, repeatable prompt structure that improves consistency and reduces guesswork.",
+      "category": "Prompting",
+      "difficulty": "Beginner",
+      "minutes": 15,
+      "status": "published",
+      "featured": true,
+      "tags": [
+        "prompting",
+        "structure"
+      ],
+      "quiz": "prompting-structure-quickstart.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "prompting-hands-on-build-reusable-templates",
+      "related": [
+        "evaluation-basics-metrics-vs-judges",
+        "coding-ai-workflow-and-guardrails"
+      ],
+      "path": "cat:prompting",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "rag-capstone-tiny-rag-with-eval",
+      "title": "RAG Capstone: Tiny RAG Demo + Evaluation",
+      "description": "Build a tiny RAG demo (chunk, retrieve, answer) and evaluate it with a rubric.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Intermediate",
+      "minutes": 40,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "rag",
+        "evaluation"
+      ],
+      "prereqs": [
+        "rag-pitfalls-chunking-metadata-and-citations"
+      ],
+      "next": null,
+      "related": [
+        "evaluation-hands-on-design-a-rubric-and-judge",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:rag",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "rag-when-to-use",
+      "title": "RAG: When It Helps and When It Hurts",
+      "description": "A practical decision guide: when retrieval boosts accuracy and when it makes things worse.",
+      "category": "Knowledge & RAG",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "safe-use-and-risk",
+      "title": "Safe Use & Risk: Privacy, Permissions, and Common Pitfalls",
+      "description": "Practical safety: what not to upload, how to protect personal data, and sane defaults.",
+      "category": "Safety & Ethics",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "safety-ethics-hands-on-policy-and-red-teaming",
+      "title": "Safety & Ethics: Hands-on Policy + Red Team",
+      "description": "Write a simple usage policy and run a small red-team exercise on your workflow.",
+      "category": "Safety & Ethics",
+      "difficulty": "Beginner",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "policy"
+      ],
+      "prereqs": [
+        "safety-ethics-practical-ai-use"
+      ],
+      "next": "safety-ethics-pitfalls-data-leakage-and-bias",
+      "related": [
+        "agentic-flows-pitfalls-tool-failures-and-infinite-loops",
+        "evaluation-basics-metrics-vs-judges"
+      ],
+      "path": "cat:safety",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "safety-ethics-pitfalls-data-leakage-and-bias",
+      "title": "Safety & Ethics: Pitfalls (Data Leakage & Bias)",
+      "description": "Common failure modes: leaking secrets, unsafe sharing, biased outputs, and false compliance.",
+      "category": "Safety & Ethics",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "privacy"
+      ],
+      "prereqs": [
+        "safety-ethics-hands-on-policy-and-red-teaming"
+      ],
+      "next": "safety-ethics-capstone-deploy-safe-workflow",
+      "related": [
+        "rag-pitfalls-chunking-metadata-and-citations",
+        "coding-ai-pitfalls-context-and-tests"
+      ],
+      "path": "cat:safety",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "safety-ethics-practical-ai-use",
+      "title": "Safety & Ethics: Practical AI Use",
+      "description": "Practical safety: data handling, privacy, bias, and keeping humans accountable.",
+      "category": "Safety & Ethics",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [
+        "safety",
+        "privacy",
+        "risk"
+      ],
+      "quiz": "safety-ethics-practical-ai-use.quiz.json",
+      "prereqs": [
+        "ai-101-what-models-do"
+      ],
+      "next": "safety-ethics-hands-on-policy-and-red-teaming",
+      "related": [
+        "coding-ai-workflow-and-guardrails",
+        "rag-basics-chunking-retrieval"
+      ],
+      "path": "cat:safety",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "safety-ethics-capstone-deploy-safe-workflow",
+      "title": "Safety Capstone: Deploy a Safe Workflow",
+      "description": "Turn safety into a deployable workflow: rules, logging, and verification steps.",
+      "category": "Safety & Ethics",
+      "difficulty": "Intermediate",
+      "minutes": 35,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "risk"
+      ],
+      "prereqs": [
+        "safety-ethics-pitfalls-data-leakage-and-bias"
+      ],
+      "next": null,
+      "related": [
+        "agentic-flows-capstone-guardrailed-agent-prototype",
+        "rag-capstone-tiny-rag-with-eval"
+      ],
+      "path": "cat:safety",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "self-checking-with-rubrics",
+      "title": "Self\u2011Checking with Rubrics: Make AI Grade Its Own Work",
+      "description": "Use rubrics and scoring to improve quality without building full agent systems.",
+      "category": "Evaluation",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "storyboarding-for-video-ai",
+      "title": "Storyboarding for Video AI: Shot Lists That Improve Results",
+      "description": "Use shot lists, camera language, and constraints to turn vague prompts into coherent sequences.",
+      "category": "Video AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "testing-with-ai",
+      "title": "Testing with AI: Generate Useful Tests and Edge Cases",
+      "description": "Create tests that actually catch bugs, including edge cases and regressions.",
+      "category": "Coding AI",
+      "difficulty": "Intermediate",
+      "minutes": 25,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "tts-basics",
+      "title": "Text\u2011to\u2011Speech Basics: Natural Voice Without the Drama",
+      "description": "Understand TTS quality factors, voice stability, and clean scripts for great narration.",
+      "category": "Audio AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "tokens-context-temperature",
+      "title": "Tokens, Context, Temperature, Top\u2011P (Without the Confusion)",
+      "description": "Learn the knobs that change output quality and consistency, and when to adjust them for different tasks.",
+      "category": "AI Literacy",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "video-ai-basics",
+      "title": "Video AI Basics: What\u2019s Possible Today (and Limits)",
+      "description": "A practical overview of video generation, common artifacts, and how to plan better prompts and shots.",
+      "category": "Video AI",
+      "difficulty": "Beginner",
+      "minutes": 20,
+      "status": "published",
+      "tags": [],
+      "quiz": null,
+      "prereqs": [],
+      "next": null,
+      "related": [],
+      "path": null,
+      "orderInPath": null,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "video-ai-capstone-create-a-short-video-pipeline",
+      "title": "Video AI Capstone: Create a Short Video Pipeline",
+      "description": "Design a short pipeline from prompt \u2192 frames \u2192 clips \u2192 final assembly with checks.",
+      "category": "Video AI",
+      "difficulty": "Intermediate",
+      "minutes": 40,
+      "status": "published",
+      "tags": [
+        "capstone",
+        "pipeline"
+      ],
+      "prereqs": [
+        "video-ai-pitfalls-flicker-and-temporal-consistency"
+      ],
+      "next": null,
+      "related": [
+        "audio-ai-capstone-build-a-voice-notes-workflow",
+        "image-ai-capstone-build-a-style-guide-workflow"
+      ],
+      "path": "cat:video-ai",
+      "orderInPath": 4,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "video-ai-hands-on-storyboard-to-clips",
+      "title": "Video AI: Hands-on Storyboard \u2192 Clips",
+      "description": "A practical workflow: storyboard frames, generate clips, and keep scenes consistent.",
+      "category": "Video AI",
+      "difficulty": "Intermediate",
+      "minutes": 30,
+      "status": "published",
+      "tags": [
+        "hands-on",
+        "workflow"
+      ],
+      "prereqs": [
+        "video-ai-basics-models-pipelines"
+      ],
+      "next": "video-ai-pitfalls-flicker-and-temporal-consistency",
+      "related": [
+        "image-ai-capstone-build-a-style-guide-workflow",
+        "prompting-hands-on-build-reusable-templates"
+      ],
+      "path": "cat:video-ai",
+      "orderInPath": 2,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "video-ai-basics-models-pipelines",
+      "title": "Video AI: Models & Pipelines",
+      "description": "How text-to-video and image-to-video pipelines work and what to control for stability.",
+      "category": "Video AI",
+      "difficulty": "Beginner",
+      "minutes": 18,
+      "status": "published",
+      "tags": [
+        "video",
+        "pipelines"
+      ],
+      "quiz": "video-ai-basics-models-pipelines.quiz.json",
+      "prereqs": [
+        "image-ai-models-and-workflows"
+      ],
+      "next": "video-ai-hands-on-storyboard-to-clips",
+      "related": [
+        "image-ai-hands-on-controlnet-and-inpainting",
+        "audio-ai-tts-stt-basics"
+      ],
+      "path": "cat:video-ai",
+      "orderInPath": 1,
+      "publishedAt": "2025-12-17"
+    },
+    {
+      "slug": "video-ai-pitfalls-flicker-and-temporal-consistency",
+      "title": "Video AI: Pitfalls (Flicker & Temporal Consistency)",
+      "description": "Failure modes: flicker, identity drift, scene jumps, and how to diagnose the cause.",
+      "category": "Video AI",
+      "difficulty": "Beginner",
+      "minutes": 16,
+      "status": "published",
+      "tags": [
+        "failure modes",
+        "quality"
+      ],
+      "prereqs": [
+        "video-ai-hands-on-storyboard-to-clips"
+      ],
+      "next": "video-ai-capstone-create-a-short-video-pipeline",
+      "related": [
+        "image-ai-pitfalls-artifacts-and-prompt-leakage",
+        "safety-ethics-practical-ai-use"
+      ],
+      "path": "cat:video-ai",
+      "orderInPath": 3,
+      "publishedAt": "2025-12-17"
+    }
+  ]
+}

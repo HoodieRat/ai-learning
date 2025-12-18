@@ -1,0 +1,65 @@
+<article class="tutorial">
+  <h1>Image AI: Models &amp; Workflows</h1>
+  <p class="lede">Image generation is a workflow: prompt → iterate → constrain → refine. This tutorial gives you a practical map of common controls and how to use them without guessing.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Core knobs</h2>
+  <ul>
+    <li><strong>Prompt:</strong> intent, composition, style</li>
+    <li><strong>Seed:</strong> repeatability for iteration</li>
+    <li><strong>Guidance:</strong> how strongly the model follows the prompt</li>
+    <li><strong>Refinement:</strong> inpainting-style fixes and iterative edits</li>
+  </ul>
+
+  <h2>Worked example: anchor a baseline</h2>
+  <ol>
+    <li>Choose a subject (e.g., “desk setup with a teal lamp”).</li>
+    <li>Set a fixed seed and 3 prompt variants (composition, style, lighting).</li>
+    <li>Pick the best; record seed, prompt, and settings.</li>
+    <li>Make one targeted change (lighting only) to see controlled differences.</li>
+  </ol>
+
+  <h2>Mini build: repeatable loop</h2>
+  <ol>
+    <li>Pick one subject and goal (product shot, avatar, illustration).</li>
+    <li>Generate 3 baselines with the same seed and small prompt tweaks.</li>
+    <li>Select the best baseline; apply two targeted edits (guidance change, negative prompt, or inpaint a small region).</li>
+    <li>Document which knob caused which improvement.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Create a repeatable image iteration loop.</p>
+    <p><strong>Do:</strong> Pick a subject (product photo, avatar, illustration). Generate 3 variants, then refine the best one with targeted changes.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You can reproduce a baseline using a fixed seed (or equivalent repeat setting).</li>
+      <li>You make at least 2 targeted edits without changing everything.</li>
+      <li>You document what change caused which improvement.</li>
+    </ul>
+    <p><strong>Verify:</strong> Re-run your baseline and confirm you can reach a similar final result using the same steps.</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="image-ai-models-and-workflows.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Fix a baseline with seed + prompt; change one knob at a time.</li>
+    <li>Targeted edits beat full re-rolls; document settings so you can repeat.</li>
+    <li>Guidance, seed, and small prompt tweaks are your primary control set.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=image-ai-hands-on-controlnet-and-inpainting">Image AI: Hands-on Control + Inpainting</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=video-ai-basics-models-pipelines">Video AI: Models &amp; Pipelines</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

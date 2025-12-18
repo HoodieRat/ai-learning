@@ -1,0 +1,62 @@
+<article class="tutorial">
+  <h1>Evaluation: Hands-on Rubric + Judge</h1>
+  <p class="lede">You’ll create a small rubric and a tiny test set. Then you’ll evaluate outputs in a repeatable way (even without paid tools) by using deterministic checks plus structured review.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Rubric skeleton</h2>
+  <ul>
+    <li><strong>Correctness:</strong> Key facts present and not contradicted.</li>
+    <li><strong>Completeness:</strong> Covers required points or fields.</li>
+    <li><strong>Format adherence:</strong> Schema or structure is valid.</li>
+    <li><strong>Safety:</strong> No unsafe or sensitive leakage.</li>
+  </ul>
+
+  <h2>Worked example: score with a mini rubric</h2>
+  <ol>
+    <li>Pick 10 outputs from a real workflow (or generate them now).</li>
+    <li>Score each dimension 0–2 (0=missing/wrong, 1=partial, 2=good).</li>
+    <li>Note the two most common failures (e.g., missing key fact, bad formatting).</li>
+    <li>Draft one prompt or retrieval tweak aimed at the top failure.</li>
+  </ol>
+
+  <h2>Mini build: make it repeatable</h2>
+  <ol>
+    <li>Write the rubric in plain text with examples of 0/1/2 for each dimension.</li>
+    <li>Create a tiny harness: a table with columns (input, output, scores, comments).</li>
+    <li>Score the same three examples twice (today and later) to see if you agree with yourself.</li>
+    <li>If using an LLM judge, embed the rubric and require rationale per score.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Create a rubric and score 10 examples.</p>
+    <p><strong>Do:</strong> Generate 10 outputs (or collect from your work) and score each on 0–2 per rubric dimension.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Scores are consistent enough that another person could follow them.</li>
+      <li>You can identify the top two failure modes by frequency.</li>
+      <li>You propose one prompt or retrieval change that would improve the score.</li>
+    </ul>
+    <p><strong>Verify:</strong> Re-score 3 examples on a different day and see if you agree with yourself.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Small, explicit rubrics beat vague "looks good" judgments.</li>
+    <li>Repeatability matters: re-score a few cases to check stability.</li>
+    <li>Use the rubric to target one concrete improvement in prompts or retrieval.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=evaluation-pitfalls-leakage-and-overfitting">Evaluation: Pitfalls (Leakage &amp; Overfitting)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-capstone-create-a-prompt-suite-and-tests">Prompting Capstone</a></li>
+    <li><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone</a></li>
+  </ul>
+</article>

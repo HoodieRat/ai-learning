@@ -1,0 +1,59 @@
+<article class="tutorial">
+  <h1>RAG Capstone: Tiny RAG Demo + Evaluation</h1>
+  <p class="lede">You’ll build a tiny RAG demo and evaluate it. The deliverable is a working pipeline spec and a short report showing what improved and what still fails.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=rag-pitfalls-chunking-metadata-and-citations">Knowledge &amp; RAG: Pitfalls</a></li>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>Document set (small but real)</li>
+    <li>Chunking + retrieval plan</li>
+    <li>10-question eval set + results</li>
+  </ul>
+
+  <h2>Plan your build</h2>
+  <ol>
+    <li>Choose one corpus (e.g., a handbook or FAQ) and two question types you care about.</li>
+    <li>Fix a simple chunking strategy (by heading or ~500 tokens) and include title/section metadata.</li>
+    <li>Pick a base prompt that requires citations in a fixed format.</li>
+    <li>Create a 10-question eval set with gold chunk references.</li>
+  </ol>
+
+  <h2>Mini build: run the loop</h2>
+  <ol>
+    <li>Run baseline retrieval + answer; score on your 10 questions (gold chunk present? answer grounded?).</li>
+    <li>Tune one knob (chunk size or top-k) and rerun; keep only if scores improve.</li>
+    <li>Add one guardrail: decline if no supporting chunk. Re-test a known-negative question.</li>
+    <li>Write a brief note: what changed, what improved, what still fails.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Build a tiny RAG demo on a real document set.</p>
+    <p><strong>Do:</strong> Keep it minimal: 1 corpus, 1 chunking strategy, 1 retrieval strategy, 1 prompt.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Your demo can answer at least 7/10 eval questions with correct grounding.</li>
+      <li>Citations are traceable to specific chunks.</li>
+      <li>You document the top 2 failure modes and one mitigation.</li>
+    </ul>
+    <p><strong>Verify:</strong> Add 2 new questions not in the test set and confirm performance is similar (no “test set only” wins).</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Scope small: one corpus, one prompt, one clear citation format.</li>
+    <li>Evaluate with known gold chunks; change one knob at a time.</li>
+    <li>Keep a short report so you can iterate or port to a larger stack later.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-hands-on-design-a-rubric-and-judge">Evaluation: Hands-on Rubric + Judge</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

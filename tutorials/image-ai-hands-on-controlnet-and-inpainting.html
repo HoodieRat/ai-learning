@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Image AI: Hands-on Control + Inpainting</h1>
+  <p class="lede">The fastest way to get consistent images is to constrain the problem. This tutorial teaches a constraint-first loop and targeted fixes (inpainting-style edits).</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=image-ai-models-and-workflows">Image AI: Models &amp; Workflows</a></li>
+  </ul>
+
+  <h2>Constraint-first loop</h2>
+  <ul>
+    <li>Fix composition first (layout, camera, framing).</li>
+    <li>Lock identity/style second.</li>
+    <li>Polish details last (hands, text, small artifacts).</li>
+  </ul>
+
+  <h2>Worked example: three consistent shots</h2>
+  <ol>
+    <li>Subject: product on a desk. Lock composition (camera angle, framing).</li>
+    <li>Fix style: lighting and color palette; reuse the same seed.</li>
+    <li>Targeted fix: inpaint only the label to correct text; leave the rest untouched.</li>
+    <li>Result: three shots that match in style and framing.</li>
+  </ol>
+
+  <h2>Mini build: constrain then edit</h2>
+  <ol>
+    <li>Write one base prompt with fixed composition and seed.</li>
+    <li>Generate 3 images; pick the best and note what is off (text, hands, background clutter).</li>
+    <li>Apply one inpaint/control edit to fix only that area.</li>
+    <li>Repeat once; confirm the fix generalizes across two images.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Produce 3 consistent images of the same subject.</p>
+    <p><strong>Do:</strong> Use a fixed description and add one constraint (pose/lighting/background). Then refine details with targeted edits.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>All 3 images clearly depict the same subject/brand.</li>
+      <li>At least one targeted edit improves a single area without breaking the rest.</li>
+      <li>You can explain what constraint drove consistency.</li>
+    </ul>
+    <p><strong>Verify:</strong> Show the 3 images to a friend and ask if they look like the same set.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Lock composition and style first; reuse seeds for consistency.</li>
+    <li>Use targeted edits (inpaint/control) instead of full re-rolls.</li>
+    <li>One constraint per edit makes results repeatable and debuggable.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=image-ai-pitfalls-artifacts-and-prompt-leakage">Image AI: Pitfalls (Artifacts &amp; Prompt Leakage)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=prompting-hands-on-build-reusable-templates">Prompting: Hands-on Templates</a></li>
+    <li><a href="?t=safety-ethics-hands-on-policy-and-red-teaming">Safety &amp; Ethics: Hands-on Policy + Red Team</a></li>
+  </ul>
+</article>

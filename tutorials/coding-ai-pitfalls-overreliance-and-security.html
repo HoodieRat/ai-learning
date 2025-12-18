@@ -1,0 +1,68 @@
+<article class="tutorial">
+  <h1>Coding AI: Pitfalls (Overreliance &amp; Security)</h1>
+  <p class="lede">The main risks are subtle: insecure code patterns, hallucinated APIs, and “looks right” bugs. This tutorial teaches a verification mindset and a few high-impact checks.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-hands-on-refactor-with-tests">Coding AI: Hands-on Refactor with Tests</a></li>
+  </ul>
+
+  <h2>Common failure patterns</h2>
+  <ul>
+    <li><strong>Hallucinated dependencies:</strong> imports or functions that don’t exist.</li>
+    <li><strong>Insecure defaults:</strong> missing auth checks, weak validation.</li>
+    <li><strong>Silent edge cases:</strong> nulls, timezones, encoding, floating point.</li>
+  </ul>
+
+  <h2>High-impact checks</h2>
+  <ul>
+    <li>Read the diff like a reviewer.</li>
+    <li>Add tests that fail before the change.</li>
+    <li>Threat model: “what if input is hostile?”</li>
+  </ul>
+
+  <h2>Worked example: blocking unsafe input</h2>
+  <ol>
+    <li>Diff shows new SQL builder; risk of injection.</li>
+    <li>Add test with malicious input; confirm it fails.</li>
+    <li>Fix: parameterized query and length check; rerun tests.</li>
+    <li>Scan for hallucinated imports; remove or replace with real APIs.</li>
+  </ol>
+
+  <h2>Mini build: security pass</h2>
+  <ol>
+    <li>Pick a small change; list assets at risk (DB, filesystem, network).</li>
+    <li>Add one hostile-input test and one resource-abuse test (very long input).</li>
+    <li>Check for hallucinated dependencies and remove them.</li>
+    <li>Re-run tests and write a 3-bullet security note in the diff.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Add a security-oriented test case.</p>
+    <p><strong>Do:</strong> Identify one risky input (very long string, weird unicode, injection-like payload). Add a test and fix behavior to be safe.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The risky input is handled safely (reject/sanitize/escape).</li>
+      <li>The behavior is documented by a test.</li>
+      <li>You can explain the threat you prevented.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run lint/static checks if available; otherwise re-run tests and re-read the diff.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Hallucinated APIs and insecure defaults are common; verify imports and auth.</li>
+    <li>Hostile-input tests expose silent risks; keep them in the suite.</li>
+    <li>Write down security notes so reviewers see what changed and why it is safe.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=coding-ai-capstone-ship-a-small-feature-with-tests">Coding AI Capstone: Ship a Small Feature with Tests</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+    <li><a href="?t=agentic-flows-pitfalls-infinite-loops-and-tool-misuse">Agentic Flows: Pitfalls</a></li>
+  </ul>
+</article>

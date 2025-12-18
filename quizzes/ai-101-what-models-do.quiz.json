@@ -1,0 +1,76 @@
+{
+  "title": "AI 101: What Models Do — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "In simple terms, what does a typical language model do?",
+      "options": [
+        "Predicts the next token based on context",
+        "Looks up answers in a built-in database",
+        "Always reasons step-by-step internally",
+        "Verifies facts against the internet"
+      ],
+      "answer": "Predicts the next token based on context",
+      "explanation": "Most LLMs generate text by predicting the next token given prior context; they don’t inherently consult the web or a fixed fact database."
+    },
+    {
+      "type": "true-false",
+      "question": "If an AI response sounds confident, that guarantees it is correct.",
+      "answer": false,
+      "explanation": "Confidence in phrasing is not a reliability signal. Verification is still required."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Which is the best first step when you need a reliable answer?",
+      "options": [
+        "Ask for sources and verify them",
+        "Ask the model to be more confident",
+        "Ask the same question once and accept it",
+        "Use the longest prompt possible"
+      ],
+      "answer": "Ask for sources and verify them",
+      "explanation": "Verification (and requesting evidence) is the high-leverage step for reliability."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which of these are valid ways to improve output quality?",
+      "options": [
+        "Provide clear constraints and examples",
+        "Split a large task into smaller steps",
+        "Assume the model’s first answer is always best",
+        "Ask it to list assumptions"
+      ],
+      "answer": [
+        "Provide clear constraints and examples",
+        "Split a large task into smaller steps",
+        "Ask it to list assumptions"
+      ],
+      "explanation": "Constraints, decomposition, and surfacing assumptions all reduce ambiguity and improve correctness; blind acceptance does not."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What’s a good definition of a hallucination?",
+      "options": [
+        "A plausible-sounding output that is not grounded in reality",
+        "A deliberate lie by the model",
+        "Any creative writing",
+        "An output that is too short"
+      ],
+      "answer": "A plausible-sounding output that is not grounded in reality",
+      "explanation": "Hallucinations are ungrounded outputs that can sound fluent and convincing."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "When should you use a model’s answer without verification?",
+      "options": [
+        "Low-stakes brainstorming or drafting",
+        "Medical advice",
+        "Legal compliance decisions",
+        "Financial transactions"
+      ],
+      "answer": "Low-stakes brainstorming or drafting",
+      "explanation": "For high-stakes domains, treat outputs as drafts and verify with trusted sources or experts."
+    }
+  ]
+}

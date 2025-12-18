@@ -1,0 +1,71 @@
+{
+  "title": "Prompting: Structure Quickstart — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What is the most effective way to reduce ambiguity in a prompt?",
+      "options": [
+        "Provide constraints and an example output",
+        "Use more adjectives",
+        "Ask the model to guess what you mean",
+        "Avoid specifying the audience"
+      ],
+      "answer": "Provide constraints and an example output",
+      "explanation": "Constraints and examples define what success looks like and reduce guesswork."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which prompt sections are commonly useful for reliable outputs?",
+      "options": [
+        "Goal",
+        "Context",
+        "Constraints",
+        "Output format"
+      ],
+      "answer": [
+        "Goal",
+        "Context",
+        "Constraints",
+        "Output format"
+      ],
+      "explanation": "A structured prompt helps the model understand intent, boundaries, and how to respond."
+    },
+    {
+      "type": "true-false",
+      "question": "Asking for a specific output format (like JSON or a table) can improve consistency.",
+      "answer": true,
+      "explanation": "Explicit formats reduce degrees of freedom and help constrain responses."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Which is the best instruction for quality control?",
+      "options": [
+        "List assumptions before answering",
+        "Be creative and surprise me",
+        "Don’t mention any uncertainties",
+        "Answer instantly"
+      ],
+      "answer": "List assumptions before answering",
+      "explanation": "Surfacing assumptions makes it easier to verify and correct direction early."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "When a task is complex, what usually helps the most?",
+      "options": [
+        "Break it into smaller sub-tasks",
+        "Ask for a single massive response",
+        "Remove constraints",
+        "Avoid stating non-goals"
+      ],
+      "answer": "Break it into smaller sub-tasks",
+      "explanation": "Decomposition improves correctness, reduces omissions, and makes verification easier."
+    },
+    {
+      "type": "true-false",
+      "question": "A good prompt should include both goals and non-goals when possible.",
+      "answer": true,
+      "explanation": "Non-goals prevent scope creep and reduce wrong assumptions."
+    }
+  ]
+}

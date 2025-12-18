@@ -1,0 +1,58 @@
+<article class="tutorial">
+  <h1>Evaluation Capstone: Evaluate Your RAG or Agent</h1>
+  <p class="lede">You’ll assemble a small evaluation harness: dataset, rubric, pass/fail thresholds, and a simple report. The goal is repeatability, not perfection.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=evaluation-pitfalls-leakage-and-overfitting">Evaluation: Pitfalls (Leakage &amp; Overfitting)</a></li>
+  </ul>
+
+  <h2>Artifact</h2>
+  <ul>
+    <li>20 test cases (mix of typical + edge cases)</li>
+    <li>Rubric with 3–5 dimensions</li>
+    <li>Report: baseline score + 2 proposed improvements</li>
+  </ul>
+
+  <h2>Plan your harness</h2>
+  <ol>
+    <li>Pick a target: RAG answers or agent task completions.</li>
+    <li>Draft a rubric (3–5 dimensions) with 0/1/2 scoring and examples.</li>
+    <li>Collect 10 typical cases + 5 edge cases; add 5 fresh cases from recent usage.</li>
+    <li>Decide thresholds: what score is a pass, and what change counts as an improvement.</li>
+  </ol>
+
+  <h2>Mini build: run and improve</h2>
+  <ol>
+    <li>Run baseline system on the 20 cases; record scores and top failure modes.</li>
+    <li>Make one change (prompt tweak, retrieval change, tool guardrail) and rerun.</li>
+    <li>Compare results; keep the change only if it improves failures you care about.</li>
+    <li>Write a short report: current score, biggest gain, remaining issues, next experiment.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Build your evaluation harness.</p>
+    <p><strong>Do:</strong> Start with 10 cases, score them, then expand to 20 only after your rubric feels stable.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Your harness is runnable without paid tools.</li>
+      <li>You can reproduce scores across runs.</li>
+      <li>You produce at least one concrete improvement backed by data.</li>
+    </ul>
+    <p><strong>Verify:</strong> Add 5 “hard mode” cases and ensure your harness still flags failures.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Keep evals small but repeatable: clear rubric, fixed cases, recorded scores.</li>
+    <li>Change one system knob at a time so improvements are attributable.</li>
+    <li>Document outcomes to guide the next experiment and to share with teammates.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone: Tiny RAG Demo + Evaluation</a></li>
+    <li><a href="?t=agentic-flows-capstone-guardrailed-agent-prototype">Agentic Capstone: Guardrailed Agent Prototype</a></li>
+  </ul>
+</article>

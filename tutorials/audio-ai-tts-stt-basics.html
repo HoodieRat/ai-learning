@@ -1,0 +1,64 @@
+<article class="tutorial">
+  <h1>Audio AI: TTS &amp; STT Basics</h1>
+  <p class="lede">Audio AI is usually a pipeline: capture → transcribe (STT) → process → synthesize (TTS). This tutorial covers what quality means and where it breaks.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-101-what-models-do">AI 101: What Models Do</a></li>
+  </ul>
+
+  <h2>Quality concepts</h2>
+  <ul>
+    <li><strong>WER:</strong> word error rate (but can hide important errors).</li>
+    <li><strong>Diarization:</strong> who spoke when.</li>
+    <li><strong>Latency:</strong> delays can matter more than accuracy in some apps.</li>
+  </ul>
+
+  <h2>Worked example: define good enough</h2>
+  <ol>
+    <li>Use case: meeting notes.</li>
+    <li>Critical needs: speaker names correct; action items captured.</li>
+    <li>Acceptable errors: minor filler words; non-critical small mistakes.</li>
+    <li>Verification: spot-check names and action items in a 1–2 minute clip.</li>
+  </ol>
+
+  <h2>Mini build: your quality bar</h2>
+  <ol>
+    <li>Write 5 requirements (accuracy for names/numbers, latency target).</li>
+    <li>Pick a 1–2 minute clip; transcribe with your chosen tool.</li>
+    <li>Check the two most critical requirements manually.</li>
+    <li>Decide if the tool meets “good enough” for this use; note gaps.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Define “good enough” transcription for your use case.</p>
+    <p><strong>Do:</strong> Write 5 requirements (e.g., names must be correct; action items must be extracted).</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You have a clear definition of what matters most.</li>
+      <li>You can name 2 error types that break your workflow.</li>
+      <li>You can propose a verification step to catch those errors.</li>
+    </ul>
+    <p><strong>Verify:</strong> Transcribe a 1–2 minute clip and manually check the 2 most important requirements.</p>
+  </section>
+
+  <h2>Check your understanding</h2>
+  <div data-quiz="audio-ai-tts-stt-basics.quiz.json"></div>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Define quality by what matters (names, numbers, actions), not just WER.</li>
+    <li>Short manual checks catch the failures that metrics miss.</li>
+    <li>Latency can trump accuracy for some workflows; decide up front.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=audio-ai-hands-on-transcribe-and-summarize">Audio AI: Hands-on Transcribe + Summarize</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

@@ -1,0 +1,61 @@
+<article class="tutorial">
+  <h1>Knowledge &amp; RAG: Pitfalls (Metadata &amp; Citations)</h1>
+  <p class="lede">RAG failures often look like hallucinations but are actually retrieval failures. This tutorial focuses on the pipeline mistakes that cause wrong citations and missing grounding.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=rag-hands-on-chunking-and-retrieval-tuning">Knowledge &amp; RAG: Hands-on Tuning</a></li>
+  </ul>
+
+  <h2>Failure modes</h2>
+  <ul>
+    <li><strong>Metadata loss:</strong> Chunks lose title/section context; retrieval returns irrelevant pieces.</li>
+    <li><strong>Wrong citations:</strong> Model cites the wrong chunk because citation format is loose or missing.</li>
+    <li><strong>Over-retrieval:</strong> Too many chunks dilute the signal and increase hallucination risk.</li>
+  </ul>
+
+  <h2>Worked example: enforce citations</h2>
+  <ol>
+    <li>Attach metadata to each chunk: doc title, section heading, paragraph id.</li>
+    <li>Force the prompt to require citations like [doc:section:para].</li>
+    <li>Ask a known question; check whether the cited chunk truly supports the claim.</li>
+    <li>If not, inspect: was the right chunk retrieved? Was citation formatting too loose?</li>
+  </ol>
+
+  <h2>Mini build: tighten retrieval</h2>
+  <ol>
+    <li>Set a consistent citation format (e.g., [Title §Section ¶ID]).</li>
+    <li>Limit top-k to the smallest value that still returns the gold chunk on your 10-case set.</li>
+    <li>Add a guardrail prompt step: "If no supporting chunk, say not found."</li>
+    <li>Test one known-negative question to ensure it declines to answer.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Add metadata and enforce citation discipline.</p>
+    <p><strong>Do:</strong> For each retrieved chunk, attach (doc title, section heading, paragraph id). Require the model to cite these ids.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Every answer includes citations in a consistent format.</li>
+      <li>You can trace each cited claim to a retrieved chunk.</li>
+      <li>At least one citation mismatch is caught and corrected.</li>
+    </ul>
+    <p><strong>Verify:</strong> Ask one question you know is not in the docs and confirm the system says "not found" rather than inventing.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Metadata and citation format keep answers grounded and inspectable.</li>
+    <li>Over-retrieval increases noise; pick the smallest k that returns gold chunks.</li>
+    <li>Negative tests (questions with no answer) reveal leakage and hallucination risk.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=rag-capstone-tiny-rag-with-eval">RAG Capstone: Tiny RAG Demo + Evaluation</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-pitfalls-leakage-and-overfitting">Evaluation: Pitfalls</a></li>
+    <li><a href="?t=safety-ethics-pitfalls-data-leakage-and-bias">Safety &amp; Ethics: Pitfalls</a></li>
+  </ul>
+</article>

@@ -1,0 +1,70 @@
+{
+  "title": "RAG Basics: Chunking & Retrieval — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "In a RAG system, retrieval is used to:",
+      "options": [
+        "Select relevant context to include with the prompt",
+        "Train the model from scratch",
+        "Guarantee zero hallucinations",
+        "Increase internet speed"
+      ],
+      "answer": "Select relevant context to include with the prompt",
+      "explanation": "Retrieval finds relevant documents/chunks so the model can ground its response."
+    },
+    {
+      "type": "true-false",
+      "question": "Chunking strategy can affect both retrieval quality and answer quality.",
+      "answer": true,
+      "explanation": "Chunk size and boundaries influence what gets retrieved and how coherent the context is."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Which is a common symptom of poor chunking?",
+      "options": [
+        "Retrieved passages miss key details or split them across chunks",
+        "The UI looks nicer",
+        "The model becomes deterministic",
+        "The database stores fewer bytes"
+      ],
+      "answer": "Retrieved passages miss key details or split them across chunks",
+      "explanation": "Bad boundaries can separate definitions from details or drop needed context."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which techniques can improve retrieval relevance?",
+      "options": [
+        "Add metadata filters",
+        "Use hybrid search (dense + keyword)",
+        "Always retrieve the maximum number of chunks",
+        "Tune chunk sizes and overlap"
+      ],
+      "answer": [
+        "Add metadata filters",
+        "Use hybrid search (dense + keyword)",
+        "Tune chunk sizes and overlap"
+      ],
+      "explanation": "Filtering, hybrid retrieval, and chunk tuning improve relevance; max retrieval can add noise."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What’s a good way to evaluate a RAG system?",
+      "options": [
+        "Use question sets with known answers and check grounding",
+        "Only measure model latency",
+        "Rely on anecdotal demos",
+        "Avoid tracking failures"
+      ],
+      "answer": "Use question sets with known answers and check grounding",
+      "explanation": "You need test questions and criteria that check both correctness and whether answers are grounded in retrieved context."
+    },
+    {
+      "type": "true-false",
+      "question": "Retrieval errors can cause the model to answer incorrectly even if the model itself is strong.",
+      "answer": true,
+      "explanation": "If the system provides wrong or missing context, answers degrade regardless of model capability."
+    }
+  ]
+}

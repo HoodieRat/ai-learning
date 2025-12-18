@@ -1,0 +1,73 @@
+<article class="tutorial">
+  <h1>AI Literacy: Pitfalls (Hallucinations &amp; Overconfidence)</h1>
+  <p class="lede">Models predict plausible words, not truth. This lesson shows you the smells of hallucinations and how to force outputs into verifiable shapes before you trust them.</p>
+
+  <div class="learning-callout">
+    <p class="pill">What you will learn</p>
+    <ul class="checklist">
+      <li>Three failure smells: confident wrongness, scope drift, and source blur.</li>
+      <li>A counter-prompt that makes assumptions and uncertainty explicit.</li>
+      <li>A verification plan pattern you can reuse in any domain.</li>
+    </ul>
+  </div>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=ai-literacy-first-steps-in-chat">AI Literacy: First Steps in Chat</a></li>
+  </ul>
+
+  <h2>Concept explainer: how hallucinations happen</h2>
+  <ul>
+    <li><strong>Confident wrongness:</strong> the model fills gaps with plausible tokens to stay fluent.</li>
+    <li><strong>Scope drift:</strong> it answers a nearby question that better fits its training priors.</li>
+    <li><strong>Source blur:</strong> it blends public facts with invented specifics (fake citations, made-up APIs).</li>
+  </ul>
+
+  <h2>Worked example: forcing uncertainty to surface</h2>
+  <p><strong>Prompt skeleton:</strong> “Answer in 3 parts: (1) Concise answer, (2) Assumptions and missing info, (3) 3 checks that would falsify the answer, each with a free source to consult.”</p>
+  <p><strong>Why it works:</strong> It separates answer vs. assumptions, and asks for falsifiers plus sources, making BS visible.</p>
+
+  <h2>Guided mini-build: your anti-hallucination wrapper</h2>
+  <ol>
+    <li>Start with your task question.</li>
+    <li>Add an “Assumptions + Uncertainty” section request.</li>
+    <li>Add “3 falsifiers” with instructions: describe evidence that would invalidate the answer and where to check it (docs/specs/search keywords).</li>
+    <li>Cap length; verbose answers hide errors.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Make hallucinations obvious</h2>
+    <p><strong>Task:</strong> Design a prompt that produces an answer plus a verification plan, then run one check.</p>
+    <ol>
+      <li>Write the task question (pick something you can partially verify, e.g., “Does API X support feature Y?”).</li>
+      <li>Apply the wrapper: Answer + Assumptions + 3 falsifiers with sources.</li>
+      <li>Run the prompt. Inspect assumptions: are they reasonable?</li>
+      <li>Pick one falsifier and actually check it with a free source; update the answer if it fails.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>Assumptions are explicit and specific (not “I assume docs are current”).</li>
+      <li>Each falsifier points to a concrete source or query.</li>
+      <li>At least one check is executed and reflected in the updated answer.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Hallucinations are a feature of next-token prediction, not a rare bug.</li>
+    <li>Structure the output so assumptions and falsifiers are visible.</li>
+    <li>Run at least one real check before you trust or ship the answer.</li>
+  </ul>
+
+  <h2>Check your understanding</h2>
+  <p>No separate quiz here—run the lab once on a real work question.</p>
+
+  <h2>Next</h2>
+  <p><a href="?t=ai-literacy-capstone-compare-models-with-a-mini-benchmark">AI Literacy Capstone: Compare Models with a Mini-Benchmark</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=evaluation-basics-metrics-vs-judges">Evaluation: Metrics vs Judges</a></li>
+    <li><a href="?t=safety-ethics-practical-ai-use">Safety &amp; Ethics: Practical AI Use</a></li>
+  </ul>
+</article>

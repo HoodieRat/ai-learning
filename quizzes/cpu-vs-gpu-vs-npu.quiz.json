@@ -1,52 +1,70 @@
 {
-  "title": "CPU vs GPU vs NPU",
+  "title": "Hardware: CPU vs GPU vs NPU — Quiz",
   "passingScore": 70,
   "questions": [
     {
       "type": "multiple-choice",
-      "question": "Why do GPUs typically accelerate AI workloads compared to CPUs?",
+      "question": "Which hardware is typically best for highly parallel matrix math in modern ML inference?",
       "options": [
-        "They always have faster single-thread performance",
-        "They run a different operating system",
-        "They provide massive parallel computation for matrix math",
-        "They increase your internet speed"
+        "GPU",
+        "CPU",
+        "Hard drive",
+        "Network card"
       ],
-      "answer": 2,
-      "explanation": "Most deep learning is heavy matrix math; GPUs are built for wide parallel compute."
+      "answer": "GPU",
+      "explanation": "GPUs are designed for parallel workloads and often provide high throughput for tensor/matrix ops."
     },
     {
       "type": "multiple-choice",
-      "question": "In local LLM use, what usually limits the maximum model size you can load?",
+      "question": "What is VRAM primarily used for during GPU inference?",
       "options": [
-        "Monitor resolution",
-        "VRAM capacity",
-        "Keyboard type",
-        "Wi‑Fi signal strength"
+        "Storing model weights and activations on the GPU",
+        "Storing files long-term",
+        "Increasing internet speed",
+        "Replacing the CPU"
       ],
-      "answer": 1,
-      "explanation": "Model weights live primarily in VRAM on GPU inference; insufficient VRAM forces smaller models or CPU fallback."
-    },
-    {
-      "type": "multi-select",
-      "question": "Select tasks where a GPU is commonly helpful (select all that apply).",
-      "options": [
-        "Diffusion image generation",
-        "Large language model inference",
-        "Sorting files in Windows Explorer",
-        "Training or fine‑tuning (when supported)"
-      ],
-      "answer": [
-        0,
-        1,
-        3
-      ],
-      "explanation": "GPUs excel at parallel math used in diffusion and LLMs; file sorting is mostly CPU/IO."
+      "answer": "Storing model weights and activations on the GPU",
+      "explanation": "VRAM is the GPU’s fast memory used to hold data needed for compute."
     },
     {
       "type": "true-false",
-      "question": "An NPU is always faster than a GPU for any AI workload.",
+      "question": "If your model does not fit in VRAM, it may fall back to slower paths (or fail to load).",
+      "answer": true,
+      "explanation": "Memory constraints can cause swapping/offloading and major slowdowns, or prevent loading."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which can be bottlenecks for local AI performance?",
+      "options": [
+        "Memory bandwidth",
+        "Thermal limits",
+        "Disk capacity (for inference speed)",
+        "PCIe transfer overhead"
+      ],
+      "answer": [
+        "Memory bandwidth",
+        "Thermal limits",
+        "PCIe transfer overhead"
+      ],
+      "explanation": "Bandwidth, thermals, and host↔device transfers matter; disk capacity usually affects storage, not compute throughput."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "NPUs are generally optimized for:",
+      "options": [
+        "Efficient inference for certain neural workloads",
+        "High-end gaming graphics",
+        "Long-term archival storage",
+        "Running web servers"
+      ],
+      "answer": "Efficient inference for certain neural workloads",
+      "explanation": "NPUs target efficient on-device inference for specific operator sets and models."
+    },
+    {
+      "type": "true-false",
+      "question": "More FLOPS always means faster real-world inference.",
       "answer": false,
-      "explanation": "NPUs can be excellent for certain inference ops, but coverage and performance vary widely."
+      "explanation": "Real performance also depends on memory bandwidth, kernels, batch size, and overheads."
     }
   ]
 }

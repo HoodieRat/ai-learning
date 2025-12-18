@@ -1,0 +1,70 @@
+{
+  "title": "Evaluation: Metrics vs Judges — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "What is the main purpose of evaluation?",
+      "options": [
+        "Measure whether a system meets requirements",
+        "Make the model look smart",
+        "Eliminate all errors",
+        "Avoid user feedback"
+      ],
+      "answer": "Measure whether a system meets requirements",
+      "explanation": "Evaluation checks performance against defined criteria so you can improve or decide readiness."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "Why can a single metric be misleading?",
+      "options": [
+        "It may hide important failure modes",
+        "It is always too expensive",
+        "It guarantees perfect accuracy",
+        "It replaces qualitative review"
+      ],
+      "answer": "It may hide important failure modes",
+      "explanation": "Aggregate metrics can mask rare but critical errors and bias in specific segments."
+    },
+    {
+      "type": "true-false",
+      "question": "Human or model-based judges can be useful, but they also require calibration and checks.",
+      "answer": true,
+      "explanation": "Judges can drift, be inconsistent, or encode bias; they should be validated."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which practices improve evaluation quality?",
+      "options": [
+        "Representative test cases",
+        "Clear rubrics",
+        "Leakage prevention",
+        "Measuring only one easy scenario"
+      ],
+      "answer": [
+        "Representative test cases",
+        "Clear rubrics",
+        "Leakage prevention"
+      ],
+      "explanation": "Coverage, clear criteria, and preventing leakage are key; narrow testing is risky."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is data leakage in evaluation?",
+      "options": [
+        "Test data overlaps with training/context in a way that inflates scores",
+        "A model refusing to answer",
+        "A slow GPU",
+        "A long prompt"
+      ],
+      "answer": "Test data overlaps with training/context in a way that inflates scores",
+      "explanation": "Leakage makes evaluation optimistic because the system has effectively seen the answers."
+    },
+    {
+      "type": "true-false",
+      "question": "Evaluation should be tied to user-facing requirements, not just generic benchmarks.",
+      "answer": true,
+      "explanation": "Benchmarks help, but product readiness depends on your actual use cases and constraints."
+    }
+  ]
+}

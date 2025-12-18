@@ -1,0 +1,58 @@
+<article class="tutorial">
+  <h1>Coding AI Capstone: Build a CLI Helper</h1>
+  <p class="lede">You’ll build a tiny CLI wrapper (or mock) around an LLM-style call with logging and safeguards. The goal is an operable tool, not a demo.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=coding-ai-pitfalls-context-and-tests">Coding AI: Pitfalls (Context &amp; Tests)</a></li>
+  </ul>
+
+  <h2>Scope</h2>
+  <ul>
+    <li><strong>Input:</strong> prompt text + optional context file</li>
+    <li><strong>Output:</strong> response text + a structured log entry</li>
+    <li><strong>Safety:</strong> redaction of secrets + opt-in logging</li>
+  </ul>
+
+  <h2>Plan your CLI</h2>
+  <ol>
+    <li>Decide commands (e.g., summarize, draft) and flags (model, max-tokens, context path).</li>
+    <li>Define logging: timestamp, command, inputs hash, model id, redacted payload.</li>
+    <li>Choose redaction rules (API keys, emails) and where they run (pre-log).</li>
+    <li>Pick test cases: happy path, long input, secret in input, and offline/mock mode.</li>
+  </ol>
+
+  <h2>Mini build: implement and test</h2>
+  <ol>
+    <li>Implement one command end-to-end with a mock model call.</li>
+    <li>Add logging with redaction; assert logs never store secrets.</li>
+    <li>Write tests for redaction and for the mock response path.</li>
+    <li>Run two sample commands and inspect logs for correctness.</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Ship a minimal CLI helper with safeguards.</p>
+    <p><strong>Do:</strong> Implement commands like: <code>summarize</code> or <code>draft</code>. Add logging (timestamp, inputs hash, model name or “mock”), and add a redaction rule for common secrets.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>The CLI runs end-to-end with a mock response or a real local endpoint.</li>
+      <li>Logs do not store raw secrets (basic redaction works).</li>
+      <li>You have tests for redaction and basic behavior.</li>
+    </ul>
+    <p><strong>Verify:</strong> Run the CLI on two sample inputs and confirm logs are created and redaction triggers when expected.</p>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Design commands and safety (logging/redaction) before wiring models.</li>
+    <li>Mock responses keep tests fast and deterministic.</li>
+    <li>Redaction tests are mandatory whenever user text is logged.</li>
+  </ul>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=agentic-flows-hands-on-simulated-agent-loop">Agentic Flows: Hands-on Simulated Loop</a></li>
+    <li><a href="?t=safety-ethics-capstone-deploy-safe-workflow">Safety Capstone: Deploy a Safe Workflow</a></li>
+  </ul>
+</article>

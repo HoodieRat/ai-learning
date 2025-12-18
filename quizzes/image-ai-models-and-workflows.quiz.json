@@ -1,0 +1,70 @@
+{
+  "title": "Image AI: Models & Workflows — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "Why is using a fixed seed (or equivalent) useful when iterating?",
+      "options": [
+        "It improves repeatability so you can measure changes",
+        "It guarantees perfect quality",
+        "It forces the model to follow facts",
+        "It makes prompts shorter"
+      ],
+      "answer": "It improves repeatability so you can measure changes",
+      "explanation": "Repeatability helps you attribute differences to a prompt/setting change instead of randomness."
+    },
+    {
+      "type": "true-false",
+      "question": "A constraint-first workflow can help produce more consistent images.",
+      "answer": true,
+      "explanation": "Constraining composition/identity reduces degrees of freedom and improves consistency."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What’s a good strategy to improve consistency across a set?",
+      "options": [
+        "Vary only one variable at a time",
+        "Change subject, style, and camera all at once",
+        "Avoid documenting settings",
+        "Never use references"
+      ],
+      "answer": "Vary only one variable at a time",
+      "explanation": "Controlling variables reduces drift and makes it easier to debug why a set doesn’t match."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are common image generation failure modes?",
+      "options": [
+        "Artifacts",
+        "Style drift",
+        "Prompt leakage",
+        "Guaranteed accuracy"
+      ],
+      "answer": [
+        "Artifacts",
+        "Style drift",
+        "Prompt leakage"
+      ],
+      "explanation": "Artifacts, drift, and leakage are common; accuracy guarantees don’t exist for generative outputs."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is a targeted edit (inpainting-style) best used for?",
+      "options": [
+        "Fixing a localized flaw without changing the whole image",
+        "Replacing the need for constraints",
+        "Making the model factual",
+        "Increasing the image resolution automatically"
+      ],
+      "answer": "Fixing a localized flaw without changing the whole image",
+      "explanation": "Targeted edits let you preserve what works and fix only the broken region."
+    },
+    {
+      "type": "true-false",
+      "question": "Keeping a written log of changes helps you build a repeatable workflow.",
+      "answer": true,
+      "explanation": "Logging prompts/settings turns trial-and-error into a process you can repeat and improve."
+    }
+  ]
+}

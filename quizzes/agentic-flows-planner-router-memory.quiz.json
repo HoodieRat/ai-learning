@@ -1,0 +1,70 @@
+{
+  "title": "Agentic Flows: Planner, Router, Memory — Quiz",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "In an agent loop, the planner primarily:",
+      "options": [
+        "Proposes steps toward a goal",
+        "Executes API calls directly",
+        "Stores secrets long-term",
+        "Guarantees correctness"
+      ],
+      "answer": "Proposes steps toward a goal",
+      "explanation": "The planner decomposes the goal into steps and success criteria; it’s distinct from tool execution."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "The router’s job is to:",
+      "options": [
+        "Choose which tool or sub-agent to use next",
+        "Rewrite the entire plan every step",
+        "Disable logging",
+        "Ignore failures"
+      ],
+      "answer": "Choose which tool or sub-agent to use next",
+      "explanation": "Routing selects the right capability for the current step based on rules and context."
+    },
+    {
+      "type": "true-false",
+      "question": "Agent memory should have explicit rules for retention and redaction.",
+      "answer": true,
+      "explanation": "Without retention/redaction rules, agents can accidentally store or reuse sensitive data."
+    },
+    {
+      "type": "multi-select",
+      "question": "Which are good practices for agent memory?",
+      "options": [
+        "Store only what is needed for the task",
+        "Avoid storing secrets and personal data",
+        "Keep memory forever by default",
+        "Add a clear TTL/retention policy"
+      ],
+      "answer": [
+        "Store only what is needed for the task",
+        "Avoid storing secrets and personal data",
+        "Add a clear TTL/retention policy"
+      ],
+      "explanation": "Memory should be minimal and governed; default forever-retention increases risk."
+    },
+    {
+      "type": "multiple-choice",
+      "question": "What is a verifier gate in an agent system?",
+      "options": [
+        "A check that validates evidence before an action is taken",
+        "A tool that makes the agent faster",
+        "A prompt that guarantees truth",
+        "A logging format"
+      ],
+      "answer": "A check that validates evidence before an action is taken",
+      "explanation": "Verifier gates reduce risk by requiring proof or checks before state-changing actions."
+    },
+    {
+      "type": "true-false",
+      "question": "Budgets (max steps/tool calls/time) help prevent runaway agent behavior.",
+      "answer": true,
+      "explanation": "Budgets are a practical containment mechanism for loops and repeated tool failures."
+    }
+  ]
+}

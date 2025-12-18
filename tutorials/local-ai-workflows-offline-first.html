@@ -1,0 +1,71 @@
+<article class="tutorial">
+  <h1>Local AI: Offline-First Workflows</h1>
+  <p class="lede">Build a repeatable, offline-first workflow so you can run models without cloud dependencies, flaky Wi‑Fi, or surprise downloads.</p>
+
+  <h2>Prereqs</h2>
+  <ul>
+    <li><a href="?t=local-ai-ollama-basics">Local AI: Ollama Basics</a></li>
+    <li><a href="?t=cpu-vs-gpu-vs-npu">Hardware: CPU vs GPU vs NPU</a></li>
+  </ul>
+
+  <h2>Core concepts</h2>
+  <ul>
+    <li><strong>Deterministic runs:</strong> Pin model version, parameters, and prompt template; log them to a run record.</li>
+    <li><strong>Local assets:</strong> Cache models and input files locally; avoid hidden downloads during a run.</li>
+    <li><strong>Separation of concerns:</strong> Keep prompts, inputs, and outputs in predictable folders so reruns are easy.</li>
+    <li><strong>Verification loop:</strong> Every run produces artifacts you can diff and a short checklist you can tick locally.</li>
+  </ul>
+
+  <h2>Worked example: Offline text generation run</h2>
+  <ol>
+    <li>Create a project folder: <code>runs/2025-12-17/</code>.</li>
+    <li>Copy your prompt template to <code>prompts/base.txt</code> and your input file to <code>inputs/request.txt</code>.</li>
+    <li>Download/pull the model once (e.g., <code>ollama pull llama3:8b</code>) and verify the file exists under your models dir.</li>
+    <li>Run with explicit parameters: temperature, top-k, context window, and seed. Redirect output to <code>outputs/response.txt</code>.</li>
+    <li>Log metadata to <code>runs/2025-12-17/metadata.json</code>: model name, hash/version, parameters, prompt file, input file, and timestamps.</li>
+  </ol>
+
+  <h2>Mini build: Simple run script</h2>
+  <p>Create a small script (bash/PowerShell) that:</p>
+  <ul>
+    <li>Checks the model is present locally; if missing, prints an error instead of downloading.</li>
+    <li>Reads <code>prompts/base.txt</code> and <code>inputs/request.txt</code>.</li>
+    <li>Runs the model with fixed parameters and writes <code>outputs/response.txt</code>.</li>
+    <li>Emits <code>metadata.json</code> with model, parameters, and file paths.</li>
+  </ul>
+  <p><strong>Why:</strong> You get repeatability, clear inputs/outputs, and a record you can diff.</p>
+
+  <section class="practice-lab">
+    <h2>Practice Lab: Offline checklist</h2>
+    <p><strong>Task:</strong> Prove you can run end-to-end with the network disabled.</p>
+    <ol>
+      <li>Toggle airplane mode (or disconnect).</li>
+      <li>Run your script. It should succeed without downloads.</li>
+      <li>Open <code>metadata.json</code> and verify it lists the model and parameters.</li>
+      <li>Rerun with one parameter change (e.g., temperature) and confirm both runs are stored separately.</li>
+    </ol>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>No network calls are required during the run.</li>
+      <li>Outputs and metadata are saved under a dated run folder.</li>
+      <li>Differences between runs are visible via file diff (params or outputs).</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+    <li>Offline-first means no hidden downloads during execution.</li>
+    <li>File discipline (prompts/inputs/outputs/metadata) makes reruns and debugging easy.</li>
+    <li>Logging parameters and versions is as important as the output itself.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p><a href="?t=local-ai-pitfalls-speed-memory-thermal">Local AI: Pitfalls (Speed, Memory, Thermals)</a></p>
+
+  <h2>Related</h2>
+  <ul>
+    <li><a href="?t=vram-vs-ram">Hardware: VRAM vs RAM</a></li>
+    <li><a href="?t=quantization-explained">Hardware: Quantization Explained</a></li>
+    <li><a href="?t=prompting-structure-quickstart">Prompting: Structure Quickstart</a></li>
+  </ul>
+</article>

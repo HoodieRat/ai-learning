@@ -1,0 +1,46 @@
+<article class="tutorial">
+  <h1>Civitai 101: How to Read Model Pages and Choose Wisely</h1>
+  <p class="lede">Understand checkpoints, LoRAs, triggers, example settings, and how to avoid junk downloads.</p>
+
+  <h2>Core concepts</h2>
+  <ul>
+<li>Prompt structure (subject, style, composition) controls consistency.</li>
+<li>Seeds, steps, and samplers change sharpness vs speed.</li>
+<li>Reference images and constraints (e.g., ControlNet) stabilize outputs.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <ol>
+<li>Write a structured prompt: subject, style, composition.</li>
+<li>Fix seed and sampler, then change one variable at a time.</li>
+<li>Iterate with small deltas to lock consistency.</li>
+  </ol>
+
+  <h2>Mini build</h2>
+  <ol>
+<li>Create prompt + seed + sampler in a notebook/script.</li>
+<li>Generate a small grid varying one control (seed/CFG).</li>
+<li>Save images with metadata (prompt/seed/steps).</li>
+  </ol>
+
+  <section class="practice-lab">
+    <h2>Practice Lab</h2>
+    <p><strong>Task:</strong> Generate a small set with fixed seed and compare consistency.</p>
+    <p><strong>Success criteria:</strong></p>
+    <ul>
+      <li>You capture parameters and outputs for the run.</li>
+      <li>You can repeat the run and get consistent behavior.</li>
+      <li>You note at least one risk or failure mode to watch.</li>
+    </ul>
+  </section>
+
+  <h2>Recap</h2>
+  <ul>
+<li>Structure prompts for consistency.</li>
+<li>Seeds/samplers change look and speed.</li>
+<li>Save metadata with outputs.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Pick a related tutorial from the catalog to deepen the skill.</p>
+</article>
