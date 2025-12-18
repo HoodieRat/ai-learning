@@ -1,4 +1,4 @@
-const ASSET_VERSION = "2025-12-17c";
+const ASSET_VERSION = "2025-12-17d";
 
 function toUrl(path) {
   return new URL(path, document.baseURI);
@@ -438,10 +438,10 @@ async function renderTutorial({ tutorial, tutorialsBySlug, paths, progress }) {
   localStorage.setItem(STORAGE_KEYS.lastVisited, tutorial.slug);
 
   // Mark tutorial as viewed so local progress still works without quizzes
-  const progress = readJsonStorage(STORAGE_KEYS.progress, {});
-  if (!progress[tutorial.slug]) {
-    progress[tutorial.slug] = true;
-    writeJsonStorage(STORAGE_KEYS.progress, progress);
+  const progressState = progress || {};
+  if (!progressState[tutorial.slug]) {
+    progressState[tutorial.slug] = true;
+    writeJsonStorage(STORAGE_KEYS.progress, progressState);
     document.dispatchEvent(new CustomEvent("aihub:progress"));
   }
 
